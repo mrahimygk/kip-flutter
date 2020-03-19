@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:kip/widgets/KipBar.dart';
 import 'package:kip/widgets/NoteItem.dart';
@@ -40,9 +39,9 @@ class _KipMainPageState extends State<KipMainPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            KipBar(
-              onRequestLogin: onNavigateToLogin(context),
-            ),
+            KipBar(onRequestLogin: () {
+              onNavigateToLogin(context);
+            }),
             Expanded(
               child: ListView(
                 children: <Widget>[
@@ -82,6 +81,6 @@ class _KipMainPageState extends State<KipMainPage> {
   addNote() {}
 
   onNavigateToLogin(BuildContext context) {
-//    Navigator.push(context, );
+    Navigator.of(context).pushNamed('/login');
   }
 }
