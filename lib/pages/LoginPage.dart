@@ -14,6 +14,7 @@ class LoginPage extends StatefulWidget {
 enum PageFunctionState { LOGIN, REGISTER }
 
 class _LoginPageState extends State<LoginPage> {
+  var _scaffoldKey = GlobalKey(debugLabel: "parentScaffold");
   final userRepo = UserRepoImpl(DatabaseProvider.get);
 
   final _formKey = GlobalKey<FormState>();
@@ -28,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -81,9 +83,9 @@ class _LoginPageState extends State<LoginPage> {
                                   hintText: 'Enter password again to confirm',
                                   labelText: 'Confirm Password'),
                               validator: (value) {
-                                if(value.isEmpty){
+                                if (value.isEmpty) {
                                   return 'Please enter your password again';
-                                }else if(value != _passController.text){
+                                } else if (value != _passController.text) {
                                   return 'Passwords do not match';
                                 }
 
@@ -167,9 +169,24 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   FutureOr onSignedIn(User user) {
-    userRepo.insert(user);
     setState(() {
       _isLoading = false;
     });
+
+    if (user == null) {
+      (_scaffoldKey.currentState as ScaffoldState).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text('Api Error'),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      userRepo.insert(user);
+    }
   }
 }
