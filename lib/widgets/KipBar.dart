@@ -1,14 +1,34 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kip/models/User.dart';
+import 'package:kip/services/db/DatabaseProvider.dart';
+import 'package:kip/services/repo/UserRepoImpl.dart';
 import 'package:kip/widgets/BorderedContainer.dart';
 
 import 'ProfileWidget.dart';
 
 class KipBar extends StatefulWidget {
+  final VoidCallback onRequestLogin;
+
+  const KipBar({Key key, this.onRequestLogin}) : super(key: key);
   KipBarState createState() => KipBarState();
 }
 
 class KipBarState extends State<KipBar> {
+  final userRepo = UserRepoImpl(DatabaseProvider.get);
+  User user;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    userRepo.getFromDb().then((user) {
+      setState(() {
+        if (user != null) this.user = user;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,7 +55,7 @@ class KipBarState extends State<KipBar> {
                   //TODO: tile/table view
                 },
               ),
-              ProfileWidget()
+              ProfileWidget(user:user, onPress: widget.onRequestLogin,)
             ],
           ),
         ),
