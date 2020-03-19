@@ -75,8 +75,9 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               IconButton(icon: Icon(Icons.check_box),onPressed: (){},),
-              IconButton(icon: Icon(Icons.check_box),onPressed: (){},),
-              IconButton(icon: Icon(Icons.check_box),onPressed: (){},),
+              IconButton(icon: Icon(Icons.aspect_ratio),onPressed: (){},),
+              IconButton(icon: Icon(Icons.mic),onPressed: (){},),
+              IconButton(icon: Icon(Icons.photo),onPressed: (){},),
             ],
           ),
         ),
