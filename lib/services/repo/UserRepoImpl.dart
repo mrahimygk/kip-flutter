@@ -78,5 +78,5 @@ class UserRepoImpl implements UserRepo {
   }
 }
 
-const LOGIN_URL = "http://127.0.0.1:8585/api/v1/user/login";
-const SIGN_UP_URL = "http://127.0.0.1:8585/api/v1/user/new";
+const LOGIN_URL = "http://192.168.1.159:8585/api/v1/user/login";
+const SIGN_UP_URL = "http://192.168.1.159:8585/api/v1/user/new";
