@@ -64,8 +64,12 @@ class UserRepoImpl implements UserRepo {
     final data = Map<String, String>();
     data[userColumnEmail] = email;
     data[userColumnPass] = pass;
-    final response = await dio.post(LOGIN_URL, data: data);
-    return User.fromMap(response.data) ?? null;
+    try {
+      final response = await dio.post(LOGIN_URL, data: data);
+      return User.fromMap(response.data) ?? null;
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
