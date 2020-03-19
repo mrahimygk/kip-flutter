@@ -28,97 +28,120 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            //TODO: icon here
-            Padding(
-              padding: const EdgeInsets.only(bottom: 80.0),
-              child: Text("Login to save your note to cloud"),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          hintText: 'Enter email', labelText: 'Email Address'),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter your email address";
-                        } else if (!StringUtils.isValidEmail(value)) {
-                          return "Please enter a Valid email address";
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      controller: _passController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        hintText: 'enter password',
-                        labelText: 'Password',
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              //TODO: icon here
+              Padding(
+                padding: const EdgeInsets.only(bottom: 40.0, top: 80.0),
+                child: Text("Login to save your note to cloud!"),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                            hintText: 'Enter email',
+                            labelText: 'Email Address'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter your email address";
+                          } else if (!StringUtils.isValidEmail(value)) {
+                            return "Please enter a Valid email address";
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                    ),
-                    isLogin()
-                        ? Container()
-                        : TextFormField(
-                            controller: _passConfirmController,
-                          ),
-                    _isLoading
-                        ? CircularProgressIndicator()
-                        : RaisedButton(
-                            color: Colors.blue,
-                            child: Text(
-                              isLogin() ? "Login" : "Register",
-                              style: TextStyle(color: Colors.white),
+                      TextFormField(
+                        controller: _passController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          hintText: 'Enter password',
+                          labelText: 'Password',
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      ),
+                      isLogin()
+                          ? Container()
+                          : TextFormField(
+                              controller: _passConfirmController,
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                  hintText: 'Enter password again to confirm',
+                              labelText: 'Confirm Password'),
                             ),
+                      _isLoading
+                          ? CircularProgressIndicator()
+                          : SizedBox(
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 18.0),
+                                child: RaisedButton(
+                                  color: Colors.blue,
+                                  child: Text(
+                                    isLogin() ? "Login" : "Register",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  onPressed: () {
+                                    if (_formKey.currentState.validate()) {
+                                      setState(() {
+                                        _isLoading = true;
+                                      });
+                                      if (isLogin()) {
+                                        userRepo
+                                            .login(_emailController.text,
+                                                _passController.text)
+                                            .then(onSignedIn);
+                                      } else {
+                                        userRepo
+                                            .signUp(_emailController.text,
+                                                _passController.text)
+                                            .then(onSignedIn);
+                                      }
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text("or"),
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: RaisedButton(
+                            child: Text(isLogin() ? "Register" : "Login"),
                             onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  _isLoading = true;
-                                });
-                                if (isLogin()) {
-                                  userRepo
-                                      .login(_emailController.text,
-                                          _passController.text)
-                                      .then(onSignedIn);
-                                } else {
-                                  userRepo
-                                      .signUp(_emailController.text,
-                                          _passController.text)
-                                      .then(onSignedIn);
-                                }
-                              }
+                              setState(() {
+                                if (isLogin())
+                                  pageFunctionState =
+                                      PageFunctionState.REGISTER;
+                                else
+                                  pageFunctionState = PageFunctionState.LOGIN;
+                              });
                             },
                           ),
-                    Text("or"),
-                    RaisedButton(
-                      child: Text(isLogin() ? "Register" : "Login"),
-                      onPressed: () {
-                        setState(() {
-                          if (isLogin())
-                            pageFunctionState = PageFunctionState.REGISTER;
-                          else
-                            pageFunctionState = PageFunctionState.LOGIN;
-                        });
-                      },
-                    )
-                  ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
