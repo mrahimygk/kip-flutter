@@ -79,7 +79,16 @@ class _LoginPageState extends State<LoginPage> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                   hintText: 'Enter password again to confirm',
-                              labelText: 'Confirm Password'),
+                                  labelText: 'Confirm Password'),
+                              validator: (value) {
+                                if(value.isEmpty){
+                                  return 'Please enter your password again';
+                                }else if(value != _passController.text){
+                                  return 'Passwords do not match';
+                                }
+
+                                return null;
+                              },
                             ),
                       _isLoading
                           ? CircularProgressIndicator()
