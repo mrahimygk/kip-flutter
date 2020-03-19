@@ -69,6 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: BottomAppBar(
+          shape: CircularNotchedRectangle(),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              IconButton(icon: Icon(Icons.check_box),onPressed: (){},),
+              IconButton(icon: Icon(Icons.check_box),onPressed: (){},),
+              IconButton(icon: Icon(Icons.check_box),onPressed: (){},),
+            ],
+          ),
+        ),
         body: Column(
           // Column is also a layout widget. It takes a list of children and
           // arranges them vertically. By default, it sizes itself to fit its
@@ -89,6 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
             KipBar(),
           ],
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: addNote,
           tooltip: 'Increment',
