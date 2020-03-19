@@ -1,12 +1,11 @@
 class User {
-  String email;
-  String avatar;
+  final String email;
+  final String avatar;
 
   User(this.email, this.avatar);
 
-  User.fromMap(Map<String, dynamic> json) {
-    email = json['email'];
-    avatar = json['avatar'];
+  factory User.fromMap(Map<String, dynamic> json) {
+    return User(json['email'], json['avatar']);
   }
 
   Map<String, dynamic> toMap() {
