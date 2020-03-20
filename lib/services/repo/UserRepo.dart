@@ -1,5 +1,6 @@
 import 'package:kip/models/User.dart';
 import 'package:kip/services/db/DatabaseProvider.dart';
+import 'package:kip/services/network/api/ApiResult.dart';
 
 abstract class UserRepo {
   DatabaseProvider databaseProvider;
@@ -14,9 +15,9 @@ abstract class UserRepo {
 
   /// login with email and pass
   /// returns user with avatar
-  Future<User> login(String email, String pass);
+  Future<ApiResult<User>> login(String email, String pass);
 
   /// sign up with email and pass
   /// returns user with random avatar
-  Future<User> register(String email, String pass);
+  Future<ApiResult<User>> register(String email, String pass);
 }
