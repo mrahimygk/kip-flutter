@@ -1,21 +1,15 @@
-import 'package:dio/dio.dart';
 import 'package:kip/models/User.dart';
 import 'package:kip/services/db/DatabaseProvider.dart';
 import 'package:kip/services/db/dao/UserDao.dart';
+import 'package:kip/services/network/api/ApiResult.dart';
+import 'package:kip/services/network/api/BaseApi.dart';
+import 'package:kip/services/network/data/ApiResponse.dart';
 import 'package:kip/services/repo/UserRepo.dart';
 import 'package:sqflite/sqflite.dart';
 
 class UserRepoImpl implements UserRepo {
   final dao = UserDao();
-
-  final dio = Dio(
-    BaseOptions(
-      method: "GET",
-      headers: {
-        "x-api-key": "no api key right now"
-      },
-    ),
-  );
+  final BaseApi api = BaseApi();
 
   @override
   DatabaseProvider databaseProvider;
@@ -60,31 +54,29 @@ class UserRepoImpl implements UserRepo {
   }
 
   @override
-  Future<User> login(String email, String pass) async {
+  Future<ApiResult<User>> login(String email, String pass) async {
     final data = Map<String, String>();
     data[userColumnEmail] = email;
     data[userColumnPass] = pass;
-    try {
-      final response = await dio.post(LOGIN_URL, data: FormData.from(data));
-      return User.fromMap(response.data) ?? null;
-    } catch (e) {
-      return null;
-    }
+    final response = await api.post(LOGIN_URL, data);
+    final result = ApiResponse.fromMap(response);
+    if (result.data == null) return ApiResult.error(result.statusText);
+    final user = User.fromMap(result.data);
+    return ApiResult.completed(user) ?? null;
   }
 
   @override
-  Future<User> register(String email, String pass) async {
+  Future<ApiResult<User>> register(String email, String pass) async {
     final data = Map<String, String>();
     data[userColumnEmail] = email;
     data[userColumnPass] = pass;
-    try {
-      final response = await dio.post(REGISTER_URL, data: FormData.from(data));
-      return User.fromMap(response.data) ?? null;
-    } catch (e) {
-      return null;
-    }
+    final response = await api.post(REGISTER_URL, data);
+    final result = ApiResponse.fromMap(response);
+    if (result.data == null) return ApiResult.error(result.statusText);
+    final user = User.fromMap(result.data);
+    return ApiResult.completed(user) ?? null;
   }
 }
 
-const LOGIN_URL = "http://192.168.1.159:8080/login";
-const REGISTER_URL = "http://192.168.1.159:8080/register";
+const LOGIN_URL = "/login";
+const REGISTER_URL = "/register";
