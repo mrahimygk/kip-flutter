@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:kip/models/User.dart';
 import 'package:kip/services/db/DatabaseProvider.dart';
+import 'package:kip/services/network/api/ApiResult.dart';
 import 'package:kip/services/repo/UserRepoImpl.dart';
 import 'package:kip/util/StringUtils.dart';
 
@@ -168,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  FutureOr onSignedIn(User user) {
+  FutureOr onSignedIn(ApiResult<User> user) {
     setState(() {
       _isLoading = false;
     });
@@ -185,8 +186,20 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       );
+    } else if (user.data == null) {
+      (_scaffoldKey.currentState as ScaffoldState).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: <Widget>[
+              Expanded(
+                child: Text('Error: ${user.message}'),
+              ),
+            ],
+          ),
+        ),
+      );
     } else {
-      userRepo.insert(user);
+      userRepo.insert(user.data);
     }
   }
 }
