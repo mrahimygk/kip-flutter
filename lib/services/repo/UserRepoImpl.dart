@@ -77,10 +77,10 @@ class UserRepoImpl implements UserRepo {
     final data = Map<String, String>();
     data[userColumnEmail] = email;
     data[userColumnPass] = pass;
-    final response = await dio.post(SIGN_UP_URL, data: data);
+    final response = await dio.post(REGISTER_URL, data: data);
     return User.fromMap(response.data) ?? null;
   }
 }
 
-const LOGIN_URL = "http://192.168.1.159:8585/api/v1/user/login";
-const SIGN_UP_URL = "http://192.168.1.159:8585/api/v1/user/new";
+const LOGIN_URL = "http://192.168.1.159:8585/login";
+const REGISTER_URL = "http://192.168.1.159:8585/register";
