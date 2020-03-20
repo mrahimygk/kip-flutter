@@ -82,5 +82,5 @@ class UserRepoImpl implements UserRepo {
   }
 }
 
-const LOGIN_URL = "http://192.168.1.159:8585/login";
-const REGISTER_URL = "http://192.168.1.159:8585/register";
+const LOGIN_URL = "http://192.168.1.159:8080/login";
+const REGISTER_URL = "http://192.168.1.159:8080/register";
