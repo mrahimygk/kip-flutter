@@ -18,5 +18,5 @@ abstract class UserRepo {
 
   /// sign up with email and pass
   /// returns user with random avatar
-  Future<User> signUp(String email, String pass);
+  Future<User> register(String email, String pass);
 }

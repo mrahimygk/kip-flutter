@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                                             .then(onSignedIn);
                                       } else {
                                         userRepo
-                                            .signUp(_emailController.text,
+                                            .register(_emailController.text,
                                                 _passController.text)
                                             .then(onSignedIn);
                                       }

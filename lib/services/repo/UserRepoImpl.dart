@@ -73,7 +73,7 @@ class UserRepoImpl implements UserRepo {
   }
 
   @override
-  Future<User> signUp(String email, String pass) async {
+  Future<User> register(String email, String pass) async {
     final data = Map<String, String>();
     data[userColumnEmail] = email;
     data[userColumnPass] = pass;
