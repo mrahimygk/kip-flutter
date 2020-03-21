@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kip/pages/DrawingPage.dart';
 import 'package:kip/pages/KipMainPage.dart';
 import 'package:kip/pages/LoginPage.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/home': (BuildContext inContext) => KipMainPage(),
         '/login': (BuildContext inContext)=> LoginPage(),
         '/addNote': (BuildContext inContext)=> AddNotePage(),
+        '/addDrawing': (BuildContext inContext)=> DrawingPage(),
       },
     );
   }
