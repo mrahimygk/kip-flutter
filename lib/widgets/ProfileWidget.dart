@@ -1,25 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kip/blocs/UserBloc.dart';
 import 'package:kip/models/User.dart';
 
 class ProfileWidget extends StatelessWidget {
-  final User user;
   final VoidCallback onPress;
 
-  const ProfileWidget({Key key, this.user, this.onPress}) : super(key: key);
+  ProfileWidget({Key key, this.onPress}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return user == null
-        ? IconButton(
+    final userBloc = UserBloc();
+
+    return StreamBuilder(
+      stream: userBloc.user,
+      builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+        if (snapshot.hasData) {
+          return CircleAvatar(
+            backgroundImage: NetworkImage(snapshot.data.avatar),
+          );
+        } else {
+          return IconButton(
             icon: Icon(Icons.person),
             onPressed: () {
               onPress();
             },
-          )
-        : CircleAvatar(
-            backgroundImage: NetworkImage(user.avatar),
           );
+        }
+      },
+    );
   }
 }
