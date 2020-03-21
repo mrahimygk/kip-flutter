@@ -36,9 +36,18 @@ class _AddNotePageState extends State<AddNotePage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  IconButton(icon: Icon(Icons.favorite_border), onPressed: (){},),
-                  IconButton(icon: Icon(Icons.timer), onPressed: (){},),
-                  IconButton(icon: Icon(Icons.archive), onPressed: (){},),
+                  IconButton(
+                    icon: Icon(Icons.favorite_border),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.timer),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.archive),
+                    onPressed: () {},
+                  ),
                 ],
               ),
             )
@@ -47,9 +56,27 @@ class _AddNotePageState extends State<AddNotePage> {
         key: _scaffoldKey,
         body: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Container(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: TextField(
+                  style: TextStyle(fontSize: 18.0),
+                  decoration: InputDecoration.collapsed(
+                    hintText: "Title",
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: TextField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  decoration: InputDecoration.collapsed(
+                    hintText: "Note",
+                  ),
+                ),
+              )
             ],
           ),
         ),
