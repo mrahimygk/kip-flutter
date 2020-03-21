@@ -41,7 +41,7 @@ class _AddNotePageState extends State<AddNotePage> {
                     onPressed: () {},
                   ),
                   IconButton(
-                    icon: Icon(Icons.timer),
+                    icon: Icon(Icons.add_alert),
                     onPressed: () {},
                   ),
                   IconButton(
@@ -76,6 +76,27 @@ class _AddNotePageState extends State<AddNotePage> {
                     hintText: "Note",
                   ),
                 ),
+              )
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add_circle_outline),
+                onPressed: () {
+                  //TODO: show menu
+                },
+              ),
+              Expanded(
+                  child: Text(
+                'Edited 00:00 PM',
+                textAlign: TextAlign.center,
+              )),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.menu),
               )
             ],
           ),
