@@ -127,11 +127,22 @@ class _AddNotePageState extends State<AddNotePage>
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 48.0),
                   child: Container(
-                    color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            offset: Offset(2.0,2.0),
+                            color: Colors.grey.shade300,
+                            blurRadius: 4.0,
+                            spreadRadius:2.0
+                        )
+                      ],
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        Container(height: 8,),
                         InkWell(
                           onTap: () {},
                           onLongPress: () {},
@@ -237,6 +248,7 @@ class _AddNotePageState extends State<AddNotePage>
                             ),
                           ),
                         ),
+                        Container(height: 8,),
                       ],
                     ),
                   ),
@@ -250,7 +262,17 @@ class _AddNotePageState extends State<AddNotePage>
               child: PreferredSize(
                 preferredSize: Size.fromHeight(48),
                 child: Container(
-                  color: Colors.white,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        offset: Offset(2.0,2.0),
+                        color: Colors.grey.shade300,
+                        blurRadius: 4.0,
+                        spreadRadius:2.0
+                      )
+                    ],
+                  ),
                   child: Stack(
                     children: <Widget>[
                       Row(
