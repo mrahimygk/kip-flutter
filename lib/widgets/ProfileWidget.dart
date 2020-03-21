@@ -17,8 +17,28 @@ class ProfileWidget extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
         if (snapshot.hasData) {
           return GestureDetector(
-            onTapUp: (t){
-              userBloc.deleteUser(snapshot.data);
+            onTapUp: (t) {
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text('Logout'),
+                        content: Text('Please confirm the logout action'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text("Logout"),
+                            onPressed: () {
+                              userBloc.deleteUser(snapshot.data);
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Cancel"),
+                          )
+                        ],
+                      ));
             },
             child: CircleAvatar(
               backgroundImage: NetworkImage(snapshot.data.avatar),
