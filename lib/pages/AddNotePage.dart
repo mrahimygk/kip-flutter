@@ -193,6 +193,7 @@ class _AddNotePageState extends State<AddNotePage>
                             color: Colors.white,
                             child: InkWell(
                               onTap: () {
+                                toggleShowLeftMenu();
                                 Navigator.of(context).pushNamed("/addDrawing");
                               },
                               onLongPress: () {},
