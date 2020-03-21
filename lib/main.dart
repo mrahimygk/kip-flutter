@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kip/pages/KipMainPage.dart';
 import 'package:kip/pages/LoginPage.dart';
 
+import 'pages/AddNotePage.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/home': (BuildContext inContext) => KipMainPage(),
         '/login': (BuildContext inContext)=> LoginPage(),
+        '/addNote': (BuildContext inContext)=> AddNotePage(),
       },
     );
   }
