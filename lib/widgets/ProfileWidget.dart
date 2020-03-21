@@ -16,8 +16,13 @@ class ProfileWidget extends StatelessWidget {
       stream: userBloc.user,
       builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
         if (snapshot.hasData) {
-          return CircleAvatar(
-            backgroundImage: NetworkImage(snapshot.data.avatar),
+          return GestureDetector(
+            onTapUp: (t){
+              userBloc.deleteUser(snapshot.data);
+            },
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(snapshot.data.avatar),
+            ),
           );
         } else {
           return IconButton(
