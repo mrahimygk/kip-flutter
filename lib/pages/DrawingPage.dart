@@ -18,7 +18,7 @@ class _DrawingPageState extends State<DrawingPage>
     drawingMenuAnimController = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this);
     drawingMenuOffsetAnim =
-        Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, 1)).animate(
+        Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, 0.7)).animate(
             CurvedAnimation(
                 parent: drawingMenuAnimController, curve: Curves.decelerate));
 
@@ -142,11 +142,11 @@ class _DrawingPageState extends State<DrawingPage>
 
             /// left menu
             Align(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.bottomCenter,
               child: SlideTransition(
                 position: drawingMenuOffsetAnim,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 48.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -156,7 +156,15 @@ class _DrawingPageState extends State<DrawingPage>
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Container(height: 8),
+                        GestureDetector(
+                            onTapUp: (d) {
+                              toggleShowDrawingMenu();
+                            },
+                            child: Container(
+                              child: isDrawingMenuOpen
+                                  ? Icon(Icons.arrow_drop_down)
+                                  : Icon(Icons.arrow_drop_up),
+                            )),
                         Material(
                           color: Colors.white,
                           child: InkWell(
@@ -278,46 +286,6 @@ class _DrawingPageState extends State<DrawingPage>
                           ),
                         ),
                         Container(height: 8),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            /// Bottom bar
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: PreferredSize(
-                preferredSize: Size.fromHeight(48),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: MenuShadows().get(),
-                  ),
-                  child: Material(
-                    color: Colors.white,
-                    child: Stack(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.add_circle_outline),
-                              onPressed: () {
-                                toggleShowDrawingMenu();
-                              },
-                            ),
-                            Expanded(
-                                child: Text(
-                              'Edited 00:00 PM',
-                              textAlign: TextAlign.center,
-                            )),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.menu),
-                            )
-                          ],
-                        ),
                       ],
                     ),
                   ),
