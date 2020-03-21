@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class AddNotePage extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class _AddNotePageState extends State<AddNotePage> {
     //TODO: get predefined data here: flag for added default checkboxes...
     return SafeArea(
       child: Scaffold(
+        ///top menu
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(48),
           child: Stack(children: <Widget>[
@@ -54,52 +56,186 @@ class _AddNotePageState extends State<AddNotePage> {
           ]),
         ),
         key: _scaffoldKey,
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: TextField(
-                  style: TextStyle(fontSize: 18.0),
-                  decoration: InputDecoration.collapsed(
-                    hintText: "Title",
+        body: Stack(
+          children: <Widget>[
+            ///main input fields
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextField(
+                    style: TextStyle(fontSize: 18.0),
+                    decoration: InputDecoration.collapsed(
+                      hintText: "Title",
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: InputDecoration.collapsed(
+                      hintText: "Note",
+                    ),
+                  ),
+                )
+              ],
+            ),
+
+            /// Bottom bar
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: PreferredSize(
+                preferredSize: Size.fromHeight(48),
+                child: Stack(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.add_circle_outline),
+                          onPressed: () {
+                            //TODO: show menu
+                          },
+                        ),
+                        Expanded(
+                            child: Text(
+                          'Edited 00:00 PM',
+                          textAlign: TextAlign.center,
+                        )),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.menu),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            /// left menu
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 48.0),
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      InkWell(
+                        onTap: () {},
+                        onLongPress: () {},
+                        canRequestFocus: true,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text("Take photo"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        onLongPress: () {},
+                        canRequestFocus: true,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(
+                                  Icons.image,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text("Choose image"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        onLongPress: () {},
+                        canRequestFocus: true,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(
+                                  Icons.brush,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text("Drawing"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        onLongPress: () {},
+                        canRequestFocus: true,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(
+                                  Icons.mic,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text("Recording"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {},
+                        onLongPress: () {},
+                        canRequestFocus: true,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(
+                                  Icons.check_box,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              Text("Checboxes"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: TextField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  decoration: InputDecoration.collapsed(
-                    hintText: "Note",
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.add_circle_outline),
-                onPressed: () {
-                  //TODO: show menu
-                },
-              ),
-              Expanded(
-                  child: Text(
-                'Edited 00:00 PM',
-                textAlign: TextAlign.center,
-              )),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.menu),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
