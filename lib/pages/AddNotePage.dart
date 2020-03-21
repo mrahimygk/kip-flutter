@@ -127,6 +127,7 @@ class _AddNotePageState extends State<AddNotePage>
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 48.0),
                   child: Container(
+                    color: Colors.white,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
@@ -248,28 +249,31 @@ class _AddNotePageState extends State<AddNotePage>
               alignment: Alignment.bottomCenter,
               child: PreferredSize(
                 preferredSize: Size.fromHeight(48),
-                child: Stack(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.add_circle_outline),
-                          onPressed: () {
-                            showLeftMenu();
-                          },
-                        ),
-                        Expanded(
-                            child: Text(
-                          'Edited 00:00 PM',
-                          textAlign: TextAlign.center,
-                        )),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.menu),
-                        )
-                      ],
-                    ),
-                  ],
+                child: Container(
+                  color: Colors.white,
+                  child: Stack(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.add_circle_outline),
+                            onPressed: () {
+                              showLeftMenu();
+                            },
+                          ),
+                          Expanded(
+                              child: Text(
+                            'Edited 00:00 PM',
+                            textAlign: TextAlign.center,
+                          )),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.menu),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
