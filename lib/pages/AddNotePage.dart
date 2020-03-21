@@ -192,7 +192,9 @@ class _AddNotePageState extends State<AddNotePage>
                           Material(
                             color: Colors.white,
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.of(context).pushNamed("/addDrawing");
+                              },
                               onLongPress: () {},
                               canRequestFocus: true,
                               child: Padding(
