@@ -275,28 +275,31 @@ class _AddNotePageState extends State<AddNotePage>
                     color: Colors.white,
                     boxShadow: MenuShadows().get(),
                   ),
-                  child: Stack(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.add_circle_outline),
-                            onPressed: () {
-                              showLeftMenu();
-                            },
-                          ),
-                          Expanded(
-                              child: Text(
-                            'Edited 00:00 PM',
-                            textAlign: TextAlign.center,
-                          )),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.menu),
-                          )
-                        ],
-                      ),
-                    ],
+                  child: Material(
+                    color: Colors.white,
+                    child: Stack(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.add_circle_outline),
+                              onPressed: () {
+                                showLeftMenu();
+                              },
+                            ),
+                            Expanded(
+                                child: Text(
+                              'Edited 00:00 PM',
+                              textAlign: TextAlign.center,
+                            )),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(Icons.menu),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
