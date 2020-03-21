@@ -2,14 +2,14 @@ import 'package:kip/models/User.dart';
 import 'package:kip/services/db/DatabaseProvider.dart';
 import 'package:kip/services/db/dao/UserDao.dart';
 import 'package:kip/services/network/api/ApiResult.dart';
-import 'package:kip/services/network/api/BaseApi.dart';
+import 'package:kip/services/network/api/UserApi.dart';
 import 'package:kip/services/network/data/ApiResponse.dart';
 import 'package:kip/services/repo/UserRepo.dart';
 import 'package:sqflite/sqflite.dart';
 
 class UserRepoImpl implements UserRepo {
   final dao = UserDao();
-  final BaseApi api = BaseApi();
+  final UserApi api = UserApi();
 
   @override
   DatabaseProvider databaseProvider;
@@ -58,7 +58,7 @@ class UserRepoImpl implements UserRepo {
     final data = Map<String, String>();
     data[userColumnEmail] = email;
     data[userColumnPass] = pass;
-    final response = await api.post(LOGIN_URL, data);
+    final response = await api.login(LOGIN_URL, data);
     final result = ApiResponse.fromMap(response);
     if (result.data == null) return ApiResult.error(result.statusText);
     final user = User.fromMap(result.data);
@@ -70,7 +70,7 @@ class UserRepoImpl implements UserRepo {
     final data = Map<String, String>();
     data[userColumnEmail] = email;
     data[userColumnPass] = pass;
-    final response = await api.post(REGISTER_URL, data);
+    final response = await api.register(REGISTER_URL, data);
     final result = ApiResponse.fromMap(response);
     if (result.data == null) return ApiResult.error(result.statusText);
     final user = User.fromMap(result.data);
