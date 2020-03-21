@@ -5,14 +5,14 @@ import 'package:dio/dio.dart';
 import 'package:kip/services/network/error/ApiException.dart';
 
 class BaseApi {
-  final String _baseUrl = "http://192.168.1.159:8080";
+  static final String _baseUrl = "http://192.168.1.159:8080";
 
-  final dio = Dio();
+  final dio = Dio()..options.baseUrl = _baseUrl;
 
   Future<dynamic> get(String path, Map<String, dynamic> params) async {
     var responseJson;
     try {
-      final response = await dio.get(_baseUrl + path, queryParameters: params);
+      final response = await dio.get(path, queryParameters: params);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -25,7 +25,7 @@ class BaseApi {
     var responseJson;
     try {
       final response =
-          await dio.post(_baseUrl + path, data: FormData.from(params));
+          await dio.post(path, data: FormData.from(params));
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
