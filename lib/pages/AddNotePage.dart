@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:kip/widgets/MenuShadows.dart';
 
 class AddNotePage extends StatefulWidget {
   @override
@@ -129,20 +130,13 @@ class _AddNotePageState extends State<AddNotePage>
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            offset: Offset(2.0,2.0),
-                            color: Colors.grey.shade300,
-                            blurRadius: 4.0,
-                            spreadRadius:2.0
-                        )
-                      ],
+                      boxShadow: MenuShadows().get(),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Container(height: 8,),
+                        Container(height: 8),
                         InkWell(
                           onTap: () {},
                           onLongPress: () {},
@@ -248,7 +242,7 @@ class _AddNotePageState extends State<AddNotePage>
                             ),
                           ),
                         ),
-                        Container(height: 8,),
+                        Container(height: 8),
                       ],
                     ),
                   ),
@@ -264,14 +258,7 @@ class _AddNotePageState extends State<AddNotePage>
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        offset: Offset(2.0,2.0),
-                        color: Colors.grey.shade300,
-                        blurRadius: 4.0,
-                        spreadRadius:2.0
-                      )
-                    ],
+                    boxShadow: MenuShadows().get(),
                   ),
                   child: Stack(
                     children: <Widget>[
