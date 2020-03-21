@@ -15,7 +15,6 @@ class _AddNotePageState extends State<AddNotePage>
 
   @override
   void initState() {
-    // TODO: implement initState
     leftMenuAnimController = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this);
     leftMenuOffsetAnim =
@@ -28,7 +27,6 @@ class _AddNotePageState extends State<AddNotePage>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     leftMenuAnimController.dispose();
   }
