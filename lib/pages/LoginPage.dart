@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:kip/blocs/UserBloc.dart';
 import 'package:kip/models/User.dart';
 import 'package:kip/services/db/DatabaseProvider.dart';
 import 'package:kip/services/network/api/ApiResult.dart';
@@ -28,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userBloc = UserBloc();
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -114,12 +116,16 @@ class _LoginPageState extends State<LoginPage> {
                                         userRepo
                                             .login(_emailController.text,
                                                 _passController.text)
-                                            .then(onSignedIn);
+                                            .then((value) {
+                                          onSignedIn(value, userBloc);
+                                        });
                                       } else {
                                         userRepo
                                             .register(_emailController.text,
                                                 _passController.text)
-                                            .then(onSignedIn);
+                                            .then((value) {
+                                          onSignedIn(value, userBloc);
+                                        });
                                       }
                                     }
                                   },
@@ -169,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  FutureOr onSignedIn(ApiResult<User> user) {
+  FutureOr onSignedIn(ApiResult<User> user, UserBloc userBloc) {
     setState(() {
       _isLoading = false;
     });
@@ -199,7 +205,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      userRepo.insert(user.data);
+      userBloc.insertUser(user.data).then((_) {
+        Navigator.of(context).pop();
+      });
     }
   }
 }
