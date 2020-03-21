@@ -16,7 +16,7 @@ class _AddNotePageState extends State<AddNotePage>
   void initState() {
     // TODO: implement initState
     leftMenuAnimController = AnimationController(
-        duration: const Duration(milliseconds: 500), vsync: this);
+        duration: const Duration(milliseconds: 300), vsync: this);
     leftMenuOffsetAnim =
         Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, 1)).animate(
             CurvedAnimation(
