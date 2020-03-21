@@ -70,7 +70,9 @@ class _KipMainPageState extends State<KipMainPage> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: addNote,
+          onPressed: () {
+            addNote(context);
+          },
           tooltip: 'Increment',
           child: Icon(Icons.add),
         ),
@@ -78,7 +80,9 @@ class _KipMainPageState extends State<KipMainPage> {
     );
   }
 
-  addNote() {}
+  addNote(BuildContext context) {
+    Navigator.of(context).pushNamed('/addNote');
+  }
 
   onNavigateToLogin(BuildContext context) {
     Navigator.of(context).pushNamed('/login');
