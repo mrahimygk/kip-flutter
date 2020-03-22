@@ -49,11 +49,14 @@ class _DrawingPageState extends State<DrawingPage>
     brushColorList.add(BrushColorModel(false, Colors.red));
 
     _drawingController = _newController();
+
+    selectBrushColor(brushColorList.elementAt(2).color, 2);
+    selectBrushSize(brushSizeList.elementAt(3).size, 3);
   }
 
   PainterController _newController() {
     PainterController controller = new PainterController();
-    controller.thickness = brushSizeList.elementAt(0).size;
+    controller.thickness = 0;
     controller.backgroundColor = Colors.grey.shade300;
     return controller;
   }
