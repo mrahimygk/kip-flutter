@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:kip/widgets/ColorItem.dart';
 import 'package:kip/widgets/MenuShadows.dart';
 
 class DrawingPage extends StatefulWidget {
@@ -186,7 +187,68 @@ class _DrawingPageState extends State<DrawingPage>
                             ),
                           ],
                         ),
-                        Container(height: 8),
+                        Container(
+                          height: 12,
+                        ),
+                        Container(
+                          color: Colors.grey.shade300,
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                  ColorItem(itemColor: Colors.blue),
+                                ],
+                              ),
+                              Container(
+                                color: Colors.grey.shade200,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    ColorItem(itemColor: Colors.black),
+                                    ColorItem(itemColor: Colors.black),
+                                    ColorItem(itemColor: Colors.black),
+                                    ColorItem(itemColor: Colors.black),
+                                    ColorItem(itemColor: Colors.black),
+                                    ColorItem(itemColor: Colors.black),
+                                    ColorItem(itemColor: Colors.black),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
