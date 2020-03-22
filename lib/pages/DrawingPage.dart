@@ -17,7 +17,7 @@ class _DrawingPageState extends State<DrawingPage>
   Animation<Offset> drawingMenuOffsetAnim;
   PainterController _drawingController;
   bool _finished;
-  double brushSize = 5.0;
+  final brushSizeList = List<BrushSizeModel>();
 
   @override
   void initState() {
@@ -31,12 +31,19 @@ class _DrawingPageState extends State<DrawingPage>
     super.initState();
 
     _finished = false;
+    brushSizeList.add(BrushSizeModel(false, BrushSize._1, 1.0));
+    brushSizeList.add(BrushSizeModel(false, BrushSize._2, 2.0));
+    brushSizeList.add(BrushSizeModel(false, BrushSize._5, 5.0));
+    brushSizeList.add(BrushSizeModel(false, BrushSize._10, 10.0));
+    brushSizeList.add(BrushSizeModel(false, BrushSize._15, 15.0));
+    brushSizeList.add(BrushSizeModel(false, BrushSize._20, 20.0));
+    brushSizeList.add(BrushSizeModel(false, BrushSize._30, 30.0));
     _drawingController = _newController();
   }
 
   PainterController _newController() {
     PainterController controller = new PainterController();
-    controller.thickness = brushSize;
+    controller.thickness = brushSizeList.elementAt(0).size;
     controller.backgroundColor = Colors.grey.shade300;
     return controller;
   }
@@ -238,50 +245,7 @@ class _DrawingPageState extends State<DrawingPage>
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    BrushSizeItem(
-                                      size: 1,
-                                      onPress: () {
-                                        selectBrushSize(1);
-                                      },
-                                    ),
-                                    BrushSizeItem(
-                                      size: 2,
-                                      onPress: () {
-                                        selectBrushSize(2);
-                                      },
-                                    ),
-                                    BrushSizeItem(
-                                      size: 5,
-                                      onPress: () {
-                                        selectBrushSize(5);
-                                      },
-                                    ),
-                                    BrushSizeItem(
-                                      size: 10,
-                                      onPress: () {
-                                        selectBrushSize(10);
-                                      },
-                                    ),
-                                    BrushSizeItem(
-                                      size: 15,
-                                      onPress: () {
-                                        selectBrushSize(15);
-                                      },
-                                    ),
-                                    BrushSizeItem(
-                                      size: 20,
-                                      onPress: () {
-                                        selectBrushSize(20);
-                                      },
-                                    ),
-                                    BrushSizeItem(
-                                      size: 30,
-                                      onPress: () {
-                                        selectBrushSize(30);
-                                      },
-                                    ),
-                                  ],
+                                  children: makeBrushWidgets(),
                                 ),
                               )
                             ],
@@ -301,8 +265,38 @@ class _DrawingPageState extends State<DrawingPage>
 
   void selectBrushSize(double size) {
     _drawingController.thickness = size;
+    setState(() {
+      brushSizeList.forEach((b){
+        b.isSelected=false;
+      });
+//      brushSizeList[index].isSelected=true;
+    });
+  }
+
+  List<Widget> makeBrushWidgets() {
+    final widgetList = List<Widget>();
+    brushSizeList.forEach((b) {
+      widgetList.add(
+        BrushSizeItem(
+          item: b,
+          onPress: () {
+            selectBrushSize(b.size);
+          },
+        ),
+      );
+    });
+    return widgetList;
   }
 }
 
 enum PopUpMenu { Show_grid, Grab_image_text, Send, Delete }
+
 enum BrushSize { _1, _2, _5, _10, _15, _20, _30 }
+
+class BrushSizeModel {
+  final BrushSize sizeEnum;
+  final double size;
+  bool isSelected;
+
+  BrushSizeModel(this.isSelected, this.sizeEnum, this.size);
+}
