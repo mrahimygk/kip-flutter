@@ -25,7 +25,7 @@ class _DrawingPageState extends State<DrawingPage>
     drawingMenuAnimController = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this);
     drawingMenuOffsetAnim =
-        Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, 0.7)).animate(
+        Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, 0.6)).animate(
             CurvedAnimation(
                 parent: drawingMenuAnimController, curve: Curves.decelerate));
 
@@ -162,10 +162,10 @@ class _DrawingPageState extends State<DrawingPage>
         key: _scaffoldKey,
         body: Stack(
           children: <Widget>[
-            ///main input fields
+            ///main drawing surface
             PaintSurface(_drawingController),
 
-            /// left menu
+            /// bottom menu(brushes)
             Align(
               alignment: Alignment.bottomCenter,
               child: SlideTransition(
