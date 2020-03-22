@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:kip/widgets/BrushSizeItem.dart';
 import 'package:kip/widgets/ColorItem.dart';
 import 'package:kip/widgets/MenuShadows.dart';
 import 'package:kip/widgets/PaintSurface.dart';
@@ -238,50 +239,43 @@ class _DrawingPageState extends State<DrawingPage>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
-                                    ColorItem(
-                                      itemColor: Colors.black,
+                                    BrushSizeItem(
                                       size: 1,
                                       onPress: () {
                                         selectBrushSize(1);
                                       },
                                     ),
-                                    ColorItem(
-                                      itemColor: Colors.black,
+                                    BrushSizeItem(
                                       size: 2,
                                       onPress: () {
                                         selectBrushSize(2);
                                       },
                                     ),
-                                    ColorItem(
-                                      itemColor: Colors.black,
+                                    BrushSizeItem(
                                       size: 5,
                                       onPress: () {
                                         selectBrushSize(5);
                                       },
                                     ),
-                                    ColorItem(
-                                      itemColor: Colors.black,
+                                    BrushSizeItem(
                                       size: 10,
                                       onPress: () {
                                         selectBrushSize(10);
                                       },
                                     ),
-                                    ColorItem(
-                                      itemColor: Colors.black,
+                                    BrushSizeItem(
                                       size: 15,
                                       onPress: () {
                                         selectBrushSize(15);
                                       },
                                     ),
-                                    ColorItem(
-                                      itemColor: Colors.black,
+                                    BrushSizeItem(
                                       size: 20,
                                       onPress: () {
                                         selectBrushSize(20);
                                       },
                                     ),
-                                    ColorItem(
-                                      itemColor: Colors.black,
+                                    BrushSizeItem(
                                       size: 30,
                                       onPress: () {
                                         selectBrushSize(30);
