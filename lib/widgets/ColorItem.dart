@@ -1,14 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:kip/pages/DrawingPage.dart';
 
 class ColorItem extends StatelessWidget {
-  final Color itemColor;
+  final BrushColorModel item;
   final VoidCallback onPress;
 
   ColorItem({
     Key key,
-    this.itemColor,
+    this.item,
     this.onPress,
   }) : super(key: key);
 
@@ -34,7 +35,7 @@ class ColorItem extends StatelessWidget {
                 height: 24,
                 width: 24,
                 decoration: BoxDecoration(
-                  color: itemColor,
+                  color: item.color,
                   shape: BoxShape.circle,
                 ),
               ),
