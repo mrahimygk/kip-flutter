@@ -311,3 +311,4 @@ class _DrawingPageState extends State<DrawingPage>
 }
 
 enum PopUpMenu { Show_grid, Grab_image_text, Send, Delete }
+enum BrushSize { _1, _2, _5, _10, _15, _20, _30 }
