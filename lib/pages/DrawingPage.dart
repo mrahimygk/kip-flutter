@@ -93,12 +93,23 @@ class _DrawingPageState extends State<DrawingPage>
                   ),
                   IconButton(
                     icon: Icon(Icons.redo),
-                    onPressed: () {},
+                    onPressed: () {
+                      _drawingController.redo();
+                    },
                   ),
                   PopupMenuButton(
                     onSelected: (value) {
-                      print((value as PopUpMenu).index);
-                      print("value:$value");
+                      switch(value as PopUpMenu){
+                        case PopUpMenu.Delete:
+                          _drawingController.clear();
+                          break;
+                        case PopUpMenu.Show_grid:
+                          return;
+                        case PopUpMenu.Grab_image_text:
+                          return;
+                        case PopUpMenu.Send:
+                          return;
+                      }
                     },
                     itemBuilder: (BuildContext context) {
                       return <PopupMenuItem>[
