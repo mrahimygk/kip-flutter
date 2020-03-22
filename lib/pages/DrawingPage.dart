@@ -18,6 +18,7 @@ class _DrawingPageState extends State<DrawingPage>
   PainterController _drawingController;
   bool _finished;
   final brushSizeList = List<BrushSizeModel>();
+  final brushColorList = List<BrushColorModel>();
 
   @override
   void initState() {
@@ -38,6 +39,15 @@ class _DrawingPageState extends State<DrawingPage>
     brushSizeList.add(BrushSizeModel(false, BrushSize._15, 15.0));
     brushSizeList.add(BrushSizeModel(false, BrushSize._20, 20.0));
     brushSizeList.add(BrushSizeModel(false, BrushSize._30, 30.0));
+
+    brushColorList.add(BrushColorModel(false, Colors.yellow));
+    brushColorList.add(BrushColorModel(false, Colors.green));
+    brushColorList.add(BrushColorModel(false, Colors.blue));
+    brushColorList.add(BrushColorModel(false, Colors.black));
+    brushColorList.add(BrushColorModel(false, Colors.pink));
+    brushColorList.add(BrushColorModel(false, Colors.purple));
+    brushColorList.add(BrushColorModel(false, Colors.red));
+
     _drawingController = _newController();
   }
 
@@ -205,41 +215,13 @@ class _DrawingPageState extends State<DrawingPage>
                           child: Column(
                             children: <Widget>[
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                  ColorItem(itemColor: Colors.blue),
-                                ],
-                              ),
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: makeColorItemWidgets()),
+//                              GridView.count(
+//                                crossAxisCount: 6,
+//                                children: makeColorItemWidgets(),
+//                              ),
                               Container(
                                 color: Colors.grey.shade100,
                                 child: Row(
@@ -266,10 +248,20 @@ class _DrawingPageState extends State<DrawingPage>
   void selectBrushSize(double size, int index) {
     _drawingController.thickness = size;
     setState(() {
-      brushSizeList.forEach((b){
-        b.isSelected=false;
+      brushSizeList.forEach((b) {
+        b.isSelected = false;
       });
-      brushSizeList[index].isSelected=true;
+      brushSizeList[index].isSelected = true;
+    });
+  }
+
+  void selectBrushColor(Color color, int index) {
+    _drawingController.drawColor = color;
+    setState(() {
+      brushColorList.forEach((b) {
+        b.isSelected = false;
+      });
+      brushColorList[index].isSelected = true;
     });
   }
 
@@ -281,6 +273,21 @@ class _DrawingPageState extends State<DrawingPage>
           item: b,
           onPress: () {
             selectBrushSize(b.size, index);
+          },
+        ),
+      );
+    });
+    return widgetList;
+  }
+
+  List<Widget> makeColorItemWidgets() {
+    final widgetList = List<Widget>();
+    brushColorList.asMap().forEach((index, b) {
+      widgetList.add(
+        ColorItem(
+          item: b,
+          onPress: () {
+            selectBrushColor(b.color, index);
           },
         ),
       );
@@ -299,4 +306,11 @@ class BrushSizeModel {
   bool isSelected;
 
   BrushSizeModel(this.isSelected, this.sizeEnum, this.size);
+}
+
+class BrushColorModel {
+  final Color color;
+  bool isSelected;
+
+  BrushColorModel(this.isSelected, this.color);
 }
