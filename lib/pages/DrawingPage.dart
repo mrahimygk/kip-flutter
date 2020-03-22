@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kip/widgets/ColorItem.dart';
 import 'package:kip/widgets/MenuShadows.dart';
+import 'package:kip/widgets/PaintSurface.dart';
 
 class DrawingPage extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class _DrawingPageState extends State<DrawingPage>
   var _scaffoldKey = GlobalKey(debugLabel: "parentScaffold");
   AnimationController drawingMenuAnimController;
   Animation<Offset> drawingMenuOffsetAnim;
+  PainterController _drawingController;
+  bool _finished;
 
   @override
   void initState() {
@@ -24,6 +27,16 @@ class _DrawingPageState extends State<DrawingPage>
                 parent: drawingMenuAnimController, curve: Curves.decelerate));
 
     super.initState();
+
+    _finished = false;
+    _drawingController = _newController();
+  }
+
+  PainterController _newController() {
+    PainterController controller = new PainterController();
+    controller.thickness = 5.0;
+    controller.backgroundColor = Colors.grey.shade300;
+    return controller;
   }
 
   @override
@@ -74,7 +87,9 @@ class _DrawingPageState extends State<DrawingPage>
                 children: <Widget>[
                   IconButton(
                     icon: Icon(Icons.undo),
-                    onPressed: () {},
+                    onPressed: () {
+                      _drawingController.undo();
+                    },
                   ),
                   IconButton(
                     icon: Icon(Icons.redo),
@@ -115,30 +130,7 @@ class _DrawingPageState extends State<DrawingPage>
         body: Stack(
           children: <Widget>[
             ///main input fields
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    style: TextStyle(fontSize: 18.0),
-                    decoration: InputDecoration.collapsed(
-                      hintText: "Title",
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    decoration: InputDecoration.collapsed(
-                      hintText: "Note",
-                    ),
-                  ),
-                )
-              ],
-            ),
+            PaintSurface(_drawingController),
 
             /// left menu
             Align(
