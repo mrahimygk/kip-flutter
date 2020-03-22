@@ -191,11 +191,9 @@ class _DrawingPageState extends State<DrawingPage>
                             ),
                           ],
                         ),
+                        Container(height: 12),
                         Container(
-                          height: 12,
-                        ),
-                        Container(
-                          color: Colors.grey.shade300,
+                          color: Colors.grey.shade200,
                           child: Column(
                             children: <Widget>[
                               Row(
@@ -235,7 +233,7 @@ class _DrawingPageState extends State<DrawingPage>
                                 ],
                               ),
                               Container(
-                                color: Colors.grey.shade200,
+                                color: Colors.grey.shade100,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -301,7 +299,7 @@ class _DrawingPageState extends State<DrawingPage>
   }
 
   void selectBrushSize(double size) {
-    _drawingController.thickness=size;
+    _drawingController.thickness = size;
   }
 }
 
