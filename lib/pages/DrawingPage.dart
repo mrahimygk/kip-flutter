@@ -16,6 +16,7 @@ class _DrawingPageState extends State<DrawingPage>
   Animation<Offset> drawingMenuOffsetAnim;
   PainterController _drawingController;
   bool _finished;
+  double brushSize = 5.0;
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _DrawingPageState extends State<DrawingPage>
 
   PainterController _newController() {
     PainterController controller = new PainterController();
-    controller.thickness = 5.0;
+    controller.thickness = brushSize;
     controller.backgroundColor = Colors.grey.shade300;
     return controller;
   }
@@ -99,7 +100,7 @@ class _DrawingPageState extends State<DrawingPage>
                   ),
                   PopupMenuButton(
                     onSelected: (value) {
-                      switch(value as PopUpMenu){
+                      switch (value as PopUpMenu) {
                         case PopUpMenu.Delete:
                           _drawingController.clear();
                           break;
@@ -239,13 +240,48 @@ class _DrawingPageState extends State<DrawingPage>
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
-                                    ColorItem(itemColor: Colors.black),
-                                    ColorItem(itemColor: Colors.black),
-                                    ColorItem(itemColor: Colors.black),
-                                    ColorItem(itemColor: Colors.black),
-                                    ColorItem(itemColor: Colors.black),
-                                    ColorItem(itemColor: Colors.black),
-                                    ColorItem(itemColor: Colors.black),
+                                    ColorItem(
+                                      itemColor: Colors.black,
+                                      size: 2,
+                                      onPress: () {
+                                        selectBrushSize(2);
+                                      },
+                                    ),
+                                    ColorItem(
+                                      itemColor: Colors.black,
+                                      size: 5,
+                                      onPress: () {
+                                        selectBrushSize(5);
+                                      },
+                                    ),
+                                    ColorItem(
+                                      itemColor: Colors.black,
+                                      size: 10,
+                                      onPress: () {
+                                        selectBrushSize(10);
+                                      },
+                                    ),
+                                    ColorItem(
+                                      itemColor: Colors.black,
+                                      size: 15,
+                                      onPress: () {
+                                        selectBrushSize(15);
+                                      },
+                                    ),
+                                    ColorItem(
+                                      itemColor: Colors.black,
+                                      size: 20,
+                                      onPress: () {
+                                        selectBrushSize(20);
+                                      },
+                                    ),
+                                    ColorItem(
+                                      itemColor: Colors.black,
+                                      size: 30,
+                                      onPress: () {
+                                        selectBrushSize(30);
+                                      },
+                                    ),
                                   ],
                                 ),
                               )
@@ -262,6 +298,10 @@ class _DrawingPageState extends State<DrawingPage>
         ),
       ),
     );
+  }
+
+  void selectBrushSize(double size) {
+    _drawingController.thickness=size;
   }
 }
 
