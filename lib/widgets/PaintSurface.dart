@@ -1,7 +1,6 @@
-import 'dart:collection';
+import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
-import 'dart:async';
 
 import 'package:flutter/widgets.dart' hide Image;
 
