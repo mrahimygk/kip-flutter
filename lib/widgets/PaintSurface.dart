@@ -95,12 +95,14 @@ class _PaintSurfacePainter extends CustomPainter {
 
 class _PathHistory {
   List<MapEntry<Path, Paint>> _paths;
+  List<MapEntry<Path, Paint>> _redoPaths;
   Paint currentPaint;
   Paint _backgroundPaint;
   bool _inDrag;
 
   _PathHistory() {
     _paths = new List<MapEntry<Path, Paint>>();
+    _redoPaths = new List<MapEntry<Path, Paint>>();
     _inDrag = false;
     _backgroundPaint = new Paint();
   }
@@ -111,13 +113,20 @@ class _PathHistory {
 
   void undo() {
     if (!_inDrag) {
-      _paths.removeLast();
+      _redoPaths.add(_paths.removeLast());
+    }
+  }
+
+  void redo() {
+    if (!_inDrag) {
+      _paths.add(_redoPaths.removeLast());
     }
   }
 
   void clear() {
     if (!_inDrag) {
       _paths.clear();
+      _redoPaths.clear();
     }
   }
 
@@ -218,6 +227,13 @@ class PainterController extends ChangeNotifier {
   void undo() {
     if (!isFinished()) {
       _pathHistory.undo();
+      notifyListeners();
+    }
+  }
+
+  void redo() {
+    if (!isFinished()) {
+      _pathHistory.redo();
       notifyListeners();
     }
   }
