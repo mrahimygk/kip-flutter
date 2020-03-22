@@ -45,7 +45,6 @@ class _DrawingPageState extends State<DrawingPage>
 
   @override
   Widget build(BuildContext context) {
-    //TODO: get predefined data here: flag for added default checkboxes...
     return SafeArea(
       child: Scaffold(
         ///top menu
@@ -157,133 +156,35 @@ class _DrawingPageState extends State<DrawingPage>
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         GestureDetector(
-                            onTapUp: (d) {
-                              toggleShowDrawingMenu();
-                            },
-                            child: Container(
-                              child: isDrawingMenuOpen
-                                  ? Icon(Icons.arrow_drop_down)
-                                  : Icon(Icons.arrow_drop_up),
-                            )),
-                        Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {},
-                            onLongPress: () {},
-                            canRequestFocus: true,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  Text("Take photo"),
-                                ],
-                              ),
-                            ),
+                          onTapUp: (d) {
+                            toggleShowDrawingMenu();
+                          },
+                          child: Container(
+                            child: isDrawingMenuOpen
+                                ? Icon(Icons.arrow_drop_down)
+                                : Icon(Icons.arrow_drop_up),
                           ),
                         ),
-                        Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {},
-                            onLongPress: () {},
-                            canRequestFocus: true,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Icon(
-                                      Icons.image,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  Text("Choose image"),
-                                ],
-                              ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Icon(
+                              Icons.brush,
+                              color: Colors.black87,
                             ),
-                          ),
-                        ),
-                        Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {},
-                            onLongPress: () {},
-                            canRequestFocus: true,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Icon(
-                                      Icons.brush,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  Text("Drawing"),
-                                ],
-                              ),
+                            Icon(
+                              Icons.brush,
+                              color: Colors.black87,
                             ),
-                          ),
-                        ),
-                        Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {},
-                            onLongPress: () {},
-                            canRequestFocus: true,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Icon(
-                                      Icons.mic,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  Text("Recording"),
-                                ],
-                              ),
+                            Icon(
+                              Icons.brush,
+                              color: Colors.black87,
                             ),
-                          ),
-                        ),
-                        Material(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {},
-                            onLongPress: () {},
-                            canRequestFocus: true,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: Icon(
-                                      Icons.check_box,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  Text("Checboxes"),
-                                ],
-                              ),
+                            Icon(
+                              Icons.brush,
+                              color: Colors.black87,
                             ),
-                          ),
+                          ],
                         ),
                         Container(height: 8),
                       ],
