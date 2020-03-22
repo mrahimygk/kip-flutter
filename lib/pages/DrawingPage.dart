@@ -240,6 +240,13 @@ class _DrawingPageState extends State<DrawingPage>
                                   children: <Widget>[
                                     ColorItem(
                                       itemColor: Colors.black,
+                                      size: 1,
+                                      onPress: () {
+                                        selectBrushSize(1);
+                                      },
+                                    ),
+                                    ColorItem(
+                                      itemColor: Colors.black,
                                       size: 2,
                                       onPress: () {
                                         selectBrushSize(2);
