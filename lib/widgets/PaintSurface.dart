@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'dart:async';
@@ -78,7 +79,8 @@ class _PaintSurfaceState extends State<PaintSurface> {
 class _PaintSurfacePainter extends CustomPainter {
   final _PathHistory _path;
 
-  _PaintSurfacePainter(this._path, {Listenable repaint}) : super(repaint: repaint);
+  _PaintSurfacePainter(this._path, {Listenable repaint})
+      : super(repaint: repaint);
 
   @override
   void paint(Canvas canvas, Size size) {
