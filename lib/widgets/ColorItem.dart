@@ -15,6 +15,8 @@ class ColorItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deselectedSize = 24.0;
+    final selectedSize = 36.0;
     return InkWell(
       onTap: () {
         onPress();
@@ -32,8 +34,8 @@ class ColorItem extends StatelessWidget {
             child: Align(
               alignment: Alignment.center,
               child: Container(
-                height: 24,
-                width: 24,
+                height: item.isSelected ? selectedSize : deselectedSize,
+                width: item.isSelected ? selectedSize : deselectedSize,
                 decoration: BoxDecoration(
                   color: item.color,
                   shape: BoxShape.circle,
