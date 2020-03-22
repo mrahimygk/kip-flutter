@@ -11,8 +11,8 @@ class ColorItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
+    return GestureDetector(
+      onTapUp: (d) {
         onPress();
       },
       child: Padding(
