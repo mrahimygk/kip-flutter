@@ -263,24 +263,24 @@ class _DrawingPageState extends State<DrawingPage>
     );
   }
 
-  void selectBrushSize(double size) {
+  void selectBrushSize(double size, int index) {
     _drawingController.thickness = size;
     setState(() {
       brushSizeList.forEach((b){
         b.isSelected=false;
       });
-//      brushSizeList[index].isSelected=true;
+      brushSizeList[index].isSelected=true;
     });
   }
 
   List<Widget> makeBrushWidgets() {
     final widgetList = List<Widget>();
-    brushSizeList.forEach((b) {
+    brushSizeList.asMap().forEach((index, b) {
       widgetList.add(
         BrushSizeItem(
           item: b,
           onPress: () {
-            selectBrushSize(b.size);
+            selectBrushSize(b.size, index);
           },
         ),
       );
