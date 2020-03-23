@@ -397,3 +397,10 @@ class BrushColorModel {
 
   BrushColorModel(this.isSelected, this.color);
 }
+
+class GridTypeModel {
+  final GridType gridType;
+  bool isSelected;
+
+  GridTypeModel(this.isSelected, this.gridType);
+}
