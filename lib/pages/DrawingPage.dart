@@ -51,10 +51,10 @@ class _DrawingPageState extends State<DrawingPage>
     brushColorList.add(BrushColorModel(false, Colors.purple));
     brushColorList.add(BrushColorModel(false, Colors.red));
 
-    gridTypeList.add(GridTypeModel(false, GridType.NONE));
-    gridTypeList.add(GridTypeModel(false, GridType.SQUARE));
-    gridTypeList.add(GridTypeModel(false, GridType.RULERS));
-    gridTypeList.add(GridTypeModel(false, GridType.DOTS));
+    gridTypeList.add(GridTypeModel(false, GridType.NONE, 0));
+    gridTypeList.add(GridTypeModel(false, GridType.SQUARE, 1));
+    gridTypeList.add(GridTypeModel(false, GridType.RULERS, 2));
+    gridTypeList.add(GridTypeModel(false, GridType.DOTS, 3));
 
     _drawingController = _newController();
 
@@ -321,30 +321,42 @@ class _DrawingPageState extends State<DrawingPage>
 
   void changeGrid(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (context) => StatefulBuilder(
-              builder: (context, setState) => AlertDialog(
-                title: Text("Change Grid"),
-                actions: <Widget>[
-                  FlatButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Dismiss"),
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text("Change Grid"),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Dismiss"),
+            )
+          ],
+          content: Container(
+            width: MediaQuery.of(context).size.width,
+            child: GridView.count(
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              shrinkWrap: true,
+              crossAxisCount: 2,
+              children: gridTypeList
+                  .map(
+                    (item) => GridTypeItem(
+                      onPress: () {
+                        setState(() {
+                          selectGridType(item.gridType, item.index);
+                        });
+                      },
+                      item: item,
+                    ),
                   )
-                ],
-                content: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: GridView.count(
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    children: makeGridTypeWidgets(),
-                  ),
-                ),
-              ),
-            ));
+                  .toList(),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void selectGridType(GridType type, int index) {
@@ -357,20 +369,6 @@ class _DrawingPageState extends State<DrawingPage>
       });
       gridTypeList[index].isSelected = true;
     });
-  }
-
-  List<Widget> makeGridTypeWidgets() {
-    final list = List<Widget>();
-    gridTypeList.asMap().forEach((index, item) {
-      list.add(GridTypeItem(
-        onPress: () {
-          selectGridType(item.gridType, index);
-        },
-        item: item,
-      ));
-    });
-
-    return list;
   }
 }
 
@@ -396,6 +394,7 @@ class BrushColorModel {
 class GridTypeModel {
   final GridType gridType;
   bool isSelected;
+  final int index;
 
-  GridTypeModel(this.isSelected, this.gridType);
+  GridTypeModel(this.isSelected, this.gridType, this.index);
 }
