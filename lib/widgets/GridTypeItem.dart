@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:kip/pages/DrawingPage.dart';
 import 'package:kip/widgets/PaintSurface.dart';
+import 'package:kip/widgets/painter/GridWidgetPainter.dart';
 
 class GridTypeItem extends StatelessWidget {
   final VoidCallback onPress;
@@ -59,20 +60,5 @@ class GridTypeItem extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class GridWidgetPainter extends CustomPainter {
-  final GridDrawer canvasDrawer = GridDrawer();
-  final GridType gridType;
-
-  GridWidgetPainter(this.gridType);
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvasDrawer.drawGrids(canvas, size, gridType);
   }
 }
