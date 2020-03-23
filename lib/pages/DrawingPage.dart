@@ -19,6 +19,7 @@ class _DrawingPageState extends State<DrawingPage>
   bool _finished;
   final brushSizeList = List<BrushSizeModel>();
   final brushColorList = List<BrushColorModel>();
+  GridType gridType = GridType.NONE;
 
   @override
   void initState() {
@@ -57,6 +58,7 @@ class _DrawingPageState extends State<DrawingPage>
   PainterController _newController() {
     PainterController controller = new PainterController();
     controller.thickness = 0;
+    controller.gridType = gridType;
     return controller;
   }
 
@@ -125,6 +127,10 @@ class _DrawingPageState extends State<DrawingPage>
                           _drawingController.clear();
                           break;
                         case PopUpMenu.Show_grid:
+                          showGrid();
+                          return;
+                        case PopUpMenu.Change_grid:
+                          changeGrid();
                           return;
                         case PopUpMenu.Grab_image_text:
                           return;
@@ -135,8 +141,10 @@ class _DrawingPageState extends State<DrawingPage>
                     itemBuilder: (BuildContext context) {
                       return <PopupMenuItem>[
                         PopupMenuItem(
-                          value: PopUpMenu.Show_grid,
-                          child: Text("Show grid"),
+                          value: gridType == GridType.NONE
+                              ? PopUpMenu.Show_grid
+                              : PopUpMenu.Change_grid,
+                          child: chooseGridTypeWidget(),
                         ),
                         PopupMenuItem(
                           value: PopUpMenu.Grab_image_text,
@@ -296,9 +304,24 @@ class _DrawingPageState extends State<DrawingPage>
     });
     return widgetList;
   }
+
+  Widget chooseGridTypeWidget() {
+    var text = "Show";
+    if (gridType != GridType.NONE) text = "Change";
+    return Text("$text grid");
+  }
+
+  void showGrid() {
+    setState(() {
+      gridType = GridType.GRID;
+      _drawingController.gridType=gridType;
+    });
+  }
+
+  void changeGrid() {}
 }
 
-enum PopUpMenu { Show_grid, Grab_image_text, Send, Delete }
+enum PopUpMenu { Show_grid, Change_grid, Grab_image_text, Send, Delete }
 
 enum BrushSize { _1, _2, _5, _10, _15, _20, _30 }
 

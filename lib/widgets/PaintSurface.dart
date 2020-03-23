@@ -102,6 +102,13 @@ class _PathHistory {
   GridType _gridType = GridType.NONE;
   bool _inDrag;
 
+  GridType get gridType => _gridType;
+
+  set gridType(GridType gridType) {
+    _gridType = gridType;
+
+  }
+
   _PathHistory() {
     _paths = new List<MapEntry<Path, Paint>>();
     _redoPaths = new List<MapEntry<Path, Paint>>();
@@ -253,8 +260,8 @@ class PainterController extends ChangeNotifier {
 
   set gridType(GridType gridType) {
     _gridType = gridType;
-    _pathHistory._gridType = gridType;
-    //TODO: repaint here?
+    _pathHistory.gridType = gridType;
+    notifyListeners();
   }
 
   void _updatePaint() {
