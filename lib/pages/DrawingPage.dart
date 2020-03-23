@@ -127,10 +127,10 @@ class _DrawingPageState extends State<DrawingPage>
                           _drawingController.clear();
                           break;
                         case PopUpMenu.Show_grid:
-                          changeGrid();
+                          changeGrid(context);
                           return;
                         case PopUpMenu.Change_grid:
-                          changeGrid();
+                          changeGrid(context);
                           return;
                         case PopUpMenu.Grab_image_text:
                           return;
@@ -311,7 +311,41 @@ class _DrawingPageState extends State<DrawingPage>
     return Text("$text grid");
   }
 
-  void changeGrid() {
+  void changeGrid(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Change Grid"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: (){
+              Navigator.of(context).pop();
+            },
+            child: Text("Dismiss"),
+          )
+        ],
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text("GA"),
+                Text("GB"),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text("GA"),
+                Text("GB"),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+
     setState(() {
       gridType = GridType.SQUARE;
       _drawingController.gridType = gridType;
