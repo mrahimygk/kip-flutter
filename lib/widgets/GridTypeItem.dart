@@ -14,7 +14,7 @@ class GridTypeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemSize = 64.0;
-    const padding = 18.0;
+    const padding = 24.0;
 
     return InkWell(
       onTap: () {
@@ -41,6 +41,10 @@ class GridTypeItem extends StatelessWidget {
               ),
             ),
           ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: chooseGridText(),
+          ),
 
           ///selected indicator
           if (item.isSelected)
@@ -60,7 +64,10 @@ class GridTypeItem extends StatelessWidget {
                     ),
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Icon(Icons.check_circle, color: Colors.blue,),
+                      child: Icon(
+                        Icons.check_circle,
+                        color: Colors.blue,
+                      ),
                     )
                   ],
                 ),
@@ -69,5 +76,24 @@ class GridTypeItem extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget chooseGridText() {
+    String text = "";
+    switch (item.gridType) {
+      case GridType.NONE:
+        text = "None";
+        break;
+      case GridType.SQUARE:
+        text = "Square";
+        break;
+      case GridType.DOTS:
+        text = "Dots";
+        break;
+      case GridType.RULERS:
+        text = "Rulers";
+        break;
+    }
+    return Text(text);
   }
 }
