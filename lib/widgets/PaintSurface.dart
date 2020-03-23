@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/material.dart' hide Image;
 import 'package:flutter/widgets.dart' hide Image;
 
 class PaintSurface extends StatefulWidget {
@@ -97,17 +98,15 @@ class _PathHistory {
   List<MapEntry<Path, Paint>> _redoPaths;
   Paint currentPaint;
   Paint _backgroundPaint;
+  Paint _gridPaint;
   bool _inDrag;
 
   _PathHistory() {
     _paths = new List<MapEntry<Path, Paint>>();
     _redoPaths = new List<MapEntry<Path, Paint>>();
     _inDrag = false;
-    _backgroundPaint = new Paint();
-  }
-
-  void setBackgroundColor(Color backgroundColor) {
-    _backgroundPaint.color = backgroundColor;
+    _backgroundPaint = new Paint()..color = Colors.grey.shade200;
+    _gridPaint = new Paint()..color = Colors.grey.shade700;
   }
 
   void undo() {
@@ -152,6 +151,7 @@ class _PathHistory {
   void draw(Canvas canvas, Size size) {
     canvas.drawRect(
         new Rect.fromLTWH(0.0, 0.0, size.width, size.height), _backgroundPaint);
+    canvas.drawLine(Offset.zero, Offset(50,50), _gridPaint);
     for (MapEntry<Path, Paint> path in _paths) {
       canvas.drawPath(path.key, path.value);
     }
@@ -181,7 +181,7 @@ class PictureDetails {
 
 class PainterController extends ChangeNotifier {
   Color _drawColor = new Color.fromARGB(255, 0, 0, 0);
-  Color _backgroundColor = new Color.fromARGB(255, 255, 255, 255);
+  GridType _gridType = GridType.NONE;
 
   double _thickness = 1.0;
   PictureDetails _cached;
@@ -199,17 +199,17 @@ class PainterController extends ChangeNotifier {
     _updatePaint();
   }
 
-  Color get backgroundColor => _backgroundColor;
-
-  set backgroundColor(Color color) {
-    _backgroundColor = color;
-    _updatePaint();
-  }
-
   double get thickness => _thickness;
 
   set thickness(double t) {
     _thickness = t;
+    _updatePaint();
+  }
+
+  GridType get gridType => _gridType;
+
+  set gridType(GridType gridType) {
+    _gridType = gridType;
     _updatePaint();
   }
 
@@ -219,7 +219,6 @@ class PainterController extends ChangeNotifier {
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = thickness;
     _pathHistory.currentPaint = paint;
-    _pathHistory.setBackgroundColor(backgroundColor);
     notifyListeners();
   }
 
@@ -267,3 +266,5 @@ class PainterController extends ChangeNotifier {
     return _cached != null;
   }
 }
+
+enum GridType { NONE, RULERS, GRID, DOTS }
