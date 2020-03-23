@@ -99,6 +99,7 @@ class _PathHistory {
   Paint currentPaint;
   Paint _backgroundPaint;
   Paint _gridPaint;
+  GridType _gridType = GridType.NONE;
   bool _inDrag;
 
   _PathHistory() {
@@ -106,7 +107,7 @@ class _PathHistory {
     _redoPaths = new List<MapEntry<Path, Paint>>();
     _inDrag = false;
     _backgroundPaint = new Paint()..color = Colors.grey.shade200;
-    _gridPaint = new Paint()..color = Colors.grey.shade700;
+    _gridPaint = new Paint()..color = Colors.grey.shade700.withAlpha(200);
   }
 
   void undo() {
@@ -151,9 +152,51 @@ class _PathHistory {
   void draw(Canvas canvas, Size size) {
     canvas.drawRect(
         new Rect.fromLTWH(0.0, 0.0, size.width, size.height), _backgroundPaint);
-    canvas.drawLine(Offset.zero, Offset(50,50), _gridPaint);
+
+    drawGrids(canvas, size);
+
     for (MapEntry<Path, Paint> path in _paths) {
       canvas.drawPath(path.key, path.value);
+    }
+  }
+
+  void drawGrids(Canvas canvas, Size size) {
+    switch (_gridType) {
+      case GridType.NONE:
+        break;
+      case GridType.GRID:
+        drawGrid(canvas, size);
+        break;
+      case GridType.DOTS:
+        drawDots(canvas, size);
+        break;
+      case GridType.RULERS:
+        drawRulers(canvas, size);
+        break;
+    }
+  }
+
+  void drawGrid(Canvas canvas, Size size) {
+    for (int i = 0; i < size.width; i += 10) {
+      canvas.drawLine(Offset(i.toDouble(), 0),
+          Offset(i.toDouble(), size.height), _gridPaint);
+    }
+
+    drawRulers(canvas, size);
+  }
+
+  void drawDots(Canvas canvas, Size size) {
+    for (int i = 0; i < size.width; i += 10) {
+      for (int j = 0; j < size.height; j += 10) {
+        canvas.drawCircle(Offset(i.toDouble(), j.toDouble()), 0.75, _gridPaint);
+      }
+    }
+  }
+
+  void drawRulers(Canvas canvas, Size size) {
+    for (int i = 0; i < size.height; i += 10) {
+      canvas.drawLine(Offset(0, i.toDouble()), Offset(size.width, i.toDouble()),
+          _gridPaint);
     }
   }
 }
@@ -181,7 +224,7 @@ class PictureDetails {
 
 class PainterController extends ChangeNotifier {
   Color _drawColor = new Color.fromARGB(255, 0, 0, 0);
-  GridType _gridType = GridType.NONE;
+  GridType _gridType;
 
   double _thickness = 1.0;
   PictureDetails _cached;
@@ -210,7 +253,8 @@ class PainterController extends ChangeNotifier {
 
   set gridType(GridType gridType) {
     _gridType = gridType;
-    _updatePaint();
+    _pathHistory._gridType = gridType;
+    //TODO: repaint here?
   }
 
   void _updatePaint() {
