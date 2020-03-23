@@ -190,7 +190,7 @@ class _DrawingPageState extends State<DrawingPage>
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      boxShadow: MenuShadows().get(),
+                      boxShadow: MenuShadows().get(Colors.white),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
