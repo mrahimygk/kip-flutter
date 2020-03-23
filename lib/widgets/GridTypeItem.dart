@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:kip/pages/DrawingPage.dart';
+import 'package:kip/widgets/PaintSurface.dart';
 
 class GridTypeItem extends StatelessWidget {
   final VoidCallback onPress;
@@ -27,13 +28,9 @@ class GridTypeItem extends StatelessWidget {
               child: Container(
                 height: itemSize,
                 width: itemSize,
-                child: Align(
-                  ///inside circle
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.orange,
-                        shape: BoxShape.circle,
-                        border: Border.all()),
+                child: ClipOval(
+                  child: CustomPaint(
+                    painter: GridWidgetPainter(item.gridType),
                   ),
                 ),
 
@@ -62,5 +59,20 @@ class GridTypeItem extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class GridWidgetPainter extends CustomPainter {
+  final GridDrawer canvasDrawer = GridDrawer();
+  final GridType gridType;
+
+  GridWidgetPainter(this.gridType);
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvasDrawer.drawGrids(canvas, size, gridType);
   }
 }
