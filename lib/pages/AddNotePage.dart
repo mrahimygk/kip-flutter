@@ -9,11 +9,26 @@ class AddNotePage extends StatefulWidget {
 }
 
 class _AddNotePageState extends State<AddNotePage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   var _scaffoldKey = GlobalKey(debugLabel: "parentScaffold");
   AnimationController leftMenuAnimController;
   Animation<Offset> leftMenuOffsetAnim;
+  AnimationController rightMenuAnimController;
+  Animation<Offset> rightMenuOffsetAnim;
   Color noteColor = Colors.white;
+  List<Color> noteColors = [
+    Colors.white,
+    Colors.red,
+    Colors.orange,
+    Colors.yellow,
+    Colors.green,
+    Colors.cyan,
+    Colors.blueGrey,
+    Colors.indigo,
+    Colors.deepPurple,
+    Colors.purple,
+    Colors.grey,
+  ].map((color)=>color.withAlpha(100)).toList();
 
   @override
   void initState() {
@@ -24,6 +39,13 @@ class _AddNotePageState extends State<AddNotePage>
             CurvedAnimation(
                 parent: leftMenuAnimController, curve: Curves.decelerate));
 
+    rightMenuAnimController = AnimationController(
+        duration: const Duration(milliseconds: 300), vsync: this);
+    rightMenuOffsetAnim =
+        Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, 1)).animate(
+            CurvedAnimation(
+                parent: rightMenuAnimController, curve: Curves.decelerate));
+
     super.initState();
   }
 
@@ -31,11 +53,13 @@ class _AddNotePageState extends State<AddNotePage>
   void dispose() {
     super.dispose();
     leftMenuAnimController.dispose();
+    rightMenuAnimController.dispose();
   }
 
   bool isLeftMenuOpen = false;
 
   toggleShowLeftMenu() {
+    if (isRightMenuOpen) toggleShowRightMenu();
     if (!isLeftMenuOpen) {
       leftMenuAnimController.forward();
     } else {
@@ -45,13 +69,27 @@ class _AddNotePageState extends State<AddNotePage>
     isLeftMenuOpen = !isLeftMenuOpen;
   }
 
+  bool isRightMenuOpen = false;
+
+  toggleShowRightMenu() {
+    if (isLeftMenuOpen) toggleShowLeftMenu();
+    if (!isRightMenuOpen) {
+      rightMenuAnimController.forward();
+    } else {
+      rightMenuAnimController.reverse();
+    }
+
+    isRightMenuOpen = !isRightMenuOpen;
+  }
+
   @override
   Widget build(BuildContext context) {
     //TODO: get predefined data here: flag for added default checkboxes...
     return WillPopScope(
       onWillPop: () async {
-        if (!isLeftMenuOpen) return true;
-        toggleShowLeftMenu();
+        if (!isLeftMenuOpen && !isRightMenuOpen) return true;
+        if (isLeftMenuOpen) toggleShowLeftMenu();
+        if (isRightMenuOpen) toggleShowRightMenu();
         return false;
       },
       child: SafeArea(
@@ -187,6 +225,83 @@ class _AddNotePageState extends State<AddNotePage>
                 ),
               ),
 
+              /// right menu
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: SlideTransition(
+                  position: rightMenuOffsetAnim,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 48.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: noteColor,
+                        boxShadow:
+                            MenuShadows().get(makeShadowColor(noteColor)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Container(height: 8),
+                          MenuItem(
+                            color: noteColor,
+                            onPress: () {},
+                            icon: Icons.delete,
+                            text: "Delete",
+                          ),
+                          MenuItem(
+                            color: noteColor,
+                            onPress: () {},
+                            icon: Icons.content_copy,
+                            text: "Make a copy",
+                          ),
+                          MenuItem(
+                            color: noteColor,
+                            onPress: () {
+                              toggleShowLeftMenu();
+                              Navigator.of(context).pushNamed("/addDrawing");
+                            },
+                            icon: Icons.share,
+                            text: "Send",
+                          ),
+                          MenuItem(
+                            color: noteColor,
+                            onPress: () {},
+                            icon: Icons.label_outline,
+                            text: "Labels",
+                          ),
+                          Container(
+                            height: 48,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: noteColors.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: GestureDetector(
+                                    onTapUp: (d){
+                                      setState(() {
+                                        noteColor = noteColors[index];
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 24,
+                                      height: 24,
+                                      color: noteColors[index],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          Container(height: 8),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
               /// Bottom bar
               Align(
                 alignment: Alignment.bottomCenter,
@@ -216,7 +331,9 @@ class _AddNotePageState extends State<AddNotePage>
                                 textAlign: TextAlign.center,
                               )),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  toggleShowRightMenu();
+                                },
                                 icon: Icon(Icons.menu),
                               )
                             ],
