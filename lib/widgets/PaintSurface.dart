@@ -101,6 +101,7 @@ class _PathHistory {
   Paint _gridPaint;
   GridType _gridType = GridType.NONE;
   bool _inDrag;
+  CanvasDrawer canvasDrawer;
 
   GridType get gridType => _gridType;
 
@@ -114,6 +115,7 @@ class _PathHistory {
     _inDrag = false;
     _backgroundPaint = new Paint()..color = Colors.grey.shade200;
     _gridPaint = new Paint()..color = Colors.grey.shade700.withAlpha(200);
+    canvasDrawer = CanvasDrawer(_gridPaint);
   }
 
   void undo() {
@@ -158,51 +160,9 @@ class _PathHistory {
   void draw(Canvas canvas, Size size) {
     canvas.drawRect(
         new Rect.fromLTWH(0.0, 0.0, size.width, size.height), _backgroundPaint);
-
-    drawGrids(canvas, size);
-
+    canvasDrawer.drawGrids(canvas, size, _gridType);
     for (MapEntry<Path, Paint> path in _paths) {
       canvas.drawPath(path.key, path.value);
-    }
-  }
-
-  void drawGrids(Canvas canvas, Size size) {
-    switch (_gridType) {
-      case GridType.NONE:
-        break;
-      case GridType.SQUARE:
-        drawSquareGrid(canvas, size);
-        break;
-      case GridType.DOTS:
-        drawDotsGrid(canvas, size);
-        break;
-      case GridType.RULERS:
-        drawRulersGrid(canvas, size);
-        break;
-    }
-  }
-
-  void drawSquareGrid(Canvas canvas, Size size) {
-    for (int i = 0; i < size.width; i += 10) {
-      canvas.drawLine(Offset(i.toDouble(), 0),
-          Offset(i.toDouble(), size.height), _gridPaint);
-    }
-
-    drawRulersGrid(canvas, size);
-  }
-
-  void drawDotsGrid(Canvas canvas, Size size) {
-    for (int i = 0; i < size.width; i += 10) {
-      for (int j = 0; j < size.height; j += 10) {
-        canvas.drawCircle(Offset(i.toDouble(), j.toDouble()), 0.75, _gridPaint);
-      }
-    }
-  }
-
-  void drawRulersGrid(Canvas canvas, Size size) {
-    for (int i = 0; i < size.height; i += 10) {
-      canvas.drawLine(Offset(0, i.toDouble()), Offset(size.width, i.toDouble()),
-          _gridPaint);
     }
   }
 }
@@ -318,3 +278,49 @@ class PainterController extends ChangeNotifier {
 }
 
 enum GridType { NONE, RULERS, SQUARE, DOTS }
+
+class CanvasDrawer {
+  final Paint paint;
+
+  CanvasDrawer(this.paint);
+
+  void drawGrids(Canvas canvas, Size size, GridType gridType) {
+    switch (gridType) {
+      case GridType.NONE:
+        break;
+      case GridType.SQUARE:
+        drawSquareGrid(canvas, size, paint);
+        break;
+      case GridType.DOTS:
+        drawDotsGrid(canvas, size, paint);
+        break;
+      case GridType.RULERS:
+        drawRulersGrid(canvas, size, paint);
+        break;
+    }
+  }
+
+  void drawSquareGrid(Canvas canvas, Size size, Paint paint) {
+    for (int i = 0; i < size.width; i += 10) {
+      canvas.drawLine(
+          Offset(i.toDouble(), 0), Offset(i.toDouble(), size.height), paint);
+    }
+
+    drawRulersGrid(canvas, size, paint);
+  }
+
+  void drawDotsGrid(Canvas canvas, Size size, Paint paint) {
+    for (int i = 0; i < size.width; i += 10) {
+      for (int j = 0; j < size.height; j += 10) {
+        canvas.drawCircle(Offset(i.toDouble(), j.toDouble()), 0.75, paint);
+      }
+    }
+  }
+
+  void drawRulersGrid(Canvas canvas, Size size, Paint paint) {
+    for (int i = 0; i < size.height; i += 10) {
+      canvas.drawLine(
+          Offset(0, i.toDouble()), Offset(size.width, i.toDouble()), paint);
+    }
+  }
+}
