@@ -324,48 +324,44 @@ class _DrawingPageState extends State<DrawingPage>
             child: Text("Dismiss"),
           )
         ],
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                FlatButton.icon(
-                  label: Text("NONE"),
-                  onPressed: () {
-                    setGridType(GridType.NONE);
-                  },
-                  icon: Icon(Icons.add),
-                ),
-                FlatButton.icon(
-                  label: Text("DOT"),
-                  onPressed: () {
-                    setGridType(GridType.DOTS);
-                  },
-                  icon: Icon(Icons.add),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                FlatButton.icon(
-                  label: Text("RULERS"),
-                  onPressed: () {
-                    setGridType(GridType.RULERS);
-                  },
-                  icon: Icon(Icons.add),
-                ),
-                FlatButton.icon(
-                  label: Text("SQUARE"),
-                  onPressed: () {
-                    setGridType(GridType.SQUARE);
-                  },
-                  icon: Icon(Icons.add),
-                ),
-              ],
-            ),
-          ],
+        content: Container(
+          width: MediaQuery.of(context).size.width,
+          child: GridView.count(
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            children: <Widget>[
+              FlatButton.icon(
+                label: Text("NONE"),
+                onPressed: () {
+                  setGridType(GridType.NONE);
+                },
+                icon: Icon(Icons.add),
+              ),
+              FlatButton.icon(
+                label: Text("DOT"),
+                onPressed: () {
+                  setGridType(GridType.DOTS);
+                },
+                icon: Icon(Icons.add),
+              ),
+              FlatButton.icon(
+                label: Text("RULERS"),
+                onPressed: () {
+                  setGridType(GridType.RULERS);
+                },
+                icon: Icon(Icons.add),
+              ),
+              FlatButton.icon(
+                label: Text("SQUARE"),
+                onPressed: () {
+                  setGridType(GridType.SQUARE);
+                },
+                icon: Icon(Icons.add),
+              ),
+            ],
+          ),
         ),
       ),
     );
