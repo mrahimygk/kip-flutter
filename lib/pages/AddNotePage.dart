@@ -13,7 +13,7 @@ class _AddNotePageState extends State<AddNotePage>
   var _scaffoldKey = GlobalKey(debugLabel: "parentScaffold");
   AnimationController leftMenuAnimController;
   Animation<Offset> leftMenuOffsetAnim;
-  Color noteColor = Colors.red;
+  Color noteColor = Colors.white;
 
   @override
   void initState() {
