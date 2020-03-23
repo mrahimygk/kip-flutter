@@ -321,29 +321,30 @@ class _DrawingPageState extends State<DrawingPage>
 
   void changeGrid(BuildContext context) {
     showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Change Grid"),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text("Dismiss"),
-          )
-        ],
-        content: Container(
-          width: MediaQuery.of(context).size.width,
-          child: GridView.count(
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            shrinkWrap: true,
-            crossAxisCount: 2,
-            children: makeGridTypeWidgets(),
-          ),
-        ),
-      ),
-    );
+        context: context,
+        builder: (context) => StatefulBuilder(
+              builder: (context, setState) => AlertDialog(
+                title: Text("Change Grid"),
+                actions: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Dismiss"),
+                  )
+                ],
+                content: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: GridView.count(
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    children: makeGridTypeWidgets(),
+                  ),
+                ),
+              ),
+            ));
   }
 
   void selectGridType(GridType type, int index) {
