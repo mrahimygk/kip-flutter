@@ -12,6 +12,7 @@ class _AddNotePageState extends State<AddNotePage>
   var _scaffoldKey = GlobalKey(debugLabel: "parentScaffold");
   AnimationController leftMenuAnimController;
   Animation<Offset> leftMenuOffsetAnim;
+  Color noteColor = Colors.red;
 
   @override
   void initState() {
@@ -54,6 +55,8 @@ class _AddNotePageState extends State<AddNotePage>
       },
       child: SafeArea(
         child: Scaffold(
+          backgroundColor: noteColor,
+
           ///top menu
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(48),
@@ -133,8 +136,9 @@ class _AddNotePageState extends State<AddNotePage>
                     padding: const EdgeInsets.only(bottom: 48.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: MenuShadows().get(),
+                        color: noteColor,
+                        boxShadow:
+                            MenuShadows().get(makeShadowColor(noteColor)),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -142,7 +146,7 @@ class _AddNotePageState extends State<AddNotePage>
                         children: <Widget>[
                           Container(height: 8),
                           Material(
-                            color: Colors.white,
+                            color: noteColor,
                             child: InkWell(
                               onTap: () {},
                               onLongPress: () {},
@@ -280,7 +284,9 @@ class _AddNotePageState extends State<AddNotePage>
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      boxShadow: MenuShadows().get(),
+                      boxShadow: MenuShadows().get(
+                        makeShadowColor(noteColor),
+                      ),
                     ),
                     child: Material(
                       color: Colors.white,
@@ -316,5 +322,12 @@ class _AddNotePageState extends State<AddNotePage>
         ),
       ),
     );
+  }
+
+  Color makeShadowColor(Color color) {
+    return color
+        .withRed(noteColor.red - 50)
+        .withBlue(noteColor.blue - 50)
+        .withGreen(noteColor.green - 50);
   }
 }
