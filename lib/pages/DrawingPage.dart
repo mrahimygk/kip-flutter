@@ -127,7 +127,7 @@ class _DrawingPageState extends State<DrawingPage>
                           _drawingController.clear();
                           break;
                         case PopUpMenu.Show_grid:
-                          showGrid();
+                          changeGrid();
                           return;
                         case PopUpMenu.Change_grid:
                           changeGrid();
@@ -311,14 +311,12 @@ class _DrawingPageState extends State<DrawingPage>
     return Text("$text grid");
   }
 
-  void showGrid() {
+  void changeGrid() {
     setState(() {
       gridType = GridType.SQUARE;
       _drawingController.gridType = gridType;
     });
   }
-
-  void changeGrid() {}
 }
 
 enum PopUpMenu { Show_grid, Change_grid, Grab_image_text, Send, Delete }
