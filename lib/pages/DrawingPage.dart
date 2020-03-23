@@ -57,7 +57,6 @@ class _DrawingPageState extends State<DrawingPage>
   PainterController _newController() {
     PainterController controller = new PainterController();
     controller.thickness = 0;
-    controller.backgroundColor = Colors.grey.shade300;
     return controller;
   }
 
