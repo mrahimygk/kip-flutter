@@ -47,12 +47,22 @@ class GridTypeItem extends StatelessWidget {
             Positioned.fill(
               child: Padding(
                 padding: const EdgeInsets.all(padding),
-                child: Container(
-                  height: itemSize,
-                  width: itemSize,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.blue, width: 2.0)),
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                      child: Container(
+                        height: itemSize,
+                        width: itemSize,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.blue, width: 2.0)),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Icon(Icons.check_circle, color: Colors.blue,),
+                    )
+                  ],
                 ),
               ),
             ),
