@@ -98,10 +98,9 @@ class _PathHistory {
   List<MapEntry<Path, Paint>> _redoPaths;
   Paint currentPaint;
   Paint _backgroundPaint;
-  Paint _gridPaint;
   GridType _gridType = GridType.NONE;
   bool _inDrag;
-  CanvasDrawer canvasDrawer;
+  GridDrawer canvasDrawer;
 
   GridType get gridType => _gridType;
 
@@ -114,8 +113,7 @@ class _PathHistory {
     _redoPaths = new List<MapEntry<Path, Paint>>();
     _inDrag = false;
     _backgroundPaint = new Paint()..color = Colors.grey.shade200;
-    _gridPaint = new Paint()..color = Colors.grey.shade700.withAlpha(200);
-    canvasDrawer = CanvasDrawer(_gridPaint);
+    canvasDrawer = GridDrawer();
   }
 
   void undo() {
@@ -279,10 +277,8 @@ class PainterController extends ChangeNotifier {
 
 enum GridType { NONE, RULERS, SQUARE, DOTS }
 
-class CanvasDrawer {
-  final Paint paint;
-
-  CanvasDrawer(this.paint);
+class GridDrawer {
+  final Paint paint = new Paint()..color = Colors.grey.shade700.withAlpha(200);
 
   void drawGrids(Canvas canvas, Size size, GridType gridType) {
     switch (gridType) {
