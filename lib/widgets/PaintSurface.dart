@@ -106,7 +106,6 @@ class _PathHistory {
 
   set gridType(GridType gridType) {
     _gridType = gridType;
-
   }
 
   _PathHistory() {
@@ -171,28 +170,28 @@ class _PathHistory {
     switch (_gridType) {
       case GridType.NONE:
         break;
-      case GridType.GRID:
-        drawGrid(canvas, size);
+      case GridType.SQUARE:
+        drawSquareGrid(canvas, size);
         break;
       case GridType.DOTS:
-        drawDots(canvas, size);
+        drawDotsGrid(canvas, size);
         break;
       case GridType.RULERS:
-        drawRulers(canvas, size);
+        drawRulersGrid(canvas, size);
         break;
     }
   }
 
-  void drawGrid(Canvas canvas, Size size) {
+  void drawSquareGrid(Canvas canvas, Size size) {
     for (int i = 0; i < size.width; i += 10) {
       canvas.drawLine(Offset(i.toDouble(), 0),
           Offset(i.toDouble(), size.height), _gridPaint);
     }
 
-    drawRulers(canvas, size);
+    drawRulersGrid(canvas, size);
   }
 
-  void drawDots(Canvas canvas, Size size) {
+  void drawDotsGrid(Canvas canvas, Size size) {
     for (int i = 0; i < size.width; i += 10) {
       for (int j = 0; j < size.height; j += 10) {
         canvas.drawCircle(Offset(i.toDouble(), j.toDouble()), 0.75, _gridPaint);
@@ -200,7 +199,7 @@ class _PathHistory {
     }
   }
 
-  void drawRulers(Canvas canvas, Size size) {
+  void drawRulersGrid(Canvas canvas, Size size) {
     for (int i = 0; i < size.height; i += 10) {
       canvas.drawLine(Offset(0, i.toDouble()), Offset(size.width, i.toDouble()),
           _gridPaint);
@@ -318,4 +317,4 @@ class PainterController extends ChangeNotifier {
   }
 }
 
-enum GridType { NONE, RULERS, GRID, DOTS }
+enum GridType { NONE, RULERS, SQUARE, DOTS }

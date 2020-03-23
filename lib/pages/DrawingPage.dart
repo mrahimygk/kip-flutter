@@ -313,7 +313,7 @@ class _DrawingPageState extends State<DrawingPage>
 
   void showGrid() {
     setState(() {
-      gridType = GridType.GRID;
+      gridType = GridType.SQUARE;
       _drawingController.gridType = gridType;
     });
   }
