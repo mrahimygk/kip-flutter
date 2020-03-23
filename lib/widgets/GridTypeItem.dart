@@ -31,7 +31,7 @@ class GridTypeItem extends StatelessWidget {
                 width: itemSize,
                 child: ClipOval(
                   child: CustomPaint(
-                    painter: GridWidgetPainter(item.gridType),
+                    painter: GridWidgetPainter(item.gridType, item.space),
                   ),
                 ),
 

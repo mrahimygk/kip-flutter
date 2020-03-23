@@ -101,19 +101,14 @@ class _PathHistory {
   GridType _gridType = GridType.NONE;
   bool _inDrag;
   GridDrawer canvasDrawer;
+  int space;
 
-  GridType get gridType => _gridType;
-
-  set gridType(GridType gridType) {
-    _gridType = gridType;
-  }
-
-  _PathHistory() {
+  _PathHistory(this.space) {
     _paths = new List<MapEntry<Path, Paint>>();
     _redoPaths = new List<MapEntry<Path, Paint>>();
     _inDrag = false;
     _backgroundPaint = new Paint()..color = Colors.grey.shade200;
-    canvasDrawer = GridDrawer();
+    canvasDrawer = GridDrawer(space);
   }
 
   void undo() {
@@ -194,9 +189,10 @@ class PainterController extends ChangeNotifier {
   PictureDetails _cached;
   _PathHistory _pathHistory;
   ValueGetter<Size> _widgetFinish;
+  int space;
 
-  PainterController() {
-    _pathHistory = new _PathHistory();
+  PainterController(this.space) {
+    _pathHistory = new _PathHistory(space);
   }
 
   Color get drawColor => _drawColor;
@@ -217,7 +213,7 @@ class PainterController extends ChangeNotifier {
 
   set gridType(GridType gridType) {
     _gridType = gridType;
-    _pathHistory.gridType = gridType;
+    _pathHistory._gridType = gridType;
     notifyListeners();
   }
 
@@ -279,6 +275,9 @@ enum GridType { NONE, RULERS, SQUARE, DOTS }
 
 class GridDrawer {
   final Paint paint = new Paint()..color = Colors.grey.shade700.withAlpha(200);
+  final int space;
+
+  GridDrawer(this.space);
 
   void drawGrids(Canvas canvas, Size size, GridType gridType) {
     switch (gridType) {
@@ -297,7 +296,7 @@ class GridDrawer {
   }
 
   void drawSquareGrid(Canvas canvas, Size size, Paint paint) {
-    for (int i = 0; i < size.width; i += 10) {
+    for (int i = 0; i < size.width; i += space) {
       canvas.drawLine(
           Offset(i.toDouble(), 0), Offset(i.toDouble(), size.height), paint);
     }
@@ -306,15 +305,15 @@ class GridDrawer {
   }
 
   void drawDotsGrid(Canvas canvas, Size size, Paint paint) {
-    for (int i = 0; i < size.width; i += 10) {
-      for (int j = 0; j < size.height; j += 10) {
+    for (int i = 0; i < size.width; i += space) {
+      for (int j = 0; j < size.height; j += space) {
         canvas.drawCircle(Offset(i.toDouble(), j.toDouble()), 0.75, paint);
       }
     }
   }
 
   void drawRulersGrid(Canvas canvas, Size size, Paint paint) {
-    for (int i = 0; i < size.height; i += 10) {
+    for (int i = 0; i < size.height; i += space) {
       canvas.drawLine(
           Offset(0, i.toDouble()), Offset(size.width, i.toDouble()), paint);
     }

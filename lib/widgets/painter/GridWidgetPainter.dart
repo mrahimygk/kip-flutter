@@ -4,10 +4,13 @@ import 'package:flutter/cupertino.dart';
 import '../PaintSurface.dart';
 
 class GridWidgetPainter extends CustomPainter {
-  final GridDrawer canvasDrawer = GridDrawer();
+  GridDrawer canvasDrawer;
   final GridType gridType;
+  final int space;
 
-  GridWidgetPainter(this.gridType);
+  GridWidgetPainter(this.gridType, this.space){
+    canvasDrawer = GridDrawer(space);
+  }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => true;

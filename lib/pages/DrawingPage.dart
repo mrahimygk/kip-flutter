@@ -51,10 +51,10 @@ class _DrawingPageState extends State<DrawingPage>
     brushColorList.add(BrushColorModel(false, Colors.purple));
     brushColorList.add(BrushColorModel(false, Colors.red));
 
-    gridTypeList.add(GridTypeModel(false, GridType.NONE, 0));
-    gridTypeList.add(GridTypeModel(false, GridType.SQUARE, 1));
-    gridTypeList.add(GridTypeModel(false, GridType.RULERS, 2));
-    gridTypeList.add(GridTypeModel(false, GridType.DOTS, 3));
+    gridTypeList.add(GridTypeModel(false, GridType.NONE, 0, 20));
+    gridTypeList.add(GridTypeModel(false, GridType.SQUARE, 1, 20));
+    gridTypeList.add(GridTypeModel(false, GridType.RULERS, 2, 20));
+    gridTypeList.add(GridTypeModel(false, GridType.DOTS, 3, 20));
 
     _drawingController = _newController();
 
@@ -64,7 +64,7 @@ class _DrawingPageState extends State<DrawingPage>
   }
 
   PainterController _newController() {
-    PainterController controller = new PainterController();
+    PainterController controller = new PainterController(20);
     controller.thickness = 0;
     controller.gridType = gridType;
     return controller;
@@ -396,5 +396,7 @@ class GridTypeModel {
   bool isSelected;
   final int index;
 
-  GridTypeModel(this.isSelected, this.gridType, this.index);
+  final int space;
+
+  GridTypeModel(this.isSelected, this.gridType, this.index, this.space);
 }
