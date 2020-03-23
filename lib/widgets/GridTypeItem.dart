@@ -43,20 +43,19 @@ class GridTypeItem extends StatelessWidget {
           ),
 
           ///selected indicator
-          item.isSelected
-              ? Positioned.fill(
-                  child: Padding(
-                    padding: const EdgeInsets.all(padding),
-                    child: Container(
-                      height: itemSize,
-                      width: itemSize,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.blue, width: 2.0)),
-                    ),
-                  ),
-                )
-              : Container(),
+          if (item.isSelected)
+            Positioned.fill(
+              child: Padding(
+                padding: const EdgeInsets.all(padding),
+                child: Container(
+                  height: itemSize,
+                  width: itemSize,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.blue, width: 2.0)),
+                ),
+              ),
+            ),
         ],
       ),
     );
