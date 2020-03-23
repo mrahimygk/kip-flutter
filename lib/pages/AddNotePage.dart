@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/MenuShadows.dart';
 
 class AddNotePage extends StatefulWidget {
@@ -145,128 +146,38 @@ class _AddNotePageState extends State<AddNotePage>
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Container(height: 8),
-                          Material(
+                          MenuItem(
                             color: noteColor,
-                            child: InkWell(
-                              onTap: () {},
-                              onLongPress: () {},
-                              canRequestFocus: true,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Icon(
-                                        Icons.camera_alt,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                    Text("Take photo"),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            onPress: () {},
+                            icon: Icons.photo_camera,
+                            text: "Take photo",
                           ),
-                          Material(
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {},
-                              onLongPress: () {},
-                              canRequestFocus: true,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Icon(
-                                        Icons.image,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                    Text("Choose image"),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          MenuItem(
+                            color: noteColor,
+                            onPress: () {},
+                            icon: Icons.image,
+                            text: "Choose image",
                           ),
-                          Material(
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {
-                                toggleShowLeftMenu();
-                                Navigator.of(context).pushNamed("/addDrawing");
-                              },
-                              onLongPress: () {},
-                              canRequestFocus: true,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Icon(
-                                        Icons.brush,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                    Text("Drawing"),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          MenuItem(
+                            color: noteColor,
+                            onPress: () {
+                              toggleShowLeftMenu();
+                              Navigator.of(context).pushNamed("/addDrawing");
+                            },
+                            icon: Icons.brush,
+                            text: "Drawing",
                           ),
-                          Material(
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {},
-                              onLongPress: () {},
-                              canRequestFocus: true,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Icon(
-                                        Icons.mic,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                    Text("Recording"),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          MenuItem(
+                            color: noteColor,
+                            onPress: () {},
+                            icon: Icons.mic,
+                            text: "Recording",
                           ),
-                          Material(
-                            color: Colors.white,
-                            child: InkWell(
-                              onTap: () {},
-                              onLongPress: () {},
-                              canRequestFocus: true,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0),
-                                      child: Icon(
-                                        Icons.check_box,
-                                        color: Colors.black87,
-                                      ),
-                                    ),
-                                    Text("Checboxes"),
-                                  ],
-                                ),
-                              ),
-                            ),
+                          MenuItem(
+                            color: noteColor,
+                            onPress: () {},
+                            icon: Icons.check_box,
+                            text: "Checboxes",
                           ),
                           Container(height: 8),
                         ],
@@ -283,13 +194,12 @@ class _AddNotePageState extends State<AddNotePage>
                   preferredSize: Size.fromHeight(48),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
                       boxShadow: MenuShadows().get(
                         makeShadowColor(noteColor),
                       ),
                     ),
                     child: Material(
-                      color: Colors.white,
+                      color: noteColor,
                       child: Stack(
                         children: <Widget>[
                           Row(
