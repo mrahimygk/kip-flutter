@@ -335,23 +335,37 @@ class _DrawingPageState extends State<DrawingPage>
           ],
           content: Container(
             width: MediaQuery.of(context).size.width,
-            child: GridView.count(
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              children: gridTypeList
-                  .map(
-                    (item) => GridTypeItem(
-                      onPress: () {
-                        setState(() {
-                          selectGridType(item.gridType, item.index);
-                        });
-                      },
-                      item: item,
-                    ),
-                  )
-                  .toList(),
+            child: Column(
+              children: <Widget>[
+                GridView.count(
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  children: gridTypeList
+                      .map(
+                        (item) => GridTypeItem(
+                          onPress: () {
+                            setState(() {
+                              selectGridType(item.gridType, item.index);
+                            });
+                          },
+                          item: item,
+                        ),
+                      )
+                      .toList(),
+                ),
+                Slider(
+                  value: 20,
+                  min: 10,
+                  max: 50,
+                  onChanged: (value) {
+                    setState(() {
+//                    space = value;
+                    });
+                  },
+                )
+              ],
             ),
           ),
         ),
