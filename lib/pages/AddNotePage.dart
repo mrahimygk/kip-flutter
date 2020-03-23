@@ -28,7 +28,7 @@ class _AddNotePageState extends State<AddNotePage>
     Colors.deepPurple,
     Colors.purple,
     Colors.grey,
-  ].map((color)=>color.withAlpha(100)).toList();
+  ].map((color) => color.withAlpha(100)).toList();
 
   @override
   void initState() {
@@ -279,7 +279,7 @@ class _AddNotePageState extends State<AddNotePage>
                                 return Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: GestureDetector(
-                                    onTapUp: (d){
+                                    onTapUp: (d) {
                                       setState(() {
                                         noteColor = noteColors[index];
                                       });
