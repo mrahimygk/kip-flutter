@@ -51,12 +51,8 @@ class _DrawingPageState extends State<DrawingPage>
 
     _drawingController = _newController();
 
-    selectBrushColor(brushColorList
-        .elementAt(2)
-        .color, 2);
-    selectBrushSize(brushSizeList
-        .elementAt(3)
-        .size, 3);
+    selectBrushColor(brushColorList.elementAt(2).color, 2);
+    selectBrushSize(brushSizeList.elementAt(3).size, 3);
   }
 
   PainterController _newController() {
@@ -88,7 +84,6 @@ class _DrawingPageState extends State<DrawingPage>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
         ///top menu
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(48),
@@ -174,7 +169,6 @@ class _DrawingPageState extends State<DrawingPage>
         key: _scaffoldKey,
         body: Stack(
           children: <Widget>[
-
             ///main drawing surface
             PaintSurface(_drawingController),
 
@@ -232,7 +226,7 @@ class _DrawingPageState extends State<DrawingPage>
                             children: <Widget>[
                               Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: makeColorItemWidgets()),
 //                              GridView.count(
 //                                crossAxisCount: 6,
@@ -242,7 +236,7 @@ class _DrawingPageState extends State<DrawingPage>
                                 color: Colors.grey.shade100,
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: makeBrushWidgets(),
                                 ),
                               )
@@ -320,61 +314,60 @@ class _DrawingPageState extends State<DrawingPage>
   void changeGrid(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) =>
-          AlertDialog(
-            title: Text("Change Grid"),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("Dismiss"),
-              )
-            ],
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
+      builder: (context) => AlertDialog(
+        title: Text("Change Grid"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("Dismiss"),
+          )
+        ],
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FlatButton.icon(
-                      label: Text("NONE"),
-                      onPressed: () {
-                        setGridType(GridType.NONE);
-                      },
-                      icon: Icon(Icons.add),
-                    ),
-                    FlatButton.icon(
-                      label: Text("DOT"),
-                      onPressed: () {
-                        setGridType(GridType.DOTS);
-                      },
-                      icon: Icon(Icons.add),
-                    )
-                  ],
+                FlatButton.icon(
+                  label: Text("NONE"),
+                  onPressed: () {
+                    setGridType(GridType.NONE);
+                  },
+                  icon: Icon(Icons.add),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    FlatButton.icon(
-                      label: Text("RULERS"),
-                      onPressed: () {
-                        setGridType(GridType.RULERS);
-                      },
-                      icon: Icon(Icons.add),
-                    ),
-                    FlatButton.icon(
-                      label: Text("SQUARE"),
-                      onPressed: () {
-                        setGridType(GridType.SQUARE);
-                      },
-                      icon: Icon(Icons.add),
-                    ),
-                  ],
+                FlatButton.icon(
+                  label: Text("DOT"),
+                  onPressed: () {
+                    setGridType(GridType.DOTS);
+                  },
+                  icon: Icon(Icons.add),
+                )
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FlatButton.icon(
+                  label: Text("RULERS"),
+                  onPressed: () {
+                    setGridType(GridType.RULERS);
+                  },
+                  icon: Icon(Icons.add),
+                ),
+                FlatButton.icon(
+                  label: Text("SQUARE"),
+                  onPressed: () {
+                    setGridType(GridType.SQUARE);
+                  },
+                  icon: Icon(Icons.add),
                 ),
               ],
             ),
-          ),
+          ],
+        ),
+      ),
     );
   }
 
