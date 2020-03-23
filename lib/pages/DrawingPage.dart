@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kip/widgets/BrushSizeItem.dart';
 import 'package:kip/widgets/ColorItem.dart';
+import 'package:kip/widgets/GridTypeItem.dart';
 import 'package:kip/widgets/MenuShadows.dart';
 import 'package:kip/widgets/PaintSurface.dart';
 
@@ -19,6 +20,7 @@ class _DrawingPageState extends State<DrawingPage>
   bool _finished;
   final brushSizeList = List<BrushSizeModel>();
   final brushColorList = List<BrushColorModel>();
+  final gridTypeList = List<GridTypeModel>();
   GridType gridType = GridType.NONE;
 
   @override
@@ -49,10 +51,16 @@ class _DrawingPageState extends State<DrawingPage>
     brushColorList.add(BrushColorModel(false, Colors.purple));
     brushColorList.add(BrushColorModel(false, Colors.red));
 
+    gridTypeList.add(GridTypeModel(false, GridType.NONE));
+    gridTypeList.add(GridTypeModel(false, GridType.SQUARE));
+    gridTypeList.add(GridTypeModel(false, GridType.RULERS));
+    gridTypeList.add(GridTypeModel(false, GridType.DOTS));
+
     _drawingController = _newController();
 
     selectBrushColor(brushColorList.elementAt(2).color, 2);
     selectBrushSize(brushSizeList.elementAt(3).size, 3);
+    selectGridType(gridTypeList.elementAt(0).gridType, 0);
   }
 
   PainterController _newController() {
@@ -331,47 +339,37 @@ class _DrawingPageState extends State<DrawingPage>
             mainAxisSpacing: 10,
             shrinkWrap: true,
             crossAxisCount: 2,
-            children: <Widget>[
-              FlatButton.icon(
-                label: Text("NONE"),
-                onPressed: () {
-                  setGridType(GridType.NONE);
-                },
-                icon: Icon(Icons.add),
-              ),
-              FlatButton.icon(
-                label: Text("DOT"),
-                onPressed: () {
-                  setGridType(GridType.DOTS);
-                },
-                icon: Icon(Icons.add),
-              ),
-              FlatButton.icon(
-                label: Text("RULERS"),
-                onPressed: () {
-                  setGridType(GridType.RULERS);
-                },
-                icon: Icon(Icons.add),
-              ),
-              FlatButton.icon(
-                label: Text("SQUARE"),
-                onPressed: () {
-                  setGridType(GridType.SQUARE);
-                },
-                icon: Icon(Icons.add),
-              ),
-            ],
+            children: makeGridTypeWidgets(),
           ),
         ),
       ),
     );
   }
 
-  void setGridType(GridType type) {
+  void selectGridType(GridType type, int index) {
     setState(() {
       gridType = type;
       _drawingController.gridType = gridType;
+
+      gridTypeList.forEach((item) {
+        item.isSelected = false;
+      });
+      gridTypeList[index].isSelected = true;
     });
+  }
+
+  List<Widget> makeGridTypeWidgets() {
+    final list = List<Widget>();
+    gridTypeList.asMap().forEach((index, item) {
+      list.add(GridTypeItem(
+        onPress: () {
+          selectGridType(item.gridType, index);
+        },
+        item: item,
+      ));
+    });
+
+    return list;
   }
 }
 
