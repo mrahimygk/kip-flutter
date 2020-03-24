@@ -35,7 +35,7 @@ class _KipMainPageState extends State<KipMainPage> {
               IconButton(
                 icon: Icon(Icons.mic),
                 onPressed: () {
-                  startVoiceRecording();
+                  startVoiceRecording(context);
                 },
               ),
               IconButton(
@@ -144,13 +144,13 @@ class _KipMainPageState extends State<KipMainPage> {
   bool isRecording = false;
   FlutterAudioRecorder recorder;
   Timer timer;
+  Duration recordedDuration = Duration.zero;
 
-  void startVoiceRecording() async {
+  void startVoiceRecording(BuildContext context) async {
     if (isRecording) {
-      var result = await recorder.stop();
+      var result = await endRecording();
+      //TODO: save recording
       print(result.path);
-      timer.cancel();
-      //todo: dismiss dialog
     } else {
       bool hasPermission = await FlutterAudioRecorder.hasPermissions;
       print(hasPermission);
@@ -166,13 +166,64 @@ class _KipMainPageState extends State<KipMainPage> {
       await recorder.initialized;
       await recorder.start();
       isRecording = true;
+      showDialog(
+        context: context,
+        builder: (context) => makeStatefulDialog(),
+      );
+    }
+  }
+
+  Future<Recording> endRecording() async {
+    var result = await recorder.stop();
+    timer.cancel();
+    return result;
+  }
+
+  Widget makeStatefulDialog() {
+    return StatefulBuilder(builder: (context, setState) {
       timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) async {
         var current = await recorder.current(channel: 0);
         print(current.status);
         setState(() {
-          //TODO: update ui
+          recordedDuration = current.duration;
         });
       });
-    }
+
+      return AlertDialog(
+        title: Text("Add Recording"),
+        content: SizedBox(
+          width: MediaQuery.of(context).size.width / 3,
+          height: MediaQuery.of(context).size.height / 3,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                height: 12.0,
+              ),
+              Icon(
+                Icons.mic,
+                size: 64,
+              ),
+              Text(recordedDuration.inSeconds.toString())
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              ///unused recording discarded/ignored
+              endRecording();
+            },
+          ),
+          FlatButton(
+            child: Text("Save"),
+            onPressed: () {
+              startVoiceRecording(context);
+            },
+          )
+        ],
+      );
+    });
   }
 }
