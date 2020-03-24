@@ -1,8 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kip/widgets/KipBar.dart';
 import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/NoteItem.dart';
+import 'package:path_provider/path_provider.dart';
 
 class KipMainPage extends StatefulWidget {
   @override
@@ -29,7 +34,9 @@ class _KipMainPageState extends State<KipMainPage> {
               ),
               IconButton(
                 icon: Icon(Icons.mic),
-                onPressed: () {},
+                onPressed: () {
+                  startVoiceRecording();
+                },
               ),
               IconButton(
                 icon: Icon(Icons.photo),
@@ -132,5 +139,39 @@ class _KipMainPageState extends State<KipMainPage> {
   void openGallery() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     //TODO: new note with picture
+  }
+
+  bool isRecording = false;
+  FlutterAudioRecorder recorder;
+  Timer timer;
+
+  void startVoiceRecording() async {
+    if (isRecording) {
+      var result = await recorder.stop();
+      print(result.path);
+      timer.cancel();
+    } else {
+      bool hasPermission = await FlutterAudioRecorder.hasPermissions;
+      print(hasPermission);
+      if (!hasPermission) return;
+
+      Directory tempDir = await getTemporaryDirectory();
+      File outputFile =
+          File('${tempDir.path}/${DateTime.now().millisecond}.aac');
+      recorder = FlutterAudioRecorder(
+        outputFile.path,
+        audioFormat: AudioFormat.AAC,
+      );
+      await recorder.initialized;
+      await recorder.start();
+      isRecording = true;
+      timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) async {
+        var current = await recorder.current(channel: 0);
+        print(current.status);
+        setState(() {
+          //TODO: update ui
+        });
+      });
+    }
   }
 }
