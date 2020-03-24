@@ -110,7 +110,7 @@ class _KipMainPageState extends State<KipMainPage> {
             MenuItem(
               color: Colors.white,
               onPress: (){
-                //TODO: TAKE PHOTO
+                //TODO: Pick image
               },
               icon: Icons.image,
               text: "Coose image",
