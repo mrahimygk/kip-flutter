@@ -22,7 +22,7 @@ class _KipMainPageState extends State<KipMainPage> {
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.aspect_ratio),
+                icon: Icon(Icons.brush),
                 onPressed: () {},
               ),
               IconButton(
