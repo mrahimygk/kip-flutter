@@ -150,6 +150,7 @@ class _KipMainPageState extends State<KipMainPage> {
       var result = await recorder.stop();
       print(result.path);
       timer.cancel();
+      //todo: dismiss dialog
     } else {
       bool hasPermission = await FlutterAudioRecorder.hasPermissions;
       print(hasPermission);
