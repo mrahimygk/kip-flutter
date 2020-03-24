@@ -327,10 +327,11 @@ class _AddNotePageState extends State<AddNotePage>
                                 },
                               ),
                               Expanded(
-                                  child: Text(
-                                'Edited 00:00 PM',
-                                textAlign: TextAlign.center,
-                              )),
+                                child: Text(
+                                  'Edited 00:00 PM',
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                               IconButton(
                                 onPressed: () {
                                   toggleShowRightMenu();
