@@ -28,6 +28,8 @@ dependencies:
   image_picker: any
   flutter_sound: ^2.1.1
   image_cropper: any
+  path_provider: ^1.6.5
+  flutter_audio_recorder: ^0.5.5
 
 dev_dependencies:
   flutter_test:
