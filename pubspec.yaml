@@ -26,7 +26,8 @@ dependencies:
   sqflite: any
   dio: ^2.1.4
   image_picker: any
-#  image_cropper: any
+  flutter_sound: ^2.1.1
+  image_cropper: any
 
 dev_dependencies:
   flutter_test:
