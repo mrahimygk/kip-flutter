@@ -16,7 +16,7 @@ class _AddNotePageState extends State<AddNotePage>
   AnimationController rightMenuAnimController;
   Animation<Offset> rightMenuOffsetAnim;
   Color noteColor = Colors.white;
-  List<Color> noteColors = [
+  List<NoteColorModel> noteColors = [
     Colors.white,
     Colors.red,
     Colors.orange,
@@ -28,7 +28,7 @@ class _AddNotePageState extends State<AddNotePage>
     Colors.deepPurple,
     Colors.purple,
     Colors.grey,
-  ].map((color) => color.withAlpha(100)).toList();
+  ].map((color) => NoteColorModel(color.withAlpha(200), color)).toList();
 
   @override
   void initState() {
@@ -281,13 +281,14 @@ class _AddNotePageState extends State<AddNotePage>
                                   child: GestureDetector(
                                     onTapUp: (d) {
                                       setState(() {
-                                        noteColor = noteColors[index];
+                                        noteColor =
+                                            noteColors[index].applyingColor;
                                       });
                                     },
                                     child: Container(
                                       width: 24,
                                       height: 24,
-                                      color: noteColors[index],
+                                      color: noteColors[index].showingColor,
                                     ),
                                   ),
                                 );
@@ -357,4 +358,11 @@ class _AddNotePageState extends State<AddNotePage>
         .withBlue(noteColor.blue - 50)
         .withGreen(noteColor.green - 50);
   }
+}
+
+class NoteColorModel {
+  final Color showingColor;
+  final Color applyingColor;
+
+  NoteColorModel(this.showingColor, this.applyingColor);
 }
