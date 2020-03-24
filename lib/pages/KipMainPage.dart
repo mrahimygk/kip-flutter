@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kip/widgets/KipBar.dart';
 import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/NoteItem.dart';
@@ -101,16 +102,18 @@ class _KipMainPageState extends State<KipMainPage> {
           children: <Widget>[
             MenuItem(
               color: Colors.white,
-              onPress: (){
-                //TODO: TAKE PHOTO
+              onPress: () {
+                Navigator.of(context).pop();
+                openCamera();
               },
               icon: Icons.photo_camera,
               text: "Take photo",
             ),
             MenuItem(
               color: Colors.white,
-              onPress: (){
-                //TODO: Pick image
+              onPress: () {
+                Navigator.of(context).pop();
+                openGallery();
               },
               icon: Icons.image,
               text: "Coose image",
@@ -119,5 +122,15 @@ class _KipMainPageState extends State<KipMainPage> {
         ),
       ),
     );
+  }
+
+  void openCamera() async {
+    var picture = await ImagePicker.pickImage(source: ImageSource.camera);
+    //TODO: new note with picture
+  }
+
+  void openGallery() async {
+    var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
+    //TODO: new note with picture
   }
 }
