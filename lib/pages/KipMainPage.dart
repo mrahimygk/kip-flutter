@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kip/widgets/KipBar.dart';
+import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/NoteItem.dart';
 
 class KipMainPage extends StatefulWidget {
@@ -31,7 +32,9 @@ class _KipMainPageState extends State<KipMainPage> {
               ),
               IconButton(
                 icon: Icon(Icons.photo),
-                onPressed: () {},
+                onPressed: () {
+                  showPictureChoiceDialog(context);
+                },
               ),
             ],
           ),
@@ -86,5 +89,35 @@ class _KipMainPageState extends State<KipMainPage> {
 
   onNavigateToLogin(BuildContext context) {
     Navigator.of(context).pushNamed('/login');
+  }
+
+  void showPictureChoiceDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Add Image"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            MenuItem(
+              color: Colors.white,
+              onPress: (){
+                //TODO: TAKE PHOTO
+              },
+              icon: Icons.photo_camera,
+              text: "Take photo",
+            ),
+            MenuItem(
+              color: Colors.white,
+              onPress: (){
+                //TODO: TAKE PHOTO
+              },
+              icon: Icons.image,
+              text: "Coose image",
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
