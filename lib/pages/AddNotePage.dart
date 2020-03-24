@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/MenuShadows.dart';
+import 'package:kip/widgets/NoteColorItem.dart';
 
 class AddNotePage extends StatefulWidget {
   @override
@@ -278,34 +279,14 @@ class _AddNotePageState extends State<AddNotePage>
                               scrollDirection: Axis.horizontal,
                               itemCount: noteColors.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: GestureDetector(
-                                    onTapUp: (d) {
-                                      setState(() {
-                                        selectNoteColor(index);
-                                      });
-                                    },
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(width: index==0 ? 0.5: 0.1),
-                                            shape: BoxShape.circle,
-                                            color:
-                                                noteColors[index].showingColor,
-                                          ),
-                                        ),
-                                        Positioned.fill(
-                                          child: Align(
-                                            child: noteColors[index].isSelected ? Icon(Icons.check): Container(),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                return NoteColorItem(
+                                  onPress: () {
+                                    setState(() {
+                                      selectNoteColor(index);
+                                    });
+                                  },
+                                  item: noteColors[index],
+                                  index: index,
                                 );
                               },
                             ),
@@ -376,8 +357,7 @@ class _AddNotePageState extends State<AddNotePage>
   }
 
   void selectNoteColor(int index) {
-    noteColor =
-        noteColors[index].applyingColor;
+    noteColor = noteColors[index].applyingColor;
     noteColors.forEach((c) {
       c.isSelected = false;
     });
