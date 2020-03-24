@@ -28,7 +28,7 @@ class _AddNotePageState extends State<AddNotePage>
     Colors.deepPurple,
     Colors.purple,
     Colors.grey,
-  ].map((color) => NoteColorModel(color.withAlpha(200), color)).toList();
+  ].map((color) => NoteColorModel(color.withAlpha(200), color, false)).toList();
 
   @override
   void initState() {
@@ -47,6 +47,8 @@ class _AddNotePageState extends State<AddNotePage>
                 parent: rightMenuAnimController, curve: Curves.decelerate));
 
     super.initState();
+
+    selectNoteColor(0);
   }
 
   @override
@@ -281,14 +283,27 @@ class _AddNotePageState extends State<AddNotePage>
                                   child: GestureDetector(
                                     onTapUp: (d) {
                                       setState(() {
-                                        noteColor =
-                                            noteColors[index].applyingColor;
+                                        selectNoteColor(index);
                                       });
                                     },
-                                    child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      color: noteColors[index].showingColor,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(width: index==0 ? 0.5: 0.1),
+                                            shape: BoxShape.circle,
+                                            color:
+                                                noteColors[index].showingColor,
+                                          ),
+                                        ),
+                                        Positioned.fill(
+                                          child: Align(
+                                            child: noteColors[index].isSelected ? Icon(Icons.check): Container(),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 );
@@ -359,11 +374,21 @@ class _AddNotePageState extends State<AddNotePage>
         .withBlue(noteColor.blue - 50)
         .withGreen(noteColor.green - 50);
   }
+
+  void selectNoteColor(int index) {
+    noteColor =
+        noteColors[index].applyingColor;
+    noteColors.forEach((c) {
+      c.isSelected = false;
+    });
+    noteColors[index].isSelected = true;
+  }
 }
 
 class NoteColorModel {
   final Color showingColor;
   final Color applyingColor;
+  bool isSelected;
 
-  NoteColorModel(this.showingColor, this.applyingColor);
+  NoteColorModel(this.showingColor, this.applyingColor, this.isSelected);
 }
