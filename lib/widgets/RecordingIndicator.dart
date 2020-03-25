@@ -13,15 +13,14 @@ class RecordingIndicator extends StatelessWidget {
         Positioned.fill(
           child: Align(
             alignment: Alignment.center,
-            child: RecordingBars(),
-          ),
-        ),
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.center,
-            child: Container(
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, border: Border.all()),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(),
+                ),
+              ),
             ),
           ),
         ),
@@ -29,9 +28,14 @@ class RecordingIndicator extends StatelessWidget {
           alignment: Alignment.center,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Icon(
-              Icons.mic,
-              size: 64,
+            child: RecordingBars(
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Icon(
+                  Icons.mic,
+                  size: 42,
+                ),
+              ),
             ),
           ),
         ),
