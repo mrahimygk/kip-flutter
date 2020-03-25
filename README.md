@@ -1,6 +1,6 @@
 # kip
 
-A small Google Keep
+A note app similar to Google Keep. This is the client repo made in Flutter.
 
 ## Getting Started
 
