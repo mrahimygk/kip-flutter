@@ -158,7 +158,7 @@ class _KipMainPageState extends State<KipMainPage> {
 
       Directory tempDir = await getTemporaryDirectory();
       File outputFile =
-          File('${tempDir.path}/${DateTime.now().millisecond}.aac');
+          File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}.aac');
       recorder = FlutterAudioRecorder(
         outputFile.path,
         audioFormat: AudioFormat.AAC,
@@ -187,12 +187,13 @@ class _KipMainPageState extends State<KipMainPage> {
       timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) async {
         var current = await recorder.current(channel: 0);
         print(current.status);
-        if (mounted)
+        if (mounted && isRecording)
           setState(() {
             millis += 50;
             if (millis > 999) millis = 0;
             recordedDuration = current.duration;
           });
+        if (!isRecording) timer.cancel();
       });
 
       return AlertDialog(
