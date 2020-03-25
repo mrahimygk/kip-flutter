@@ -15,10 +15,16 @@ class RecordingBars extends StatelessWidget {
 }
 
 class BarsPainter extends CustomPainter {
-  final Paint painter = Paint()..color = Colors.blue;
+  final Paint painter = Paint()
+    ..color = Colors.blue
+    ..strokeWidth = 4;
+
+  final int pointCount = 66;
 
   @override
   void paint(Canvas canvas, Size size) {
+    final rad = size.height / 2.0;
+
     canvas.drawLine(Offset.zero, Offset(size.width, size.height), painter);
   }
 
