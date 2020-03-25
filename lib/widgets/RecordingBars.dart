@@ -2,10 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RecordingBars extends StatelessWidget {
+  final Widget child;
+
+  const RecordingBars({Key key, this.child}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: BarsPainter(),
+      child: child,
     );
   }
 }
