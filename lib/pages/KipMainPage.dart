@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
@@ -174,6 +175,7 @@ class _KipMainPageState extends State<KipMainPage> {
   }
 
   Future<Recording> endRecording() async {
+    isRecording = false;
     var result = await recorder.stop();
     timer.cancel();
     return result;
@@ -181,13 +183,17 @@ class _KipMainPageState extends State<KipMainPage> {
 
   Widget makeStatefulDialog() {
     Duration recordedDuration = Duration.zero;
+    int millis = 0;
     return StatefulBuilder(builder: (context, setState) {
       timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) async {
         var current = await recorder.current(channel: 0);
         print(current.status);
-        setState(() {
-          recordedDuration = current.duration;
-        });
+        if (mounted)
+          setState(() {
+            millis += 50;
+            if (millis > 999) millis = 0;
+            recordedDuration = current.duration;
+          });
       });
 
       return AlertDialog(
@@ -205,7 +211,7 @@ class _KipMainPageState extends State<KipMainPage> {
                 Icons.mic,
                 size: 64,
               ),
-              TimerItem(recordedDuration)
+              TimerItem(recordedDuration, millis),
             ],
           ),
         ),
@@ -215,6 +221,7 @@ class _KipMainPageState extends State<KipMainPage> {
             onPressed: () {
               ///unused recording discarded/ignored
               endRecording();
+              Navigator.of(context).pop();
             },
           ),
           FlatButton(
