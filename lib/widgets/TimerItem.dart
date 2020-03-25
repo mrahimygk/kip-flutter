@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 
 class TimerItem extends StatelessWidget {
   final Duration recordedDuration;
@@ -9,18 +8,22 @@ class TimerItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
+    return Padding(
+      padding: const EdgeInsets.only(top: 18.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
 //        Text(recordedDuration.toString())
-        Text(recordedDuration.inHours.toString().padLeft(2,'0')),
-        Text(":"),
-        Text((recordedDuration.inMinutes % 60).toString().padLeft(2,'0')),
-        Text(":"),
-        Text((recordedDuration.inSeconds % 60).toString().padLeft(2,'0')),
-        Text("."),
-        Text(millis.toString().padLeft(3,'0')),
-      ],
+          Text(recordedDuration.inHours.toString().padLeft(2, '0')),
+          Text(":"),
+          Text((recordedDuration.inMinutes % 60).toString().padLeft(2, '0')),
+          Text(":"),
+          Text((recordedDuration.inSeconds % 60).toString().padLeft(2, '0')),
+          Text("."),
+          Text(millis.toString().padLeft(3, '0')),
+        ],
+      ),
     );
   }
 }
