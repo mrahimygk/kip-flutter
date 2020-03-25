@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kip/widgets/KipBar.dart';
 import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/NoteItem.dart';
+import 'package:kip/widgets/TimerItem.dart';
 import 'package:path_provider/path_provider.dart';
 
 class KipMainPage extends StatefulWidget {
@@ -144,7 +145,6 @@ class _KipMainPageState extends State<KipMainPage> {
   bool isRecording = false;
   FlutterAudioRecorder recorder;
   Timer timer;
-  Duration recordedDuration = Duration.zero;
 
   void startVoiceRecording(BuildContext context) async {
     if (isRecording) {
@@ -180,6 +180,7 @@ class _KipMainPageState extends State<KipMainPage> {
   }
 
   Widget makeStatefulDialog() {
+    Duration recordedDuration = Duration.zero;
     return StatefulBuilder(builder: (context, setState) {
       timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) async {
         var current = await recorder.current(channel: 0);
@@ -204,7 +205,7 @@ class _KipMainPageState extends State<KipMainPage> {
                 Icons.mic,
                 size: 64,
               ),
-              Text(recordedDuration.inSeconds.toString())
+              TimerItem(recordedDuration)
             ],
           ),
         ),
