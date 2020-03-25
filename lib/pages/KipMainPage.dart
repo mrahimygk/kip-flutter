@@ -134,12 +134,12 @@ class _KipMainPageState extends State<KipMainPage> {
 
   void openCamera() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.camera);
-    //TODO: new note with picture
+    //TODO: NEW_NOTE with picture
   }
 
   void openGallery() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
-    //TODO: new note with picture
+    //TODO: NEW_NOTE with picture
   }
 
   bool isRecording = false;
@@ -149,7 +149,7 @@ class _KipMainPageState extends State<KipMainPage> {
   void startVoiceRecording(BuildContext context) async {
     if (isRecording) {
       var result = await endRecording();
-      //TODO: save recording
+      //TODO: NEW_NOTE with recording
       print(result.path);
     } else {
       bool hasPermission = await FlutterAudioRecorder.hasPermissions;
