@@ -6,12 +6,12 @@ class NoteModel {
   Color color;
   final List<String> drawingList;
   final List<String> voiceList;
-  final List<CheckboxModel> checboxList;
+  final List<CheckboxModel> checkboxList;
   final List<String> labelList;
   bool isPinned;
 
   NoteModel(this.id, this.title, this.color, this.drawingList, this.voiceList,
-      this.checboxList, this.labelList, this.isPinned);
+      this.checkboxList, this.labelList, this.isPinned);
 }
 
 class CheckboxModel {
