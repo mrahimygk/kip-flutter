@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kip/models/AddNotePageArguments.dart';
+import 'package:kip/models/NoteModel.dart';
 import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/MenuShadows.dart';
 import 'package:kip/widgets/NoteColorItem.dart';
@@ -35,6 +36,20 @@ class _AddNotePageState extends State<AddNotePage>
   ].map((color) => NoteColorModel(color.withAlpha(200), color, false)).toList();
 
   bool hasStartedNewDrawing = false;
+
+//  TextEditingController _noteTitleController;
+//  TextEditingController _noteContentController;
+
+  final NoteModel note = new NoteModel(
+    "",
+    "",
+    Colors.white,
+    List<String>(),
+    List<String>(),
+    List<CheckboxModel>(),
+    List<String>(),
+    false,
+  );
 
   @override
   void initState() {
@@ -99,6 +114,10 @@ class _AddNotePageState extends State<AddNotePage>
       hasStartedNewDrawing = true;
     }
 
+    if (args.shouldAddCheckboxes) {
+      addCheckBox();
+    }
+
     return WillPopScope(
       onWillPop: () async {
         if (!isLeftMenuOpen && !isRightMenuOpen) return true;
@@ -161,22 +180,25 @@ class _AddNotePageState extends State<AddNotePage>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: TextField(
+//                      controller:,
                       style: TextStyle(fontSize: 18.0),
                       decoration: InputDecoration.collapsed(
                         hintText: "Title",
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      decoration: InputDecoration.collapsed(
-                        hintText: "Note",
-                      ),
-                    ),
-                  )
+                  note.checkboxList.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            decoration: InputDecoration.collapsed(
+                              hintText: "Note",
+                            ),
+                          ),
+                        )
+                      : Expanded(child: makeCheckBoxList())
                 ],
               ),
 
@@ -379,6 +401,24 @@ class _AddNotePageState extends State<AddNotePage>
     Future.delayed(const Duration(milliseconds: 50), () {
       Navigator.of(context).pushNamed("/addDrawing");
     });
+  }
+
+  void addCheckBox() {
+    setState(() {
+      note.checkboxList.add(CheckboxModel("NNNN", 0, false));
+    });
+  }
+
+  Widget makeCheckBoxList() {
+    return ListView.builder(
+        itemCount: note.checkboxList.length,
+        itemBuilder: (BuildContext context, int index) {
+          //TODO: return a checkbox item
+          return Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Text(note.checkboxList[index].text),
+          );
+        });
   }
 }
 
