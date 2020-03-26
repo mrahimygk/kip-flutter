@@ -448,30 +448,17 @@ class _AddNotePageState extends State<AddNotePage>
                       ? TextDirection.ltr
                       : TextDirection.rtl,
               child: ListTile(
-                leading: Checkbox(
-                  value: checkBoxItem.checked,
-                  onChanged: (value) {
-                    setState(() {
-                      checkBoxItem.checked = value;
-                    });
-                  },
-                ),
-                title: checkBoxItem.hasFocus
-                    ? TextField(
-                        autofocus: true,
-                        decoration: InputDecoration.collapsed(hintText: ""),
-                      )
-                    : GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            note.checkboxList.forEach((c) {
-                              c.hasFocus = false;
-                            });
-                            checkBoxItem.hasFocus = true;
-                          });
-                        },
-                        child: Text(checkBoxItem.text)),
-              ),
+                  leading: Checkbox(
+                    value: checkBoxItem.checked,
+                    onChanged: (value) {
+                      setState(() {
+                        checkBoxItem.checked = value;
+                      });
+                    },
+                  ),
+                  title: TextField(
+                    decoration: InputDecoration.collapsed(hintText: ""),
+                  )),
             );
           }
         });
