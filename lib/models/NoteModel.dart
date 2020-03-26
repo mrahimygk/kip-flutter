@@ -19,6 +19,7 @@ class CheckboxModel {
   final String text;
   final int indent;
   bool checked;
+  bool hasFocus;
 
-  CheckboxModel(this.id, this.text, this.indent, this.checked);
+  CheckboxModel(this.id, this.text, this.indent, this.checked, this.hasFocus);
 }
