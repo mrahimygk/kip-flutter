@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kip/util/ReadyMades.dart';
 import 'package:kip/widgets/KipBar.dart';
 import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/NoteItem.dart';
@@ -17,6 +19,8 @@ class KipMainPage extends StatefulWidget {
 }
 
 class _KipMainPageState extends State<KipMainPage> {
+  final List<int> thresholds = ReadyMade.makeThresholds(66);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -58,7 +62,6 @@ class _KipMainPageState extends State<KipMainPage> {
             Expanded(
               child: ListView(
                 children: <Widget>[
-                  RecordingIndicator(1.0),
                   NoteItem(
                     child: ListTile(leading: Text("ffff")),
                   ),
@@ -210,7 +213,7 @@ class _KipMainPageState extends State<KipMainPage> {
               Container(
                 height: 12.0,
               ),
-              RecordingIndicator(audioPeak),
+              RecordingIndicator(audioPeak, thresholds),
               TimerItem(recordedDuration, millis),
             ],
           ),
