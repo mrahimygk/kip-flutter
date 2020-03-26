@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
@@ -190,11 +189,12 @@ class _KipMainPageState extends State<KipMainPage> {
     Duration recordedDuration = Duration.zero;
     int millis = 0;
     return StatefulBuilder(builder: (context, setState) {
+      final period = 50;
       timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) async {
         var current = await recorder.current(channel: 0);
         if (mounted && isRecording)
           setState(() {
-            millis += 50;
+            millis += period;
             if (millis > 999) millis = 0;
             recordedDuration = current.duration;
             audioPeak = current.metering.peakPower;
