@@ -7,6 +7,7 @@ import 'package:kip/models/NoteModel.dart';
 import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/MenuShadows.dart';
 import 'package:kip/widgets/NoteColorItem.dart';
+import 'package:uuid/uuid.dart';
 
 class AddNotePage extends StatefulWidget {
   @override
@@ -36,6 +37,7 @@ class _AddNotePageState extends State<AddNotePage>
   ].map((color) => NoteColorModel(color.withAlpha(200), color, false)).toList();
 
   bool hasStartedNewDrawing = false;
+  bool hasAddedNewCheckboxAlready = false;
 
 //  TextEditingController _noteTitleController;
 //  TextEditingController _noteContentController;
@@ -50,6 +52,8 @@ class _AddNotePageState extends State<AddNotePage>
     List<String>(),
     false,
   );
+
+  final Uuid uuid = Uuid();
 
   @override
   void initState() {
@@ -114,8 +118,9 @@ class _AddNotePageState extends State<AddNotePage>
       hasStartedNewDrawing = true;
     }
 
-    if (args.shouldAddCheckboxes) {
+    if (args.shouldAddCheckboxes && !hasAddedNewCheckboxAlready) {
       addCheckBox();
+      hasAddedNewCheckboxAlready = true;
     }
 
     return WillPopScope(
@@ -409,19 +414,65 @@ class _AddNotePageState extends State<AddNotePage>
 
   void addCheckBox() {
     setState(() {
-      note.checkboxList.add(CheckboxModel("NNNN", 0, false));
+      note.checkboxList.add(CheckboxModel(uuid.v4(), "", 0, false, false));
+//      note.checkboxList.add(CheckboxModel(uuid.v4(), "زبان انگلیسی نامش English است.", 0, false, false));
+//      note.checkboxList.add(CheckboxModel(uuid.v4(), "The Persian language (فارسی) is here", 0, false, false));
+//      note.checkboxList.add(CheckboxModel(uuid.v4(), "۱ شروع با عدد فارسی", 0, false, false));
+//      note.checkboxList.add(CheckboxModel(uuid.v4(), "1 starting with english", 0, false, false));
+//      note.checkboxList.add(CheckboxModel(uuid.v4(), "? starting with english", 0, false, false));
     });
   }
 
   Widget makeCheckBoxList() {
     return ListView.builder(
-        itemCount: note.checkboxList.length,
+        itemCount: note.checkboxList.length + 1,
         itemBuilder: (BuildContext context, int index) {
           //TODO: return a checkbox item
-          return Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Text(note.checkboxList[index].text),
-          );
+          if (index == note.checkboxList.length) {
+            return ListTile(
+              onTap: () {
+                addCheckBox();
+              },
+              leading: Icon(Icons.add),
+              title: Text("More"),
+            );
+          } else {
+            final checkBoxItem = note.checkboxList[index];
+
+            /// from space to tilda
+            RegExp exp = new RegExp(r"[ -~]");
+            //TODO: init the controller here
+            return Directionality(
+              textDirection: checkBoxItem.text.startsWith(exp)
+                  ? TextDirection.ltr
+                  : TextDirection.rtl,
+              child: ListTile(
+                leading: Checkbox(
+                  value: checkBoxItem.checked,
+                  onChanged: (value) {
+                    setState(() {
+                      checkBoxItem.checked = value;
+                    });
+                  },
+                ),
+                title: checkBoxItem.hasFocus
+                    ? TextField(
+                        autofocus: true,
+                        decoration: InputDecoration.collapsed(hintText: ""),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            note.checkboxList.forEach((c) {
+                              c.hasFocus = false;
+                            });
+                            checkBoxItem.hasFocus = true;
+                          });
+                        },
+                        child: Text(checkBoxItem.text)),
+              ),
+            );
+          }
         });
   }
 }
