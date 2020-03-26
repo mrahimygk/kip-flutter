@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kip/models/AddNotePageArguments.dart';
 import 'package:kip/util/ReadyMades.dart';
 import 'package:kip/widgets/KipBar.dart';
 import 'package:kip/widgets/MenuItem.dart';
@@ -31,11 +32,15 @@ class _KipMainPageState extends State<KipMainPage> {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.check_box),
-                onPressed: () {},
+                onPressed: () {
+                  addNote(context, AddNotePageArguments(false, true));
+                },
               ),
               IconButton(
                 icon: Icon(Icons.brush),
-                onPressed: () {},
+                onPressed: () {
+                  addNote(context, AddNotePageArguments(true, false));
+                },
               ),
               IconButton(
                 icon: Icon(Icons.mic),
@@ -87,7 +92,7 @@ class _KipMainPageState extends State<KipMainPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            addNote(context);
+            addNote(context, AddNotePageArguments(false, false));
           },
           tooltip: 'Increment',
           child: Icon(Icons.add),
@@ -96,8 +101,8 @@ class _KipMainPageState extends State<KipMainPage> {
     );
   }
 
-  addNote(BuildContext context) {
-    Navigator.of(context).pushNamed('/addNote');
+  addNote(BuildContext context, AddNotePageArguments arguments) {
+    Navigator.of(context).pushNamed('/addNote', arguments: arguments);
   }
 
   onNavigateToLogin(BuildContext context) {
@@ -197,7 +202,7 @@ class _KipMainPageState extends State<KipMainPage> {
             millis += period;
             if (millis > 999) millis = 0;
             recordedDuration = current.duration;
-            audioPeak = current.metering.peakPower+120;
+            audioPeak = current.metering.peakPower + 120;
           });
         if (!isRecording) timer.cancel();
       });
