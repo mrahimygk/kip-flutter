@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'RecordingBars.dart';
 
 class RecordingIndicator extends StatelessWidget {
-  RecordingIndicator(double audioPeak);
+  final double audioPeak;
+
+  RecordingIndicator(this.audioPeak);
 
   @override
   Widget build(BuildContext context) {
+    final padding = 18.0;
     return Stack(
       children: <Widget>[
         Positioned.fill(
@@ -27,10 +30,12 @@ class RecordingIndicator extends StatelessWidget {
         Align(
           alignment: Alignment.center,
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(padding * (3 / 4)),
             child: RecordingBars(
+              audioPeak: audioPeak,
+              maxLineLength: padding,
               child: Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: EdgeInsets.all(padding),
                 child: Icon(
                   Icons.mic,
                   size: 42,
