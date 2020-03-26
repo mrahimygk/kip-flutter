@@ -24,18 +24,19 @@ class BarsPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rad = size.height / 8.0;
-    for (int i = 0; i < 360; i = i + (360 / pointCount).floor()) {
+    canvas.drawLine(Offset.zero, Offset(size.width, size.height), painter);
+    canvas.translate(size.width / 2, size.height / 2);
+    final rad = size.height / 8.0;// - 18.0*2;
+    for (double i = 0; i < 360; i = i + (360 / pointCount)) {
       canvas.save();
-      canvas.translate(size.width / 2, size.height / 2);
+//      canvas.transform(matrix4);
       canvas.rotate(-90);
-      canvas.rotate(-i.toDouble());
-      final cx = size.width / 2 + rad;
-      final cy = size.height / 2;
+      canvas.rotate(-i);
+      final cx = size.width / 2.0 + rad;
+      final cy = size.height / 2.0;
       canvas.drawLine(Offset(cx, cy), Offset(cx + 10, cy), painter);
       canvas.restore();
     }
-    canvas.drawLine(Offset.zero, Offset(size.width, size.height), painter);
   }
 
   @override
