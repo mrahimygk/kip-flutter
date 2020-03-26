@@ -197,7 +197,7 @@ class _KipMainPageState extends State<KipMainPage> {
             millis += period;
             if (millis > 999) millis = 0;
             recordedDuration = current.duration;
-            audioPeak = current.metering.peakPower;
+            audioPeak = current.metering.peakPower+120;
           });
         if (!isRecording) timer.cancel();
       });
