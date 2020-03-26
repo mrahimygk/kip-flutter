@@ -247,13 +247,17 @@ class _AddNotePageState extends State<AddNotePage>
                             icon: Icons.mic,
                             text: "Recording",
                           ),
-                          MenuItem(
-                            color: noteColor,
-                            onPress: () {},
-                            icon: Icons.check_box,
-                            text: "Checboxes",
-                          ),
-                          Container(height: 8),
+                          note.checkboxList.length > 0
+                              ? Container(height: 8)
+                              : MenuItem(
+                                  color: noteColor,
+                                  onPress: () {
+                                    toggleShowLeftMenu();
+                                    addCheckBox();
+                                  },
+                                  icon: Icons.check_box,
+                                  text: "Checboxes",
+                                ),
                         ],
                       ),
                     ),
