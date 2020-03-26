@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:kip/models/AddNotePageArguments.dart';
 import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/MenuShadows.dart';
 import 'package:kip/widgets/NoteColorItem.dart';
@@ -30,6 +33,8 @@ class _AddNotePageState extends State<AddNotePage>
     Colors.purple,
     Colors.grey,
   ].map((color) => NoteColorModel(color.withAlpha(200), color, false)).toList();
+
+  bool hasStartedNewDrawing = false;
 
   @override
   void initState() {
@@ -87,7 +92,13 @@ class _AddNotePageState extends State<AddNotePage>
 
   @override
   Widget build(BuildContext context) {
-    //TODO: get predefined data here: flag for added default checkboxes...
+    final args =
+        ModalRoute.of(context).settings.arguments as AddNotePageArguments;
+    if (args.shouldAddDrawing && !hasStartedNewDrawing) {
+      newDrawing();
+      hasStartedNewDrawing = true;
+    }
+
     return WillPopScope(
       onWillPop: () async {
         if (!isLeftMenuOpen && !isRightMenuOpen) return true;
@@ -362,6 +373,12 @@ class _AddNotePageState extends State<AddNotePage>
       c.isSelected = false;
     });
     noteColors[index].isSelected = true;
+  }
+
+  void newDrawing() {
+    Future.delayed(const Duration(milliseconds: 50), () {
+      Navigator.of(context).pushNamed("/addDrawing");
+    });
   }
 }
 
