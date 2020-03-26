@@ -48,7 +48,6 @@ class BarsPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawLine(Offset.zero, Offset(size.width, size.height), painter);
     final rad = size.height / 2.25; // - 18.0*2;
     for (int i = 0; i < 360; i = i + (360 / pointCount).floor()) {
       int index = (i * pointCount / 360).round();
