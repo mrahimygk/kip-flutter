@@ -443,9 +443,10 @@ class _AddNotePageState extends State<AddNotePage>
             RegExp exp = new RegExp(r"[ -~]");
             //TODO: init the controller here
             return Directionality(
-              textDirection: checkBoxItem.text.startsWith(exp)
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
+              textDirection:
+                  checkBoxItem.text.startsWith(exp) || checkBoxItem.text.isEmpty
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
               child: ListTile(
                 leading: Checkbox(
                   value: checkBoxItem.checked,
