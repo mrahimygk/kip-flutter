@@ -15,9 +15,10 @@ class NoteModel {
 }
 
 class CheckboxModel {
+  final String id;
   final String text;
   final int indent;
   bool checked;
 
-  CheckboxModel(this.text, this.indent, this.checked);
+  CheckboxModel(this.id, this.text, this.indent, this.checked);
 }
