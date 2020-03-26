@@ -5,8 +5,9 @@ import 'RecordingBars.dart';
 
 class RecordingIndicator extends StatelessWidget {
   final double audioPeak;
+  final List<int> thresholds;
 
-  RecordingIndicator(this.audioPeak);
+  RecordingIndicator(this.audioPeak, this.thresholds);
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class RecordingIndicator extends StatelessWidget {
             padding: EdgeInsets.all(padding * (3 / 4)),
             child: RecordingBars(
               audioPeak: audioPeak,
+              thresholds: thresholds,
               maxLineLength: padding,
               child: Padding(
                 padding: EdgeInsets.all(padding),
