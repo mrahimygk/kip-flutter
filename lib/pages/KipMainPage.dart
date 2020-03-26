@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kip/widgets/KipBar.dart';
 import 'package:kip/widgets/MenuItem.dart';
 import 'package:kip/widgets/NoteItem.dart';
+import 'package:kip/widgets/RecordingIndicator.dart';
 import 'package:kip/widgets/TimerItem.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -57,6 +58,7 @@ class _KipMainPageState extends State<KipMainPage> {
             Expanded(
               child: ListView(
                 children: <Widget>[
+                  RecordingIndicator(1.0),
                   NoteItem(
                     child: ListTile(leading: Text("ffff")),
                   ),
@@ -145,6 +147,7 @@ class _KipMainPageState extends State<KipMainPage> {
   bool isRecording = false;
   FlutterAudioRecorder recorder;
   Timer timer;
+  double audioPeak = 0.0;
 
   void startVoiceRecording(BuildContext context) async {
     if (isRecording) {
@@ -186,12 +189,12 @@ class _KipMainPageState extends State<KipMainPage> {
     return StatefulBuilder(builder: (context, setState) {
       timer = Timer.periodic(Duration(milliseconds: 50), (Timer t) async {
         var current = await recorder.current(channel: 0);
-        print(current.status);
         if (mounted && isRecording)
           setState(() {
             millis += 50;
             if (millis > 999) millis = 0;
             recordedDuration = current.duration;
+            audioPeak = current.metering.peakPower;
           });
         if (!isRecording) timer.cancel();
       });
@@ -207,10 +210,7 @@ class _KipMainPageState extends State<KipMainPage> {
               Container(
                 height: 12.0,
               ),
-              Icon(
-                Icons.mic,
-                size: 64,
-              ),
+              RecordingIndicator(audioPeak),
               TimerItem(recordedDuration, millis),
             ],
           ),
