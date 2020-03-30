@@ -479,8 +479,8 @@ class _AddNotePageState extends State<AddNotePage>
                   }
                 },
                 child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: checkBoxItem.indent * 32.0 + 16.0),
+                  contentPadding: EdgeInsetsDirectional.only(
+                      start: checkBoxItem.indent * 32.0 + 16.0),
                   title: Row(
                     children: <Widget>[
                       checkBoxItem.indent > 0
@@ -495,8 +495,11 @@ class _AddNotePageState extends State<AddNotePage>
                         },
                       ),
                       Expanded(
-                        child: TextField(
-                          decoration: InputDecoration.collapsed(hintText: ""),
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.only(end: 16.0),
+                          child: TextField(
+                            decoration: InputDecoration.collapsed(hintText: ""),
+                          ),
                         ),
                       ),
                     ],
