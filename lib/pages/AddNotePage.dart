@@ -413,13 +413,11 @@ class _AddNotePageState extends State<AddNotePage>
   }
 
   void addCheckBox() {
+    final controller = TextEditingController();
+    final checkbox = CheckboxModel(uuid.v4(), "", 0, false, false, controller);
+
     setState(() {
-      note.checkboxList.add(CheckboxModel(uuid.v4(), "", 0, false, false));
-//      note.checkboxList.add(CheckboxModel(uuid.v4(), "زبان انگلیسی نامش English است.", 0, false, false));
-//      note.checkboxList.add(CheckboxModel(uuid.v4(), "The Persian language (فارسی) is here", 0, false, false));
-//      note.checkboxList.add(CheckboxModel(uuid.v4(), "۱ شروع با عدد فارسی", 0, false, false));
-//      note.checkboxList.add(CheckboxModel(uuid.v4(), "1 starting with english", 0, false, false));
-//      note.checkboxList.add(CheckboxModel(uuid.v4(), "? starting with english", 0, false, false));
+      note.checkboxList.add(checkbox);
     });
   }
 
@@ -441,9 +439,8 @@ class _AddNotePageState extends State<AddNotePage>
 
             /// from space to tilda
             RegExp exp = new RegExp(r"[ -~]");
-            //TODO: init the controller here
-            var isLtr =
-                checkBoxItem.text.startsWith(exp) || checkBoxItem.text.isEmpty;
+            final text = checkBoxItem.controller.text;
+            var isLtr = text.startsWith(exp) || text.isEmpty;
             final decIndentButton = IconButton(
               onPressed: () {
                 decreaseIndent(checkBoxItem);
@@ -498,6 +495,7 @@ class _AddNotePageState extends State<AddNotePage>
                         child: Padding(
                           padding: const EdgeInsetsDirectional.only(end: 16.0),
                           child: TextField(
+                            controller: checkBoxItem.controller,
                             decoration: InputDecoration.collapsed(hintText: ""),
                           ),
                         ),
