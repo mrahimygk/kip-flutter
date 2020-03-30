@@ -442,26 +442,86 @@ class _AddNotePageState extends State<AddNotePage>
             /// from space to tilda
             RegExp exp = new RegExp(r"[ -~]");
             //TODO: init the controller here
+            var isLtr =
+                checkBoxItem.text.startsWith(exp) || checkBoxItem.text.isEmpty;
+            final decIndentButton = IconButton(
+              onPressed: () {
+                decreaseIndent(checkBoxItem);
+              },
+              padding: EdgeInsets.all(0.0),
+              iconSize: 16.0,
+              icon: isLtr
+                  ? Icon(Icons.format_indent_decrease)
+                  : Icon(Icons.format_indent_increase),
+            );
+
+            final incIndentButton = IconButton(
+              onPressed: () {
+                increaseIndent(checkBoxItem);
+              },
+              padding: EdgeInsets.all(0.0),
+              iconSize: 16.0,
+              icon: isLtr
+                  ? Icon(Icons.format_indent_increase)
+                  : Icon(Icons.format_indent_decrease),
+            );
             return Directionality(
-              textDirection:
-                  checkBoxItem.text.startsWith(exp) || checkBoxItem.text.isEmpty
-                      ? TextDirection.ltr
-                      : TextDirection.rtl,
-              child: ListTile(
-                  leading: Checkbox(
-                    value: checkBoxItem.checked,
-                    onChanged: (value) {
-                      setState(() {
-                        checkBoxItem.checked = value;
-                      });
-                    },
+              textDirection: isLtr ? TextDirection.ltr : TextDirection.rtl,
+              child: GestureDetector(
+                onHorizontalDragUpdate: (details) {
+                  print(details.delta);
+                  if (details.delta.dx > 0.0) {
+                    increaseIndent(checkBoxItem);
+                  }
+
+                  if (details.delta.dx < 0.0) {
+                    decreaseIndent(checkBoxItem);
+                  }
+                },
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(
+                      horizontal: checkBoxItem.indent * 32.0 + 16.0),
+                  title: Row(
+                    children: <Widget>[
+                      checkBoxItem.indent > 0
+                          ? decIndentButton
+                          : incIndentButton,
+                      Checkbox(
+                        value: checkBoxItem.checked,
+                        onChanged: (value) {
+                          setState(() {
+                            checkBoxItem.checked = value;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration.collapsed(hintText: ""),
+                        ),
+                      ),
+                    ],
                   ),
-                  title: TextField(
-                    decoration: InputDecoration.collapsed(hintText: ""),
-                  )),
+                ),
+              ),
             );
           }
         });
+  }
+
+  void increaseIndent(checkBoxItem) {
+    if (checkBoxItem.indent + 1 <= 1) {
+      setState(() {
+        checkBoxItem.indent++;
+      });
+    }
+  }
+
+  void decreaseIndent(checkBoxItem) {
+    if (checkBoxItem.indent - 1 >= 0) {
+      setState(() {
+        checkBoxItem.indent--;
+      });
+    }
   }
 }
 
