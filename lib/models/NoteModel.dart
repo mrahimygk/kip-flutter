@@ -17,7 +17,7 @@ class NoteModel {
 class CheckboxModel {
   final String id;
   final String text;
-  final int indent;
+  int indent;
   bool checked;
   bool hasFocus;
 
