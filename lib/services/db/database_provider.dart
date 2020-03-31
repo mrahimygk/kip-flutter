@@ -1,3 +1,4 @@
+import 'package:kip/services/db/dao/note_dao.dart';
 import 'package:kip/services/db/dao/user_dao.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -22,6 +23,7 @@ class DatabaseProvider {
     _db = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute(UserDao().createTableQuery);
+      await db.execute(NoteDao().createTableQuery);
     });
   }
 }
