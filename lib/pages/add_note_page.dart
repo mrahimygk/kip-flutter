@@ -59,8 +59,11 @@ class _AddNotePageState extends State<AddNotePage>
         duration: const Duration(milliseconds: 300), vsync: this);
     leftMenuOffsetAnim =
         Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, 1)).animate(
-            CurvedAnimation(
-                parent: leftMenuAnimController, curve: Curves.decelerate));
+      CurvedAnimation(
+        parent: leftMenuAnimController,
+        curve: Curves.decelerate,
+      ),
+    );
 
     rightMenuAnimController = AnimationController(
         duration: const Duration(milliseconds: 300), vsync: this);
@@ -220,7 +223,7 @@ class _AddNotePageState extends State<AddNotePage>
                       ),
                     ),
                   ),
-                  note.checkboxList.isEmpty
+                  checkboxList.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: TextField(
@@ -281,7 +284,7 @@ class _AddNotePageState extends State<AddNotePage>
                             icon: Icons.mic,
                             text: "Recording",
                           ),
-                          note.checkboxList.length > 0
+                          checkboxList.length > 0
                               ? Container(height: 8)
                               : MenuItem(
                                   color: noteColor,
@@ -447,16 +450,16 @@ class _AddNotePageState extends State<AddNotePage>
     final checkbox = CheckboxModel(uuid.v4(), "", 0, false, false, controller);
 
     setState(() {
-      note.checkboxList.add(checkbox);
+      checkboxList.add(checkbox);
     });
   }
 
   Widget makeCheckBoxList() {
     return ListView.builder(
-        itemCount: note.checkboxList.length + 1,
+        itemCount: checkboxList.length + 1,
         itemBuilder: (BuildContext context, int index) {
           //TODO: return a checkbox item
-          if (index == note.checkboxList.length) {
+          if (index == checkboxList.length) {
             return ListTile(
               onTap: () {
                 addCheckBox();
@@ -465,7 +468,7 @@ class _AddNotePageState extends State<AddNotePage>
               title: Text("More"),
             );
           } else {
-            final checkBoxItem = note.checkboxList[index];
+            final checkBoxItem = checkboxList[index];
 
             /// from space to tilda
             RegExp exp = new RegExp(r"[ -~]");
