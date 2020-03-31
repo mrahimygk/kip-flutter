@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 
 class CheckboxModel {
@@ -7,19 +6,31 @@ class CheckboxModel {
   int indent;
   bool checked;
   bool hasFocus;
-  final TextEditingController controller;
+  TextEditingController controller;
 
   CheckboxModel(
-      this.id,
-      this.text,
-      this.indent,
-      this.checked,
-      this.hasFocus,
-      this.controller,
-      ){
+    this.id,
+    this.text,
+    this.indent,
+    this.checked,
+    this.hasFocus,
+    this.controller,
+  ) {
+    if (controller == null) return;
     controller.text = text;
-    controller.addListener((){
+    controller.addListener(() {
       text = controller.text;
     });
+  }
+
+  factory CheckboxModel.fromMap(Map<String, dynamic> json) {
+    return CheckboxModel(
+      json['id'],
+      json['text'],
+      json['indent'],
+      json['checked'],
+      json['hasFocus'],
+      null,
+    );
   }
 }
