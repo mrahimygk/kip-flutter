@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:kip/models/add_note_page_arguments.dart';
-import 'package:kip/models/note/note_model.dart';
 import 'package:kip/models/note/checkbox_model.dart';
+import 'package:kip/models/note/note_model.dart';
 import 'package:kip/widgets/menu_item.dart';
 import 'package:kip/widgets/menu_shadows.dart';
 import 'package:kip/widgets/note_color_item.dart';
@@ -40,20 +40,16 @@ class _AddNotePageState extends State<AddNotePage>
   bool hasStartedNewDrawing = false;
   bool hasAddedNewCheckboxAlready = false;
 
-//  TextEditingController _noteTitleController;
-//  TextEditingController _noteContentController;
+  TextEditingController _noteTitleController = TextEditingController();
+  TextEditingController _noteContentController = TextEditingController();
+
   final disposingControllerList = List<TextEditingController>();
 
-  final NoteModel note = new NoteModel(
-    "",
-    "",
-    Colors.white,
-    List<String>(),
-    List<String>(),
-    List<CheckboxModel>(),
-    List<String>(),
-    false,
-  );
+  final drawingList = List<String>();
+  final voiceList = List<String>();
+  final checkboxList = List<CheckboxModel>();
+  final labelList = List<String>();
+  NoteModel note;
 
   final Uuid uuid = Uuid();
 
@@ -70,12 +66,35 @@ class _AddNotePageState extends State<AddNotePage>
         duration: const Duration(milliseconds: 300), vsync: this);
     rightMenuOffsetAnim =
         Tween<Offset>(end: Offset.zero, begin: const Offset(0.0, 1)).animate(
-            CurvedAnimation(
-                parent: rightMenuAnimController, curve: Curves.decelerate));
+      CurvedAnimation(
+        parent: rightMenuAnimController,
+        curve: Curves.decelerate,
+      ),
+    );
 
     super.initState();
 
     selectNoteColor(0);
+
+    note = new NoteModel(
+      uuid.v4(),
+      "",
+      "",
+      Colors.white,
+      drawingList,
+      voiceList,
+      checkboxList,
+      labelList,
+      false,
+    );
+
+    _noteTitleController.addListener(() {
+      note.title = _noteTitleController.text;
+    });
+
+    _noteContentController.addListener(() {
+      note.content = _noteContentController.text;
+    });
   }
 
   @override
@@ -83,6 +102,8 @@ class _AddNotePageState extends State<AddNotePage>
     super.dispose();
     leftMenuAnimController.dispose();
     rightMenuAnimController.dispose();
+    _noteContentController.dispose();
+    _noteTitleController.dispose();
     disposingControllerList.forEach((c) {
       c.dispose();
     });
@@ -127,6 +148,8 @@ class _AddNotePageState extends State<AddNotePage>
       addCheckBox();
       hasAddedNewCheckboxAlready = true;
     }
+
+    //TODO: fill the editing note...
 
     return WillPopScope(
       onWillPop: () async {
@@ -190,7 +213,7 @@ class _AddNotePageState extends State<AddNotePage>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: TextField(
-//                      controller:,
+                      controller: _noteTitleController,
                       style: TextStyle(fontSize: 18.0),
                       decoration: InputDecoration.collapsed(
                         hintText: "Title",
@@ -201,6 +224,7 @@ class _AddNotePageState extends State<AddNotePage>
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: TextField(
+                            controller: _noteContentController,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
                             decoration: InputDecoration.collapsed(
