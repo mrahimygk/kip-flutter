@@ -16,8 +16,17 @@ class NoteModel {
   final List<String> labelList;
   bool isPinned;
 
-  NoteModel(this.id, this.title, this.content, this.color, this.drawingList,
-      this.voiceList, this.checkboxList, this.labelList, this.isPinned);
+  NoteModel(
+    this.id,
+    this.title,
+    this.content,
+    this.color,
+    this.drawingList,
+    this.voiceList,
+    this.checkboxList,
+    this.labelList,
+    this.isPinned,
+  );
 
   factory NoteModel.fromMap(Map<String, dynamic> json) {
 //    final checkboxList = List<CheckboxModel>();
