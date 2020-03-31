@@ -16,6 +16,8 @@ class NoteModel {
   final List<CheckboxModel> checkboxList;
   final List<String> labelList;
   bool isPinned;
+  final String createdDate;
+  String modifiedDate;
 
   NoteModel(
     this.id,
@@ -27,22 +29,27 @@ class NoteModel {
     this.checkboxList,
     this.labelList,
     this.isPinned,
+    this.createdDate,
+    this.modifiedDate,
   );
 
   factory NoteModel.fromMap(Map<String, dynamic> json) {
 //    final checkboxList = List<CheckboxModel>();
 
     return NoteModel(
-        json[noteColumnId],
-        json[noteColumnTitle],
-        json[noteColumnContent],
-        HexColor.fromHex(json[noteColumnColor]),
-        json[noteColumnDrawingList],
-        json[noteColumnVoiceList],
-        json[noteColumnCheckboxList],
+      json[noteColumnId],
+      json[noteColumnTitle],
+      json[noteColumnContent],
+      HexColor.fromHex(json[noteColumnColor]),
+      json[noteColumnDrawingList],
+      json[noteColumnVoiceList],
+      json[noteColumnCheckboxList],
 //        CheckboxModel.fromMap(json['checkbox_list']),
-        json[noteColumnLabelList],
-        json[noteColumnIsPinned]);
+      json[noteColumnLabelList],
+      json[noteColumnIsPinned],
+      json[noteColumnCreatedDate],
+      json[noteColumnModifiedDate],
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -56,6 +63,8 @@ class NoteModel {
     data[noteColumnCheckboxList] = checkboxList;
     data[noteColumnLabelList] = labelList;
     data[noteColumnIsPinned] = isPinned;
+    data[noteColumnCreatedDate] = createdDate;
+    data[noteColumnModifiedDate] = modifiedDate;
     return data;
   }
 }
