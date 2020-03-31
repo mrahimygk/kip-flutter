@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'RecordingBars.dart';
+import 'recording_bars.dart';
 
 class RecordingIndicator extends StatelessWidget {
   final double audioPeak;

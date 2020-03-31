@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:kip/widgets/BrushSizeItem.dart';
-import 'package:kip/widgets/ColorItem.dart';
-import 'package:kip/widgets/GridTypeItem.dart';
-import 'package:kip/widgets/MenuShadows.dart';
-import 'package:kip/widgets/PaintSurface.dart';
+import 'package:kip/widgets/brush_size_item.dart';
+import 'package:kip/widgets/color_item.dart';
+import 'package:kip/widgets/grid_type_item.dart';
+import 'package:kip/widgets/menu_shadows.dart';
+import 'package:kip/widgets/paint_surface.dart';
 
 class DrawingPage extends StatefulWidget {
   @override

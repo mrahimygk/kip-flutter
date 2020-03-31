@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kip/pages/AddNotePage.dart';
+import 'package:kip/pages/add_note_page.dart';
 
 class NoteColorItem extends StatelessWidget {
   final VoidCallback onPress;

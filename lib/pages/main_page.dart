@@ -4,13 +4,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kip/models/AddNotePageArguments.dart';
-import 'package:kip/util/ReadyMades.dart';
-import 'package:kip/widgets/KipBar.dart';
-import 'package:kip/widgets/MenuItem.dart';
-import 'package:kip/widgets/NoteItem.dart';
-import 'package:kip/widgets/RecordingIndicator.dart';
-import 'package:kip/widgets/TimerItem.dart';
+import 'package:kip/models/add_note_page_arguments.dart';
+import 'package:kip/util/ready_mades.dart';
+import 'package:kip/widgets/bar.dart';
+import 'package:kip/widgets/menu_item.dart';
+import 'package:kip/widgets/note_item.dart';
+import 'package:kip/widgets/recording_indicator.dart';
+import 'package:kip/widgets/timer_item.dart';
 import 'package:path_provider/path_provider.dart';
 
 class KipMainPage extends StatefulWidget {

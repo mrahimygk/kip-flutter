@@ -1,6 +1,6 @@
-import 'package:kip/models/User.dart';
-import 'package:kip/services/db/DatabaseProvider.dart';
-import 'package:kip/services/network/api/ApiResult.dart';
+import 'package:kip/models/user.dart';
+import 'package:kip/services/db/database_provider.dart';
+import 'package:kip/services/network/api/api_result.dart';
 
 abstract class UserRepo {
   DatabaseProvider databaseProvider;

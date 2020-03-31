@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:kip/pages/DrawingPage.dart';
-import 'package:kip/widgets/PaintSurface.dart';
-import 'package:kip/widgets/painter/GridWidgetPainter.dart';
+import 'package:kip/pages/drawing_page.dart';
+import 'package:kip/widgets/paint_surface.dart';
+import 'package:kip/widgets/painter/grid_widget_painter.dart';
 
 class GridTypeItem extends StatelessWidget {
   final VoidCallback onPress;

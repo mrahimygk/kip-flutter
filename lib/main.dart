@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kip/pages/DrawingPage.dart';
-import 'package:kip/pages/KipMainPage.dart';
-import 'package:kip/pages/LoginPage.dart';
+import 'package:kip/pages/drawing_page.dart';
+import 'package:kip/pages/main_page.dart';
+import 'package:kip/pages/login_page.dart';
 
-import 'pages/AddNotePage.dart';
+import 'pages/add_note_page.dart';
 
 void main() => runApp(MyApp());
 

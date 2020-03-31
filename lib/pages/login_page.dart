@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:kip/blocs/UserBloc.dart';
-import 'package:kip/models/User.dart';
-import 'package:kip/services/db/DatabaseProvider.dart';
-import 'package:kip/services/network/api/ApiResult.dart';
-import 'package:kip/services/repo/UserRepoImpl.dart';
-import 'package:kip/util/StringUtils.dart';
+import 'package:kip/blocs/user_bloc.dart';
+import 'package:kip/models/user.dart';
+import 'package:kip/services/db/database_provider.dart';
+import 'package:kip/services/network/api/api_result.dart';
+import 'package:kip/services/repo/user_repoImpl.dart';
+import 'package:kip/util/string_utils.dart';
 
 class LoginPage extends StatefulWidget {
   @override

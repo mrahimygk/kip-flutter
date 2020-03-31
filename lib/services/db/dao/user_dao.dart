@@ -1,6 +1,6 @@
-import 'package:kip/models/User.dart';
+import 'package:kip/models/user.dart';
 
-import 'Dao.dart';
+import 'dao.dart';
 
 class UserDao implements Dao<User> {
   @override

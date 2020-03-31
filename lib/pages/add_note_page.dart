@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:kip/models/AddNotePageArguments.dart';
-import 'package:kip/models/note/NoteModel.dart';
+import 'package:kip/models/add_note_page_arguments.dart';
+import 'package:kip/models/note/note_model.dart';
 import 'package:kip/models/note/checkbox_model.dart';
-import 'package:kip/widgets/MenuItem.dart';
-import 'package:kip/widgets/MenuShadows.dart';
-import 'package:kip/widgets/NoteColorItem.dart';
+import 'package:kip/widgets/menu_item.dart';
+import 'package:kip/widgets/menu_shadows.dart';
+import 'package:kip/widgets/note_color_item.dart';
 import 'package:uuid/uuid.dart';
 
 class AddNotePage extends StatefulWidget {

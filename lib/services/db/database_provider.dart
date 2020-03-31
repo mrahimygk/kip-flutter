@@ -1,4 +1,4 @@
-import 'package:kip/services/db/dao/UserDao.dart';
+import 'package:kip/services/db/dao/user_dao.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

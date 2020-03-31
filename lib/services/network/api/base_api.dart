@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:kip/services/network/error/ApiException.dart';
+import 'package:kip/services/network/error/api_exception.dart';
 
 class BaseApi {
   static final String _baseUrl = "http://192.168.1.159:8080";

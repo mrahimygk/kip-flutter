@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kip/blocs/UserBloc.dart';
-import 'package:kip/models/User.dart';
+import 'package:kip/blocs/user_bloc.dart';
+import 'package:kip/models/user.dart';
 
 class ProfileWidget extends StatelessWidget {
   final VoidCallback onPress;
