@@ -482,7 +482,7 @@ class _AddNotePageState extends State<AddNotePage>
                 },
                 child: ListTile(
                   contentPadding: EdgeInsetsDirectional.only(
-                      start: checkBoxItem.indent * 32.0 + 16.0),
+                      start: checkBoxItem.indent * 32.0),
                   title: Row(
                     children: <Widget>[
                       checkBoxItem.indent > 0
