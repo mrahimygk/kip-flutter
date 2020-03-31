@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:kip/services/db/dao/note_dao.dart';
 import 'package:kip/util/ext/color.dart';
 
 import 'checkbox_model.dart';
@@ -32,29 +33,29 @@ class NoteModel {
 //    final checkboxList = List<CheckboxModel>();
 
     return NoteModel(
-        json['id'],
-        json['title'],
-        json['content'],
-        HexColor.fromHex(json['color']),
-        json['drawing_list'],
-        json['voice_list'],
-        json['checkbox_list'],
+        json[noteColumnId],
+        json[noteColumnTitle],
+        json[noteColumnContent],
+        HexColor.fromHex(json[noteColumnColor]),
+        json[noteColumnDrawingList],
+        json[noteColumnVoiceList],
+        json[noteColumnCheckboxList],
 //        CheckboxModel.fromMap(json['checkbox_list']),
-        json['label_list'],
-        json['is_pinned']);
+        json[noteColumnLabelList],
+        json[noteColumnIsPinned]);
   }
 
   Map<String, dynamic> toMap() {
     final data = Map<String, dynamic>();
-    data['id'] = id;
-    data['title'] = title;
-    data['content'] = content;
-    data['drawing_list'] = drawingList;
-    data['voice_list'] = voiceList;
-    data['checkbox_list'] = checkboxList;
-    data['label_list'] = labelList;
-    data['is_pinned'] = isPinned;
-    data['content'] = color.toHex();
+    data[noteColumnId] = id;
+    data[noteColumnTitle] = title;
+    data[noteColumnContent] = content;
+    data[noteColumnColor] = color.toHex();
+    data[noteColumnDrawingList] = drawingList;
+    data[noteColumnVoiceList] = voiceList;
+    data[noteColumnCheckboxList] = checkboxList;
+    data[noteColumnLabelList] = labelList;
+    data[noteColumnIsPinned] = isPinned;
     return data;
   }
 }
