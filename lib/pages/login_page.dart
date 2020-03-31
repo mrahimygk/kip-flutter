@@ -23,13 +23,13 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   final _passConfirmController = TextEditingController();
+  final userBloc = UserBloc();
 
   bool _isLoading = false;
   PageFunctionState pageFunctionState = PageFunctionState.LOGIN;
 
   @override
   Widget build(BuildContext context) {
-    final userBloc = UserBloc();
     return SafeArea(
       child: Scaffold(
         key: _scaffoldKey,
@@ -172,6 +172,7 @@ class _LoginPageState extends State<LoginPage> {
     _emailController.dispose();
     _passController.dispose();
     _passConfirmController.dispose();
+    userBloc.dispose();
     super.dispose();
   }
 
