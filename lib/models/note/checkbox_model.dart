@@ -33,4 +33,14 @@ class CheckboxModel {
       null,
     );
   }
+
+
+  Map<String, dynamic> toMap() {
+    final data = Map<String, dynamic>();
+    data['id'] = id;
+    data['text'] = text;
+    data['indent'] = indent;
+    data['checked'] = checked;
+    return data;
+  }
 }
