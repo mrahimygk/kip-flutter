@@ -41,6 +41,7 @@ class _AddNotePageState extends State<AddNotePage>
 
 //  TextEditingController _noteTitleController;
 //  TextEditingController _noteContentController;
+  final disposingControllerList = List<TextEditingController>();
 
   final NoteModel note = new NoteModel(
     "",
@@ -81,6 +82,9 @@ class _AddNotePageState extends State<AddNotePage>
     super.dispose();
     leftMenuAnimController.dispose();
     rightMenuAnimController.dispose();
+    disposingControllerList.forEach((c) {
+      c.dispose();
+    });
   }
 
   bool isLeftMenuOpen = false;
@@ -414,6 +418,7 @@ class _AddNotePageState extends State<AddNotePage>
 
   void addCheckBox() {
     final controller = TextEditingController();
+    disposingControllerList.add(controller);
     final checkbox = CheckboxModel(uuid.v4(), "", 0, false, false, controller);
 
     setState(() {
