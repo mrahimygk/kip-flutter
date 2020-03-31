@@ -89,6 +89,8 @@ class _AddNotePageState extends State<AddNotePage>
       checkboxList,
       labelList,
       false,
+      DateTime.now().toString(),
+      DateTime.now().toString(),
     );
 
     _noteTitleController.addListener(() {
