@@ -13,6 +13,8 @@ class NoteDao implements Dao<NoteModel> {
       '$noteColumnVoiceList text, '
       '$noteColumnCheckboxList text, '
       '$noteColumnLabelList text, '
+      '$noteColumnCreatedDate text, '
+      '$noteColumnModifiedDate text, '
       '$noteColumnIsPinned BOOLEAN NOT NULL CHECK ($noteColumnIsPinned IN (0,1) '
       ')';
 
@@ -27,7 +29,9 @@ class NoteDao implements Dao<NoteModel> {
       noteColumnVoiceList: object.voiceList,
       noteColumnCheckboxList: object.checkboxList,
       noteColumnLabelList: object.labelList,
-      noteColumnIsPinned: object.isPinned
+      noteColumnIsPinned: object.isPinned,
+      noteColumnCreatedDate: object.createdDate,
+      noteColumnModifiedDate: object.modifiedDate
     };
   }
 
@@ -52,6 +56,8 @@ class NoteDao implements Dao<NoteModel> {
         query[noteColumnCheckboxList],
         query[noteColumnLabelList],
         query[noteColumnIsPinned],
+        query[noteColumnCreatedDate],
+        query[noteColumnModifiedDate],
       );
 }
 
@@ -65,3 +71,5 @@ const noteColumnVoiceList = 'voice_list';
 const noteColumnCheckboxList = 'checkbox_list';
 const noteColumnLabelList = 'label_list';
 const noteColumnIsPinned = 'is_linned';
+const noteColumnCreatedDate = 'created_date';
+const noteColumnModifiedDate = 'modified_date';
