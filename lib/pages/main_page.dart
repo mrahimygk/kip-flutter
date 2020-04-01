@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kip/blocs/note_bloc.dart';
 import 'package:kip/models/add_note_page_arguments.dart';
+import 'package:kip/models/note/note_model.dart';
 import 'package:kip/util/ready_mades.dart';
 import 'package:kip/widgets/bar.dart';
 import 'package:kip/widgets/menu_item.dart';
@@ -20,6 +22,13 @@ class KipMainPage extends StatefulWidget {
 
 class _KipMainPageState extends State<KipMainPage> {
   final List<int> thresholds = ReadyMade.makeThresholds(66);
+  final noteBloc = NoteBloc();
+
+  @override
+  void dispose() {
+    noteBloc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,27 +73,28 @@ class _KipMainPageState extends State<KipMainPage> {
               onNavigateToLogin(context);
             }),
             Expanded(
-              child: ListView(
-                children: <Widget>[
-                  NoteItem(
-                    child: ListTile(leading: Text("ffff")),
-                  ),
-                  NoteItem(
-                    child: ListTile(leading: Text("ffff")),
-                  ),
-                  NoteItem(
-                    child: ListTile(leading: Text("ffff")),
-                  ),
-                  NoteItem(
-                    child: ListTile(leading: Text("ffff")),
-                  ),
-                  NoteItem(
-                    child: ListTile(leading: Text("ffff")),
-                  ),
-                  NoteItem(
-                    child: ListTile(leading: Text("ffff")),
-                  ),
-                ],
+              child: StreamBuilder<List<NoteModel>>(
+                stream: noteBloc.notes,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: Text("NO DATA"));
+                  } else if (snapshot.hasData) {
+                    print(snapshot.data.length);
+                    return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final note = snapshot.data[index];
+                        return NoteItem(
+                          child: ListTile(
+                            leading: Text(note.title),
+                            title: Text(note.content),
+                          ),
+                        );
+                      },
+                    );
+                  } else
+                    return Center(child: Text("NO DATA"));
+                },
               ),
             )
           ],
