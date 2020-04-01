@@ -1,8 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:kip/services/db/dao/note_dao.dart';
-import 'package:kip/util/ext/color.dart';
 
 import 'checkbox_model.dart';
 
