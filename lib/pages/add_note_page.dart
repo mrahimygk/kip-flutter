@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:kip/blocs/note_bloc.dart';
 import 'package:kip/models/add_note_page_arguments.dart';
 import 'package:kip/models/note/checkbox_model.dart';
 import 'package:kip/models/note/note_model.dart';
@@ -50,6 +51,7 @@ class _AddNotePageState extends State<AddNotePage>
   final checkboxList = List<CheckboxModel>();
   final labelList = List<String>();
   NoteModel note;
+  NoteBloc noteBloc;
 
   final Uuid uuid = Uuid();
 
@@ -79,6 +81,7 @@ class _AddNotePageState extends State<AddNotePage>
 
     selectNoteColor(0);
 
+    noteBloc = NoteBloc();
     note = new NoteModel(
       uuid.v4(),
       "",
@@ -93,12 +96,16 @@ class _AddNotePageState extends State<AddNotePage>
       DateTime.now().toString(),
     );
 
+    noteBloc.insertNote(note);
+
     _noteTitleController.addListener(() {
       note.title = _noteTitleController.text;
+      noteBloc.updateNote(note);
     });
 
     _noteContentController.addListener(() {
       note.content = _noteContentController.text;
+      noteBloc.updateNote(note);
     });
   }
 
