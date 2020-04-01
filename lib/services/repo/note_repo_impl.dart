@@ -70,7 +70,7 @@ class NoteRepoImpl extends NoteRepo {
     final db = await databaseProvider.db();
     db.insert(
       noteTable,
-      data.toMap(),
+      dao.toMap(data),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
