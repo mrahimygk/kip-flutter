@@ -41,13 +41,13 @@ class _KipMainPageState extends State<KipMainPage> {
               IconButton(
                 icon: Icon(Icons.check_box),
                 onPressed: () {
-                  addNote(context, AddNotePageArguments(false, true));
+                  addNote(context, AddNotePageArguments(false, true, null));
                 },
               ),
               IconButton(
                 icon: Icon(Icons.brush),
                 onPressed: () {
-                  addNote(context, AddNotePageArguments(true, false));
+                  addNote(context, AddNotePageArguments(true, false, null));
                 },
               ),
               IconButton(
@@ -75,24 +75,14 @@ class _KipMainPageState extends State<KipMainPage> {
               child: StreamBuilder<List<NoteModel>>(
                 stream: noteBloc.notes,
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(child: Text("NO DATA"));
-                  } else if (snapshot.hasData) {
-                    print(snapshot.data.length);
-                    return ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final note = snapshot.data[index];
-                        return NoteItem(
-                          child: ListTile(
-                            leading: Text(note.title),
-                            title: Text(note.content),
-                          ),
-                        );
-                      },
-                    );
-                  } else
-                    return Center(child: Text("NO DATA"));
+                  if (snapshot.hasData)
+                    return buildNoteList(snapshot, context);
+                  else if (snapshot.hasError)
+                    return Center(child: Text(snapshot.error.toString()));
+                  else if (snapshot.data == null || snapshot.data.length == 0) {
+                    return Center(child: Text("ADD NOTES TO SEE THEM HERE"));
+                  }
+                  return Center(child: CircularProgressIndicator());
                 },
               ),
             )
@@ -101,7 +91,7 @@ class _KipMainPageState extends State<KipMainPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            addNote(context, AddNotePageArguments(false, false));
+            addNote(context, AddNotePageArguments(false, false, null));
           },
           tooltip: 'Increment',
           child: Icon(Icons.add),
@@ -250,5 +240,23 @@ class _KipMainPageState extends State<KipMainPage> {
         ],
       );
     });
+  }
+
+  Widget buildNoteList(AsyncSnapshot<List<NoteModel>> snapshot, BuildContext context) {
+    return ListView.builder(
+      itemCount: snapshot.data.length,
+      itemBuilder: (BuildContext context, int index) {
+        final note = snapshot.data[index];
+        return NoteItem(
+          child: ListTile(
+            leading: Text(note.title),
+            title: Text(note.content),
+            onTap: (){
+              addNote(context, AddNotePageArguments(false, false, note));
+            },
+          ),
+        );
+      },
+    );
   }
 }
