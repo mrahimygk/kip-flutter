@@ -37,3 +37,5 @@ class NoteBloc {
     noteController.close();
   }
 }
+
+final noteBloc = NoteBloc();
