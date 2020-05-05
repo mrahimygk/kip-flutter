@@ -51,7 +51,6 @@ class _AddNotePageState extends State<AddNotePage>
   final checkboxList = List<CheckboxModel>();
   final labelList = List<String>();
   NoteModel note;
-  NoteBloc noteBloc;
 
   final Uuid uuid = Uuid();
 
@@ -81,7 +80,6 @@ class _AddNotePageState extends State<AddNotePage>
 
     selectNoteColor(0);
 
-    noteBloc = NoteBloc();
     note = new NoteModel(
       uuid.v4(),
       "",
