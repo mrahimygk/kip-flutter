@@ -22,7 +22,6 @@ class KipMainPage extends StatefulWidget {
 
 class _KipMainPageState extends State<KipMainPage> {
   final List<int> thresholds = ReadyMade.makeThresholds(66);
-  final noteBloc = NoteBloc();
 
   @override
   void dispose() {
