@@ -41,8 +41,8 @@ class _AddNotePageState extends State<AddNotePage>
   bool hasStartedNewDrawing = false;
   bool hasAddedNewCheckboxAlready = false;
 
-  TextEditingController _noteTitleController = TextEditingController();
-  TextEditingController _noteContentController = TextEditingController();
+  TextEditingController _noteTitleController;
+  TextEditingController _noteContentController;
 
   final disposingControllerList = List<TextEditingController>();
 
@@ -53,6 +53,7 @@ class _AddNotePageState extends State<AddNotePage>
   NoteModel note;
 
   final Uuid uuid = Uuid();
+  bool hasParsedArgs = false;
 
   @override
   void initState() {
@@ -80,31 +81,6 @@ class _AddNotePageState extends State<AddNotePage>
 
     selectNoteColor(0);
 
-    note = new NoteModel(
-      uuid.v4(),
-      "",
-      "",
-      Colors.white,
-      drawingList,
-      voiceList,
-      checkboxList,
-      labelList,
-      false,
-      DateTime.now().toString(),
-      DateTime.now().toString(),
-    );
-
-    noteBloc.insertNote(note);
-
-    _noteTitleController.addListener(() {
-      note.title = _noteTitleController.text;
-      noteBloc.updateNote(note);
-    });
-
-    _noteContentController.addListener(() {
-      note.content = _noteContentController.text;
-      noteBloc.updateNote(note);
-    });
   }
 
   @override
@@ -149,17 +125,54 @@ class _AddNotePageState extends State<AddNotePage>
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context).settings.arguments as AddNotePageArguments;
-    if (args.shouldAddDrawing && !hasStartedNewDrawing) {
-      newDrawing();
-      hasStartedNewDrawing = true;
-    }
 
-    if (args.shouldAddCheckboxes && !hasAddedNewCheckboxAlready) {
-      addCheckBox();
-      hasAddedNewCheckboxAlready = true;
-    }
+    if (!hasParsedArgs) {
+      if (args.shouldAddDrawing && !hasStartedNewDrawing) {
+        newDrawing();
+        hasStartedNewDrawing = true;
+      }
 
-    //TODO: fill the editing note...
+      if (args.shouldAddCheckboxes && !hasAddedNewCheckboxAlready) {
+        addCheckBox();
+        hasAddedNewCheckboxAlready = true;
+      }
+
+      //TODO: fill the editing note...
+      if (args.note == null) {
+        note = new NoteModel(
+          uuid.v4(),
+          "",
+          "",
+          Colors.white,
+          drawingList,
+          voiceList,
+          checkboxList,
+          labelList,
+          false,
+          DateTime.now().toString(),
+          DateTime.now().toString(),
+        );
+        noteBloc.insertNote(note);
+      } else {
+        setState(() {
+          note = args.note;
+        });
+      }
+
+      _noteTitleController = TextEditingController(text: note.title);
+      _noteTitleController.addListener(() {
+        note.title = _noteTitleController.text;
+        noteBloc.updateNote(note);
+      });
+
+      _noteContentController = TextEditingController(text: note.content);
+      _noteContentController.addListener(() {
+        note.content = _noteContentController.text;
+        noteBloc.updateNote(note);
+      });
+
+      hasParsedArgs = true;
+    }
 
     return WillPopScope(
       onWillPop: () async {
