@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:kip/models/note/note_model.dart';
 import 'package:kip/util/ext/color.dart';
 
@@ -26,16 +28,10 @@ class NoteDao implements Dao<NoteModel> {
       noteColumnTitle: object.title,
       noteColumnContent: object.content,
       noteColumnColor: object.color.toHex(),
-      noteColumnDrawingList:
-          object.drawingList.join(noteColumnListItemSeparator),
-      noteColumnVoiceList: object.voiceList.join(noteColumnListItemSeparator),
-      noteColumnCheckboxList: object.checkboxList
-          .map((c) {
-            c.toMap();
-          })
-          .toList()
-          .join(noteColumnListItemSeparator),
-      noteColumnLabelList: object.labelList.join(noteColumnListItemSeparator),
+      noteColumnDrawingList: jsonEncode(object.drawingList),
+      noteColumnVoiceList: jsonEncode(object.voiceList),
+      noteColumnCheckboxList: jsonEncode(object.checkboxList),
+      noteColumnLabelList: jsonEncode(object.labelList),
       noteColumnIsPinned: object.isPinned ? "0" : "1",
       noteColumnCreatedDate: object.createdDate,
       noteColumnModifiedDate: object.modifiedDate
@@ -58,22 +54,10 @@ class NoteDao implements Dao<NoteModel> {
         query[noteColumnTitle],
         query[noteColumnContent],
         HexColor.fromHex(query[noteColumnColor]),
-        query[noteColumnDrawingList]
-            .toString()
-            .split(noteColumnListItemSeparator),
-        query[noteColumnVoiceList]
-            .toString()
-            .split(noteColumnListItemSeparator),
-        null,
-//        query[noteColumnCheckboxList]
-//            .toString()
-//            .split(noteColumnListItemSeparator)
-//            .map((c) {
-//          return CheckboxModel.fromMap(json.decode(c));
-//        }).toList(),
-        query[noteColumnLabelList]
-            .toString()
-            .split(noteColumnListItemSeparator),
+        jsonDecode(query[noteColumnDrawingList].toString()),
+        jsonDecode(query[noteColumnVoiceList].toString()),
+        jsonDecode(query[noteColumnCheckboxList].toString()),
+        jsonDecode(query[noteColumnLabelList].toString()),
         query[noteColumnIsPinned].toString() == '0' ? false : true,
         query[noteColumnCreatedDate],
         query[noteColumnModifiedDate],
