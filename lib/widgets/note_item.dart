@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kip/widgets/BorderedContainer.dart';
+import 'package:kip/widgets/bordered_container.dart';
 
 class NoteItem extends StatelessWidget {
   final Widget child;

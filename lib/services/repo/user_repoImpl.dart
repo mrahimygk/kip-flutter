@@ -1,10 +1,10 @@
-import 'package:kip/models/User.dart';
-import 'package:kip/services/db/DatabaseProvider.dart';
-import 'package:kip/services/db/dao/UserDao.dart';
-import 'package:kip/services/network/api/ApiResult.dart';
-import 'package:kip/services/network/api/UserApi.dart';
-import 'package:kip/services/network/data/ApiResponse.dart';
-import 'package:kip/services/repo/UserRepo.dart';
+import 'package:kip/models/user.dart';
+import 'package:kip/services/db/database_provider.dart';
+import 'package:kip/services/db/dao/user_dao.dart';
+import 'package:kip/services/network/api/api_result.dart';
+import 'package:kip/services/network/api/user_api.dart';
+import 'package:kip/services/network/data/api_response.dart';
+import 'package:kip/services/repo/user_repo.dart';
 import 'package:sqflite/sqflite.dart';
 
 class UserRepoImpl implements UserRepo {

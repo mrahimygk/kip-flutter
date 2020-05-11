@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kip/widgets/BorderedContainer.dart';
+import 'package:kip/widgets/bordered_container.dart';
 
-import 'ProfileWidget.dart';
+import 'profile_widget.dart';
 
 class KipBar extends StatefulWidget {
   final VoidCallback onRequestLogin;

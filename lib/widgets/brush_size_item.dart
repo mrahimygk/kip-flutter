@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:kip/pages/DrawingPage.dart';
+import 'package:kip/pages/drawing_page.dart';
 
 class BrushSizeItem extends StatelessWidget {
   final VoidCallback onPress;

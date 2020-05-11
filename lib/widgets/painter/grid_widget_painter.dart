@@ -1,7 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 
-import '../PaintSurface.dart';
+import '../paint_surface.dart';
 
 class GridWidgetPainter extends CustomPainter {
   GridDrawer canvasDrawer;
