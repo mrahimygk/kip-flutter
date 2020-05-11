@@ -9,6 +9,7 @@ import 'package:kip/services/network/api/api_result.dart';
 import 'package:kip/services/repo/user_repoImpl.dart';
 import 'package:kip/util/ext/SnackBar.dart';
 import 'package:kip/util/string_utils.dart';
+import 'package:kip/widgets/buttons.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -88,41 +89,32 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                 _isLoading
                     ? CircularProgressIndicator()
-                    : SizedBox(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 18.0),
-                          child: RaisedButton(
-                            color: Colors.blue,
-                            child: Text(
-                              isLogin() ? "Login" : "Register",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onPressed: () {
-                              if (!_formKey.currentState.validate()) return;
-                              setState(() {
-                                _isLoading = true;
-                              });
-                              if (isLogin()) {
-                                userRepo
-                                    .login(
-                                      _emailController.text,
-                                      _passController.text,
-                                    )
-                                    .then(onSignedIn)
-                                    .catchError(handleApiError);
-                              } else {
-                                userRepo
-                                    .register(
-                                      _emailController.text,
-                                      _passController.text,
-                                    )
-                                    .then(onSignedIn)
-                                    .catchError(handleApiError);
-                              }
-                            },
-                          ),
+                    : WideButton(
+                        child: Text(
+                          isLogin() ? "Login" : "Register",
+                          style: TextStyle(color: Colors.white),
                         ),
+                        onPressed: () {
+                          if (!_formKey.currentState.validate()) return;
+                          toggleLoadingIndicator(true);
+                          if (isLogin()) {
+                            userRepo
+                                .login(
+                                  _emailController.text,
+                                  _passController.text,
+                                )
+                                .then(onSignedIn)
+                                .catchError(handleApiError);
+                          } else {
+                            userRepo
+                                .register(
+                                  _emailController.text,
+                                  _passController.text,
+                                )
+                                .then(onSignedIn)
+                                .catchError(handleApiError);
+                          }
+                        },
                       ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
@@ -165,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   FutureOr onSignedIn(ApiResult<User> user) {
-    stopLoadingIndicator();
+    toggleLoadingIndicator(false);
 
     if (user == null) {
       _scaffoldKey.showRowSnackBar(Text("Api Error"));
@@ -179,13 +171,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   handleApiError(e) {
-    stopLoadingIndicator();
+    toggleLoadingIndicator(false);
     _scaffoldKey.showRowSnackBar(Text(e.toString()));
   }
 
-  void stopLoadingIndicator() {
+  void toggleLoadingIndicator(bool state) {
     setState(() {
-      _isLoading = false;
+      _isLoading = state;
     });
   }
 }
