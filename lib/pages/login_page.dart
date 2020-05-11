@@ -97,23 +97,21 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: () {
                           if (!_formKey.currentState.validate()) return;
                           toggleLoadingIndicator(true);
-                          if (isLogin()) {
-                            userRepo
-                                .login(
-                                  _emailController.text,
-                                  _passController.text,
-                                )
-                                .then(onSignedIn)
-                                .catchError(handleApiError);
-                          } else {
-                            userRepo
-                                .register(
-                                  _emailController.text,
-                                  _passController.text,
-                                )
-                                .then(onSignedIn)
-                                .catchError(handleApiError);
-                          }
+                          isLogin()
+                              ? userRepo
+                                  .login(
+                                    _emailController.text,
+                                    _passController.text,
+                                  )
+                                  .then(onSignedIn)
+                                  .catchError(handleApiError)
+                              : userRepo
+                                  .register(
+                                    _emailController.text,
+                                    _passController.text,
+                                  )
+                                  .then(onSignedIn)
+                                  .catchError(handleApiError);
                         },
                       ),
                 Padding(
