@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:kip/models/note/note_model.dart';
 import 'package:kip/util/ext/color.dart';
+import 'package:kip/util/ext/serialization.dart';
 
 import 'dao.dart';
 
@@ -54,10 +55,14 @@ class NoteDao implements Dao<NoteModel> {
         query[noteColumnTitle],
         query[noteColumnContent],
         HexColor.fromHex(query[noteColumnColor]),
-        jsonDecode(query[noteColumnDrawingList].toString()),
-        jsonDecode(query[noteColumnVoiceList].toString()),
-        jsonDecode(query[noteColumnCheckboxList].toString()),
-        jsonDecode(query[noteColumnLabelList].toString()),
+        (jsonDecode(query[noteColumnDrawingList].toString()) as List<dynamic>)
+            .mapToStringList(),
+        (jsonDecode(query[noteColumnVoiceList].toString()) as List<dynamic>)
+            .mapToStringList(),
+        (jsonDecode(query[noteColumnCheckboxList].toString()) as List<dynamic>)
+            .mapToCheckBoxList(),
+        (jsonDecode(query[noteColumnLabelList].toString()) as List<dynamic>)
+            .mapToStringList(),
         query[noteColumnIsPinned].toString() == '0' ? false : true,
         query[noteColumnCreatedDate],
         query[noteColumnModifiedDate],
