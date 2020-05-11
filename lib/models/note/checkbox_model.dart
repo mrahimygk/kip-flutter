@@ -34,7 +34,6 @@ class CheckboxModel {
     );
   }
 
-
   Map<String, dynamic> toMap() {
     final data = Map<String, dynamic>();
     data['id'] = id;
@@ -43,4 +42,14 @@ class CheckboxModel {
     data['checked'] = checked;
     return data;
   }
+
+//  factory CheckboxModel.fromJson(Map<String, dynamic> json) => _$CheckboxModelFromJson(json);
+
+  Map toJson() => {
+        'id': id,
+        'text': text,
+        'indent': indent,
+        'checked': checked,
+        'hasFocus': hasFocus,
+      };
 }
