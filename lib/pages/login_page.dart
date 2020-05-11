@@ -7,6 +7,7 @@ import 'package:kip/pages/subwidgets/login_container.dart';
 import 'package:kip/services/db/database_provider.dart';
 import 'package:kip/services/network/api/api_result.dart';
 import 'package:kip/services/repo/user_repoImpl.dart';
+import 'package:kip/util/ext/SnackBar.dart';
 import 'package:kip/util/string_utils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -98,25 +99,26 @@ class _LoginPageState extends State<LoginPage> {
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                setState(() {
-                                  _isLoading = true;
-                                });
-                                if (isLogin()) {
-                                  userRepo
-                                      .login(_emailController.text,
-                                          _passController.text)
-                                      .then((value) {
-                                    onSignedIn(value, userBloc);
-                                  });
-                                } else {
-                                  userRepo
-                                      .register(_emailController.text,
-                                          _passController.text)
-                                      .then((value) {
-                                    onSignedIn(value, userBloc);
-                                  });
-                                }
+                              if (!_formKey.currentState.validate()) return;
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              if (isLogin()) {
+                                userRepo
+                                    .login(
+                                      _emailController.text,
+                                      _passController.text,
+                                    )
+                                    .then(onSignedIn)
+                                    .catchError(handleApiError);
+                              } else {
+                                userRepo
+                                    .register(
+                                      _emailController.text,
+                                      _passController.text,
+                                    )
+                                    .then(onSignedIn)
+                                    .catchError(handleApiError);
                               }
                             },
                           ),
@@ -162,39 +164,28 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  FutureOr onSignedIn(ApiResult<User> user, UserBloc userBloc) {
-    setState(() {
-      _isLoading = false;
-    });
+  FutureOr onSignedIn(ApiResult<User> user) {
+    stopLoadingIndicator();
 
     if (user == null) {
-      (_scaffoldKey.currentState as ScaffoldState).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: <Widget>[
-              Expanded(
-                child: Text('Api Error'),
-              ),
-            ],
-          ),
-        ),
-      );
+      _scaffoldKey.showRowSnackBar(Text("Api Error"));
     } else if (user.data == null) {
-      (_scaffoldKey.currentState as ScaffoldState).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: <Widget>[
-              Expanded(
-                child: Text('Error: ${user.message}'),
-              ),
-            ],
-          ),
-        ),
-      );
+      _scaffoldKey.showRowSnackBar(Text('Error: ${user.message}'));
     } else {
       userBloc.insertUser(user.data).then((_) {
         Navigator.of(context).pop();
       });
     }
+  }
+
+  handleApiError(e) {
+    stopLoadingIndicator();
+    _scaffoldKey.showRowSnackBar(Text(e.toString()));
+  }
+
+  void stopLoadingIndicator() {
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
