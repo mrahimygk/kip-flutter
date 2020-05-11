@@ -18,6 +18,8 @@ class BaseApi {
     } on SocketException {
       throw FetchDataException('No Internet connection');
     } on DioError catch (e, s) {
+      if (e.error is SocketException)
+        throw FetchDataException('Cannot reach server');
       handleDioError(e.response);
       reportStackTrace(s);
     }
@@ -33,6 +35,8 @@ class BaseApi {
     } on SocketException {
       throw FetchDataException('No Internet connection');
     } on DioError catch (e, s) {
+      if (e.error is SocketException)
+        throw FetchDataException('Cannot reach server');
       handleDioError(e.response);
       reportStackTrace(s);
     }
