@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 class LogInterceptor extends Interceptor {
   @override
-  FutureOr<dynamic> onRequest(RequestOptions options) {
+  Future<dynamic> onRequest(RequestOptions options) {
     print(
         "--> ${options.method != null ? options.method.toUpperCase() : 'METHOD'} ${"" + (options.baseUrl ?? "") + (options.path ?? "")}");
     print("Headers:");
@@ -19,25 +19,27 @@ class LogInterceptor extends Interceptor {
     print(
         "--> END ${options.method != null ? options.method.toUpperCase() : 'METHOD'}");
 
-    return options;
+    return Future.value(options);
   }
 
   @override
-  FutureOr<dynamic> onError(DioError dioError) {
+  Future<dynamic> onError(DioError dioError) {
     print(
         "<-- ${dioError.message} ${(dioError.response?.request != null ? (dioError.response.request.baseUrl + dioError.response.request.path) : 'URL')}");
     print(
         "${dioError.response != null ? dioError.response.data : 'Unknown Error'}");
     print("<-- End error");
+    return Future.value(dioError);
   }
 
   @override
-  FutureOr<dynamic> onResponse(Response response) {
+  Future<dynamic> onResponse(Response response) {
     print(
         "<-- ${response.statusCode} ${(response.request != null ? (response.request.baseUrl + response.request.path) : 'URL')}");
     print("Headers:");
     response.headers?.forEach((k, v) => print('$k: $v'));
     print("Response: ${response.data}");
     print("<-- END HTTP");
+    return Future.value(response);
   }
 }

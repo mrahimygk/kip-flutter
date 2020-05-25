@@ -30,7 +30,7 @@ class BaseApi {
   Future<dynamic> post(String path, Map<String, dynamic> params) async {
     var responseJson;
     try {
-      final response = await dio.post(path, data: FormData.from(params));
+      final response = await dio.post(path, data: FormData.fromMap(params));
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
