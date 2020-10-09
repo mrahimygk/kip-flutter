@@ -14,7 +14,6 @@ class CheckboxModel {
     this.indent,
     this.checked,
     this.hasFocus,
-    this.controller,
   ) {
     if (controller == null) controller = TextEditingController();
     controller.text = text;
@@ -30,7 +29,6 @@ class CheckboxModel {
       json['indent'],
       json['checked'],
       json['hasFocus'],
-      null,
     );
   }
 
@@ -52,4 +50,8 @@ class CheckboxModel {
         'checked': checked,
         'hasFocus': hasFocus,
       };
+
+  void dispose() {
+    controller.dispose();
+  }
 }
