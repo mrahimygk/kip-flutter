@@ -248,6 +248,7 @@ class _KipMainPageState extends State<KipMainPage> {
       itemBuilder: (BuildContext context, int index) {
         final note = snapshot.data[index];
         return NoteItem(
+          color: note.color,
           child: ListTile(
             leading: Text(note.title),
             title: Text(note.content),

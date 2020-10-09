@@ -23,7 +23,7 @@ class _AddNotePageState extends State<AddNotePage>
   Animation<Offset> leftMenuOffsetAnim;
   AnimationController rightMenuAnimController;
   Animation<Offset> rightMenuOffsetAnim;
-  Color noteColor = Colors.white;
+
   List<NoteColorModel> noteColors = [
     Colors.white,
     Colors.red,
@@ -78,9 +78,6 @@ class _AddNotePageState extends State<AddNotePage>
     );
 
     super.initState();
-
-    selectNoteColor(0);
-
   }
 
   @override
@@ -152,6 +149,7 @@ class _AddNotePageState extends State<AddNotePage>
           DateTime.now().toString(),
           DateTime.now().toString(),
         );
+        selectNoteColor(0);
         noteBloc.insertNote(note);
       } else {
         setState(() {
@@ -183,7 +181,7 @@ class _AddNotePageState extends State<AddNotePage>
       },
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: noteColor,
+          backgroundColor: note.color,
 
           ///top menu
           appBar: PreferredSize(
@@ -268,9 +266,9 @@ class _AddNotePageState extends State<AddNotePage>
                     padding: const EdgeInsets.only(bottom: 48.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: noteColor,
+                        color: note.color,
                         boxShadow:
-                            MenuShadows().get(makeShadowColor(noteColor)),
+                            MenuShadows().get(makeShadowColor(note.color)),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -278,19 +276,19 @@ class _AddNotePageState extends State<AddNotePage>
                         children: <Widget>[
                           Container(height: 8),
                           MenuItem(
-                            color: noteColor,
+                            color: note.color,
                             onPress: () {},
                             icon: Icons.photo_camera,
                             text: "Take photo",
                           ),
                           MenuItem(
-                            color: noteColor,
+                            color: note.color,
                             onPress: () {},
                             icon: Icons.image,
                             text: "Choose image",
                           ),
                           MenuItem(
-                            color: noteColor,
+                            color: note.color,
                             onPress: () {
                               toggleShowLeftMenu();
                               Navigator.of(context).pushNamed("/addDrawing");
@@ -299,7 +297,7 @@ class _AddNotePageState extends State<AddNotePage>
                             text: "Drawing",
                           ),
                           MenuItem(
-                            color: noteColor,
+                            color: note.color,
                             onPress: () {},
                             icon: Icons.mic,
                             text: "Recording",
@@ -307,7 +305,7 @@ class _AddNotePageState extends State<AddNotePage>
                           checkboxList.length > 0
                               ? Container(height: 8)
                               : MenuItem(
-                                  color: noteColor,
+                                  color: note.color,
                                   onPress: () {
                                     toggleShowLeftMenu();
                                     addCheckBox();
@@ -331,9 +329,9 @@ class _AddNotePageState extends State<AddNotePage>
                     padding: const EdgeInsets.only(bottom: 48.0),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: noteColor,
+                        color: note.color,
                         boxShadow:
-                            MenuShadows().get(makeShadowColor(noteColor)),
+                            MenuShadows().get(makeShadowColor(note.color)),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -341,19 +339,19 @@ class _AddNotePageState extends State<AddNotePage>
                         children: <Widget>[
                           Container(height: 8),
                           MenuItem(
-                            color: noteColor,
+                            color: note.color,
                             onPress: () {},
                             icon: Icons.delete,
                             text: "Delete",
                           ),
                           MenuItem(
-                            color: noteColor,
+                            color: note.color,
                             onPress: () {},
                             icon: Icons.content_copy,
                             text: "Make a copy",
                           ),
                           MenuItem(
-                            color: noteColor,
+                            color: note.color,
                             onPress: () {
                               toggleShowLeftMenu();
                               Navigator.of(context).pushNamed("/addDrawing");
@@ -362,7 +360,7 @@ class _AddNotePageState extends State<AddNotePage>
                             text: "Send",
                           ),
                           MenuItem(
-                            color: noteColor,
+                            color: note.color,
                             onPress: () {},
                             icon: Icons.label_outline,
                             text: "Labels",
@@ -401,11 +399,11 @@ class _AddNotePageState extends State<AddNotePage>
                   child: Container(
                     decoration: BoxDecoration(
                       boxShadow: MenuShadows().get(
-                        makeShadowColor(noteColor),
+                        makeShadowColor(note.color),
                       ),
                     ),
                     child: Material(
-                      color: noteColor,
+                      color: note.color,
                       child: Stack(
                         children: <Widget>[
                           Row(
@@ -445,13 +443,13 @@ class _AddNotePageState extends State<AddNotePage>
 
   Color makeShadowColor(Color color) {
     return color
-        .withRed(noteColor.red - 50)
-        .withBlue(noteColor.blue - 50)
-        .withGreen(noteColor.green - 50);
+        .withRed(note.color.red - 50)
+        .withBlue(note.color.blue - 50)
+        .withGreen(note.color.green - 50);
   }
 
   void selectNoteColor(int index) {
-    noteColor = noteColors[index].applyingColor;
+    note.color = noteColors[index].applyingColor;
     noteColors.forEach((c) {
       c.isSelected = false;
     });
