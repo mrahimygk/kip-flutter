@@ -23,6 +23,7 @@ class _AddNotePageState extends State<AddNotePage>
   Animation<Offset> leftMenuOffsetAnim;
   AnimationController rightMenuAnimController;
   Animation<Offset> rightMenuOffsetAnim;
+  Timer _debounce;
 
   List<NoteColorModel> noteColors = [
     Colors.white,
@@ -44,11 +45,8 @@ class _AddNotePageState extends State<AddNotePage>
   TextEditingController _noteTitleController;
   TextEditingController _noteContentController;
 
-  final disposingControllerList = List<TextEditingController>();
-
   final drawingList = List<String>();
   final voiceList = List<String>();
-  final checkboxList = List<CheckboxModel>();
   final labelList = List<String>();
   NoteModel note;
 
@@ -78,18 +76,6 @@ class _AddNotePageState extends State<AddNotePage>
     );
 
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    leftMenuAnimController.dispose();
-    rightMenuAnimController.dispose();
-    _noteContentController.dispose();
-    _noteTitleController.dispose();
-    disposingControllerList.forEach((c) {
-      c.dispose();
-    });
   }
 
   bool isLeftMenuOpen = false;
@@ -129,12 +115,6 @@ class _AddNotePageState extends State<AddNotePage>
         hasStartedNewDrawing = true;
       }
 
-      if (args.shouldAddCheckboxes && !hasAddedNewCheckboxAlready) {
-        addCheckBox();
-        hasAddedNewCheckboxAlready = true;
-      }
-
-      //TODO: fill the editing note...
       if (args.note == null) {
         note = new NoteModel(
           uuid.v4(),
@@ -142,14 +122,23 @@ class _AddNotePageState extends State<AddNotePage>
           "",
           Colors.white,
           drawingList,
+          //TODO
           voiceList,
-          checkboxList,
+          //TODO
+          List<CheckboxModel>(),
           labelList,
+          //TODO
           false,
           DateTime.now().toString(),
           DateTime.now().toString(),
         );
         selectNoteColor(0);
+
+        if (args.shouldAddCheckboxes && !hasAddedNewCheckboxAlready) {
+          addCheckBox();
+          hasAddedNewCheckboxAlready = true;
+        }
+
         noteBloc.insertNote(note);
       } else {
         setState(() {
@@ -159,15 +148,23 @@ class _AddNotePageState extends State<AddNotePage>
 
       _noteTitleController = TextEditingController(text: note.title);
       _noteTitleController.addListener(() {
-        note.title = _noteTitleController.text;
-        noteBloc.updateNote(note);
+        if (_debounce?.isActive ?? false) _debounce.cancel();
+        _debounce = Timer(const Duration(milliseconds: 666), () {
+          note.title = _noteTitleController.text;
+          noteBloc.updateNote(note);
+        });
       });
 
       _noteContentController = TextEditingController(text: note.content);
       _noteContentController.addListener(() {
-        note.content = _noteContentController.text;
-        noteBloc.updateNote(note);
+        if (_debounce?.isActive ?? false) _debounce.cancel();
+        _debounce = Timer(const Duration(milliseconds: 666), () {
+          note.content = _noteContentController.text;
+          noteBloc.updateNote(note);
+        });
       });
+
+      listenOnCheckBoxChanges();
 
       hasParsedArgs = true;
     }
@@ -241,7 +238,7 @@ class _AddNotePageState extends State<AddNotePage>
                       ),
                     ),
                   ),
-                  checkboxList.isEmpty
+                  note.checkboxList.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: TextField(
@@ -302,7 +299,7 @@ class _AddNotePageState extends State<AddNotePage>
                             icon: Icons.mic,
                             text: "Recording",
                           ),
-                          checkboxList.length > 0
+                          note.checkboxList.length > 0
                               ? Container(height: 8)
                               : MenuItem(
                                   color: note.color,
@@ -376,6 +373,7 @@ class _AddNotePageState extends State<AddNotePage>
                                     setState(() {
                                       selectNoteColor(index);
                                     });
+                                    noteBloc.updateNote(note);
                                   },
                                   item: noteColors[index],
                                   index: index,
@@ -463,21 +461,21 @@ class _AddNotePageState extends State<AddNotePage>
   }
 
   void addCheckBox() {
-    final controller = TextEditingController();
-    disposingControllerList.add(controller);
-    final checkbox = CheckboxModel(uuid.v4(), "", 0, false, false, controller);
+    final checkbox = CheckboxModel(uuid.v4(), "", 0, false, false);
 
     setState(() {
-      checkboxList.add(checkbox);
+      note.checkboxList.add(checkbox);
     });
+
+    addListenerToCheckBoxChanges(note.checkboxList.last);
   }
 
   Widget makeCheckBoxList() {
     return ListView.builder(
-        itemCount: checkboxList.length + 1,
+        itemCount: note.checkboxList.length + 1,
         itemBuilder: (BuildContext context, int index) {
           //TODO: return a checkbox item
-          if (index == checkboxList.length) {
+          if (index == note.checkboxList.length) {
             return ListTile(
               onTap: () {
                 addCheckBox();
@@ -486,7 +484,7 @@ class _AddNotePageState extends State<AddNotePage>
               title: Text("More"),
             );
           } else {
-            final checkBoxItem = checkboxList[index];
+            final checkBoxItem = note.checkboxList[index];
 
             /// from space to tilda
             RegExp exp = new RegExp(r"[ -~]");
@@ -574,6 +572,33 @@ class _AddNotePageState extends State<AddNotePage>
         checkBoxItem.indent--;
       });
     }
+  }
+
+  void listenOnCheckBoxChanges() {
+    note.checkboxList.forEach((element) {
+      addListenerToCheckBoxChanges(element);
+    });
+  }
+
+  void addListenerToCheckBoxChanges(CheckboxModel element) {
+    element.controller.addListener(() {
+      if (_debounce?.isActive ?? false) _debounce.cancel();
+      _debounce = Timer(const Duration(milliseconds: 666), () {
+        noteBloc.updateNote(note);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    leftMenuAnimController.dispose();
+    rightMenuAnimController.dispose();
+    _noteContentController.dispose();
+    _noteTitleController.dispose();
+    note.checkboxList.forEach((c) {
+      //c.dispose();
+    });
+    super.dispose();
   }
 }
 
