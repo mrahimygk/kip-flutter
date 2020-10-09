@@ -9,6 +9,7 @@ import 'package:kip/models/add_note_page_arguments.dart';
 import 'package:kip/models/note/note_model.dart';
 import 'package:kip/util/ready_mades.dart';
 import 'package:kip/widgets/bar.dart';
+import 'package:kip/widgets/bordered_container.dart';
 import 'package:kip/widgets/menu_item.dart';
 import 'package:kip/widgets/note_item.dart';
 import 'package:kip/widgets/recording_indicator.dart';
@@ -242,19 +243,34 @@ class _KipMainPageState extends State<KipMainPage> {
     });
   }
 
-  Widget buildNoteList(AsyncSnapshot<List<NoteModel>> snapshot, BuildContext context) {
+  Widget buildNoteList(
+      AsyncSnapshot<List<NoteModel>> snapshot, BuildContext context) {
     return ListView.builder(
       itemCount: snapshot.data.length,
       itemBuilder: (BuildContext context, int index) {
         final note = snapshot.data[index];
         return NoteItem(
           color: note.color,
-          child: ListTile(
-            leading: Text(note.title),
-            title: Text(note.content),
-            onTap: (){
-              addNote(context, AddNotePageArguments(false, false, note));
+          child: Dismissible(
+            background: BorderedContainer(color: Colors.red),
+            onDismissed: (dir) {
+              noteBloc.deleteNote(note);
+              Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text("Item deleted"),
+                  action: SnackBarAction(
+                      label: "UNDO",
+                      onPressed: () {
+                        noteBloc.insertNote(note);
+                      })));
             },
+            key: ObjectKey(note.id),
+            child: ListTile(
+              leading: Text(note.title),
+              title: Text(note.content),
+              onTap: () {
+                addNote(context, AddNotePageArguments(false, false, note));
+              },
+            ),
           ),
         );
       },
