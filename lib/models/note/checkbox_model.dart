@@ -16,7 +16,7 @@ class CheckboxModel {
     this.hasFocus,
     this.controller,
   ) {
-    if (controller == null) return;
+    if (controller == null) controller = TextEditingController();
     controller.text = text;
     controller.addListener(() {
       text = controller.text;
