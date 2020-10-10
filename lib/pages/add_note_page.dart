@@ -229,27 +229,34 @@ class _AddNotePageState extends State<AddNotePage>
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.only(top: 32.0,left:16.0),
                     child: TextField(
                       controller: _noteTitleController,
                       style: TextStyle(fontSize: 18.0),
                       decoration: InputDecoration.collapsed(
                         hintText: "Title",
+                        hintStyle: TextStyle(
+                            fontSize: 22,
+                            color: Colors.grey[400]
+                        ),
                       ),
                     ),
                   ),
                   note.checkboxList.isEmpty
                       ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: TextField(
-                            controller: _noteContentController,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            decoration: InputDecoration.collapsed(
-                              hintText: "Note",
-                            ),
-                          ),
-                        )
+                    padding: const EdgeInsets.only(top: 16.0,left:16.0),
+                    child: TextField(
+                      controller: _noteContentController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      decoration: InputDecoration.collapsed(
+                        hintText: "Note",
+                        hintStyle: TextStyle(
+                            color: Colors.grey[400]
+                        ),
+                      ),
+                    ),
+                  )
                       : Expanded(child: makeCheckBoxList())
                 ],
               ),
