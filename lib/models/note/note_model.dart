@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 
 import 'checkbox_model.dart';
+import 'voice_model.dart';
 
 class NoteModel {
   final String id;
@@ -10,7 +11,7 @@ class NoteModel {
   String content;
   Color color;
   final List<String> drawingList;
-  final List<String> voiceList;
+  final List<VoiceModel> voiceList;
   final List<CheckboxModel> checkboxList;
   final List<String> labelList;
   bool isPinned;
