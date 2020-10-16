@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -41,11 +42,11 @@ class _AddNotePageState extends State<AddNotePage>
 
   bool hasStartedNewDrawing = false;
   bool hasAddedNewCheckboxAlready = false;
+  bool hasAddedNewImageAlready = false;
 
   TextEditingController _noteTitleController;
   TextEditingController _noteContentController;
 
-  final drawingList = List<String>();
   final voiceList = List<String>();
   final labelList = List<String>();
   NoteModel note;
@@ -121,8 +122,7 @@ class _AddNotePageState extends State<AddNotePage>
           "",
           "",
           Colors.white,
-          drawingList,
-          //TODO
+          List<String>(),
           voiceList,
           //TODO
           List<CheckboxModel>(),
@@ -137,6 +137,11 @@ class _AddNotePageState extends State<AddNotePage>
         if (args.shouldAddCheckboxes && !hasAddedNewCheckboxAlready) {
           addCheckBox();
           hasAddedNewCheckboxAlready = true;
+        }
+
+        if (args.imagePath.isNotEmpty && !hasAddedNewImageAlready) {
+          addImage(args.imagePath);
+          hasAddedNewImageAlready = true;
         }
 
         noteBloc.insertNote(note);
@@ -468,6 +473,16 @@ class _AddNotePageState extends State<AddNotePage>
     });
 
     addListenerToCheckBoxChanges(note.checkboxList.last);
+  }
+
+  void addImage(String imagePath) {
+    // final checkbox = CheckboxModel(uuid.v4(), "", 0, false, false);
+
+    setState(() {
+      note.drawingList.add(imagePath);
+    });
+
+    //TODO: add click listener
   }
 
   Widget makeCheckBoxList() {
