@@ -58,7 +58,7 @@ class NoteDao implements Dao<NoteModel> {
         (jsonDecode(query[noteColumnDrawingList].toString()) as List<dynamic>)
             .mapToStringList(),
         (jsonDecode(query[noteColumnVoiceList].toString()) as List<dynamic>)
-            .mapToStringList(),
+            .mapToVoiceModelList(),
         (jsonDecode(query[noteColumnCheckboxList].toString()) as List<dynamic>)
             .mapToCheckBoxList(),
         (jsonDecode(query[noteColumnLabelList].toString()) as List<dynamic>)
