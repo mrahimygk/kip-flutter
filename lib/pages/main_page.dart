@@ -262,8 +262,9 @@ class _KipMainPageState extends State<KipMainPage> {
             onDismissed: (dir) {
               noteBloc.deleteNote(note);
               Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text("Item deleted"),
+                  content: Text("Note removed"),
                   action: SnackBarAction(
+                    textColor: Colors.orange,
                       label: "UNDO",
                       onPressed: () {
                         noteBloc.insertNote(note);
