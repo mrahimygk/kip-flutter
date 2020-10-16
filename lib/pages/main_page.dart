@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kip/blocs/note_bloc.dart';
 import 'package:kip/models/add_note_page_arguments.dart';
 import 'package:kip/models/note/note_model.dart';
+import 'package:kip/models/note/voice_model.dart';
 import 'package:kip/util/ready_mades.dart';
 import 'package:kip/widgets/bar.dart';
 import 'package:kip/widgets/bordered_container.dart';
@@ -36,35 +37,39 @@ class _KipMainPageState extends State<KipMainPage> {
       child: Scaffold(
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.check_box),
-                onPressed: () {
-                  addNote(context, AddNotePageArguments(false, true, "", null));
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.brush),
-                onPressed: () {
-                  addNote(context, AddNotePageArguments(true, false, "", null));
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.mic),
-                onPressed: () {
-                  startVoiceRecording(context);
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.photo),
-                onPressed: () {
-                  showPictureChoiceDialog(context);
-                },
-              ),
-            ],
-          ),
+          child: Builder(builder: (context) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.check_box),
+                  onPressed: () {
+                    addNote(context,
+                        AddNotePageArguments(false, true, "", null, null));
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.brush),
+                  onPressed: () {
+                    addNote(context,
+                        AddNotePageArguments(true, false, "", null, null));
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.mic),
+                  onPressed: () {
+                    startVoiceRecording(context);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.photo),
+                  onPressed: () {
+                    showPictureChoiceDialog(context);
+                  },
+                ),
+              ],
+            );
+          }),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -93,7 +98,8 @@ class _KipMainPageState extends State<KipMainPage> {
         floatingActionButton: Builder(builder: (context) {
           return FloatingActionButton(
             onPressed: () {
-              addNote(context, AddNotePageArguments(false, false, "", null));
+              addNote(
+                  context, AddNotePageArguments(false, false, "", null, null));
             },
             tooltip: 'Increment',
             child: Icon(Icons.add),
@@ -104,7 +110,6 @@ class _KipMainPageState extends State<KipMainPage> {
   }
 
   addNote(BuildContext context, AddNotePageArguments arguments) async {
-    Scaffold.of(context).removeCurrentSnackBar();
     final shouldDiscard =
         await Navigator.of(context).pushNamed('/addNote', arguments: arguments);
     if (shouldDiscard) {
@@ -144,7 +149,7 @@ class _KipMainPageState extends State<KipMainPage> {
                 openGallery();
               },
               icon: Icons.image,
-              text: "Coose image",
+              text: "Choose image",
             )
           ],
         ),
@@ -154,12 +159,14 @@ class _KipMainPageState extends State<KipMainPage> {
 
   void openCamera() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.camera);
-    addNote(context, AddNotePageArguments(false, false, picture.path, null));
+    addNote(
+        context, AddNotePageArguments(false, false, picture.path, null, null));
   }
 
   void openGallery() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
-    addNote(context, AddNotePageArguments(false, false, picture.path, null));
+    addNote(
+        context, AddNotePageArguments(false, false, picture.path, null, null));
   }
 
   bool isRecording = false;
@@ -170,11 +177,14 @@ class _KipMainPageState extends State<KipMainPage> {
   void startVoiceRecording(BuildContext context) async {
     if (isRecording) {
       var result = await endRecording();
-      //TODO: NEW_NOTE with recording
-      print(result.path);
+      Navigator.of(context).pop();
+      addNote(
+        context,
+        AddNotePageArguments(false, false, "",
+            VoiceModel(result.path.split("/").last, result.path), null),
+      );
     } else {
       bool hasPermission = await FlutterAudioRecorder.hasPermissions;
-      print(hasPermission);
       if (!hasPermission) return;
 
       Directory tempDir = await getTemporaryDirectory();
@@ -280,7 +290,8 @@ class _KipMainPageState extends State<KipMainPage> {
               leading: Text(note.title),
               title: Text(note.content),
               onTap: () {
-                addNote(context, AddNotePageArguments(false, false, "", note));
+                addNote(context,
+                    AddNotePageArguments(false, false, "", null, note));
               },
             ),
           ),
