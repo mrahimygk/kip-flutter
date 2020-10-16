@@ -154,7 +154,7 @@ class _AddNotePageState extends State<AddNotePage>
       _noteTitleController = TextEditingController(text: note.title);
       _noteTitleController.addListener(() {
         if (_debounce?.isActive ?? false) _debounce.cancel();
-        _debounce = Timer(const Duration(milliseconds: 666), () {
+        _debounce = Timer(const Duration(milliseconds: 313), () {
           note.title = _noteTitleController.text;
           noteBloc.updateNote(note);
         });
@@ -163,7 +163,7 @@ class _AddNotePageState extends State<AddNotePage>
       _noteContentController = TextEditingController(text: note.content);
       _noteContentController.addListener(() {
         if (_debounce?.isActive ?? false) _debounce.cancel();
-        _debounce = Timer(const Duration(milliseconds: 666), () {
+        _debounce = Timer(const Duration(milliseconds: 313), () {
           note.content = _noteContentController.text;
           noteBloc.updateNote(note);
         });
@@ -578,7 +578,7 @@ class _AddNotePageState extends State<AddNotePage>
   void addListenerToCheckBoxChanges(CheckboxModel element) {
     element.controller.addListener(() {
       if (_debounce?.isActive ?? false) _debounce.cancel();
-      _debounce = Timer(const Duration(milliseconds: 666), () {
+      _debounce = Timer(const Duration(milliseconds: 313), () {
         noteBloc.updateNote(note);
       });
     });
