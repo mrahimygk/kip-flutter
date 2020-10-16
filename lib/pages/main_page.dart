@@ -101,8 +101,14 @@ class _KipMainPageState extends State<KipMainPage> {
     );
   }
 
-  addNote(BuildContext context, AddNotePageArguments arguments) {
-    Navigator.of(context).pushNamed('/addNote', arguments: arguments);
+  addNote(BuildContext context, AddNotePageArguments arguments) async {
+    final shouldDiscard =
+        await Navigator.of(context).pushNamed('/addNote', arguments: arguments);
+    if (shouldDiscard) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Empty Note Discarded"),
+      ));
+    }
   }
 
   onNavigateToLogin(BuildContext context) {
