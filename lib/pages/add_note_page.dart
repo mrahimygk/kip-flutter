@@ -13,6 +13,8 @@ import 'package:kip/widgets/menu_shadows.dart';
 import 'package:kip/widgets/note_color_item.dart';
 import 'package:uuid/uuid.dart';
 
+import '../models/add_note_page_arguments.dart';
+
 class AddNotePage extends StatefulWidget {
   @override
   _AddNotePageState createState() => _AddNotePageState();
@@ -51,6 +53,7 @@ class _AddNotePageState extends State<AddNotePage>
 
   final labelList = List<String>();
   NoteModel note;
+  AddNotePageArguments args;
 
   final Uuid uuid = Uuid();
   bool hasParsedArgs = false;
@@ -78,6 +81,12 @@ class _AddNotePageState extends State<AddNotePage>
     );
 
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    args = ModalRoute.of(context).settings.arguments as AddNotePageArguments;
   }
 
   bool isLeftMenuOpen = false;
@@ -108,9 +117,6 @@ class _AddNotePageState extends State<AddNotePage>
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context).settings.arguments as AddNotePageArguments;
-
     if (!hasParsedArgs) {
       if (args.shouldAddDrawing && !hasStartedNewDrawing) {
         newDrawing();
