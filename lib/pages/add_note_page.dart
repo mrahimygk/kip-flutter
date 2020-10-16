@@ -231,33 +231,8 @@ class _AddNotePageState extends State<AddNotePage>
             children: <Widget>[
               ///main input fields
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextField(
-                      controller: _noteTitleController,
-                      style: TextStyle(fontSize: 18.0),
-                      decoration: InputDecoration.collapsed(
-                        hintText: "Title",
-                      ),
-                    ),
-                  ),
-                  note.checkboxList.isEmpty
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: TextField(
-                            controller: _noteContentController,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            decoration: InputDecoration.collapsed(
-                              hintText: "Note",
-                            ),
-                          ),
-                        )
-                      : Expanded(child: makeCheckBoxList())
-                ],
-              ),
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: makeMainChildren()),
 
               /// left menu
               Align(
@@ -614,6 +589,55 @@ class _AddNotePageState extends State<AddNotePage>
       //c.dispose();
     });
     super.dispose();
+  }
+
+  List<Widget> makeMainChildren() {
+    final list = List<Widget>();
+    if (note.drawingList.isNotEmpty) {
+      note.drawingList.forEach((element) {
+        list.add(
+          Image.file(File(element)),
+        );
+      });
+    }
+
+    list.add(Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: TextField(
+        controller: _noteTitleController,
+        style: TextStyle(fontSize: 18.0),
+        decoration: InputDecoration.collapsed(
+          hintText: "Title",
+        ),
+      ),
+    ));
+
+    if (note.checkboxList.isEmpty) {
+      list.add(Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: TextField(
+          controller: _noteContentController,
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          decoration: InputDecoration.collapsed(
+            hintText: "Note",
+          ),
+        ),
+      ));
+    } else {
+      list.add(Expanded(child: makeCheckBoxList()));
+    }
+
+    return list;
+  }
+
+  bool isNoteEmpty() {
+    return note.title.isEmpty &&
+        note.checkboxList.isEmpty &&
+        note.content.isEmpty &&
+        note.drawingList.isEmpty &&
+        note.labelList.isEmpty &&
+        note.voiceList.isEmpty;
   }
 }
 
