@@ -90,21 +90,25 @@ class _KipMainPageState extends State<KipMainPage> {
           ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            addNote(context, AddNotePageArguments(false, false, "", null));
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ),
+        floatingActionButton: Builder(builder: (context) {
+          return FloatingActionButton(
+            onPressed: () {
+              addNote(context, AddNotePageArguments(false, false, "", null));
+            },
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+          );
+        }),
       ),
     );
   }
 
   addNote(BuildContext context, AddNotePageArguments arguments) async {
+    Scaffold.of(context).removeCurrentSnackBar();
     final shouldDiscard =
         await Navigator.of(context).pushNamed('/addNote', arguments: arguments);
     if (shouldDiscard) {
+      Scaffold.of(context).removeCurrentSnackBar();
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text("Empty Note Discarded"),
       ));
@@ -112,6 +116,7 @@ class _KipMainPageState extends State<KipMainPage> {
   }
 
   onNavigateToLogin(BuildContext context) {
+    Scaffold.of(context).removeCurrentSnackBar();
     Navigator.of(context).pushNamed('/login');
   }
 
@@ -264,7 +269,7 @@ class _KipMainPageState extends State<KipMainPage> {
               Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text("Note removed"),
                   action: SnackBarAction(
-                    textColor: Colors.orange,
+                      textColor: Colors.orange,
                       label: "UNDO",
                       onPressed: () {
                         noteBloc.insertNote(note);
