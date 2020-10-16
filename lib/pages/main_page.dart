@@ -42,13 +42,13 @@ class _KipMainPageState extends State<KipMainPage> {
               IconButton(
                 icon: Icon(Icons.check_box),
                 onPressed: () {
-                  addNote(context, AddNotePageArguments(false, true, null));
+                  addNote(context, AddNotePageArguments(false, true, "", null));
                 },
               ),
               IconButton(
                 icon: Icon(Icons.brush),
                 onPressed: () {
-                  addNote(context, AddNotePageArguments(true, false, null));
+                  addNote(context, AddNotePageArguments(true, false, "", null));
                 },
               ),
               IconButton(
@@ -92,7 +92,7 @@ class _KipMainPageState extends State<KipMainPage> {
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            addNote(context, AddNotePageArguments(false, false, null));
+            addNote(context, AddNotePageArguments(false, false, "", null));
           },
           tooltip: 'Increment',
           child: Icon(Icons.add),
@@ -143,12 +143,12 @@ class _KipMainPageState extends State<KipMainPage> {
 
   void openCamera() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.camera);
-    //TODO: NEW_NOTE with picture
+    addNote(context, AddNotePageArguments(false, false, picture.path, null));
   }
 
   void openGallery() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
-    //TODO: NEW_NOTE with picture
+    addNote(context, AddNotePageArguments(false, false, picture.path, null));
   }
 
   bool isRecording = false;
@@ -268,7 +268,7 @@ class _KipMainPageState extends State<KipMainPage> {
               leading: Text(note.title),
               title: Text(note.content),
               onTap: () {
-                addNote(context, AddNotePageArguments(false, false, note));
+                addNote(context, AddNotePageArguments(false, false, "", note));
               },
             ),
           ),
