@@ -7,6 +7,7 @@ import 'package:kip/blocs/note_bloc.dart';
 import 'package:kip/models/add_note_page_arguments.dart';
 import 'package:kip/models/note/checkbox_model.dart';
 import 'package:kip/models/note/note_model.dart';
+import 'package:kip/models/note/voice_model.dart';
 import 'package:kip/widgets/menu_item.dart';
 import 'package:kip/widgets/menu_shadows.dart';
 import 'package:kip/widgets/note_color_item.dart';
@@ -43,11 +44,11 @@ class _AddNotePageState extends State<AddNotePage>
   bool hasStartedNewDrawing = false;
   bool hasAddedNewCheckboxAlready = false;
   bool hasAddedNewImageAlready = false;
+  bool hasAddedNewVoiceAlready = false;
 
   TextEditingController _noteTitleController;
   TextEditingController _noteContentController;
 
-  final voiceList = List<String>();
   final labelList = List<String>();
   NoteModel note;
 
@@ -123,7 +124,7 @@ class _AddNotePageState extends State<AddNotePage>
           "",
           Colors.white,
           List<String>(),
-          voiceList,
+          List<VoiceModel>(),
           //TODO
           List<CheckboxModel>(),
           labelList,
@@ -142,6 +143,11 @@ class _AddNotePageState extends State<AddNotePage>
         if (args.imagePath.isNotEmpty && !hasAddedNewImageAlready) {
           addImage(args.imagePath);
           hasAddedNewImageAlready = true;
+        }
+
+        if (args.voice != null && !hasAddedNewVoiceAlready) {
+          addVoice(args.voice);
+          hasAddedNewVoiceAlready = true;
         }
 
         noteBloc.insertNote(note);
@@ -456,10 +462,16 @@ class _AddNotePageState extends State<AddNotePage>
   }
 
   void addImage(String imagePath) {
-    // final checkbox = CheckboxModel(uuid.v4(), "", 0, false, false);
-
     setState(() {
       note.drawingList.add(imagePath);
+    });
+
+    //TODO: add click listener
+  }
+
+  void addVoice(VoiceModel voice) {
+    setState(() {
+      note.voiceList.add(voice);
     });
 
     //TODO: add click listener
@@ -603,6 +615,26 @@ class _AddNotePageState extends State<AddNotePage>
         list.add(
           Image.file(File(element)),
         );
+      });
+    }
+
+    if (note.voiceList.isNotEmpty) {
+      note.voiceList.forEach((element) {
+        list.add(Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.play_circle_outline),
+              onPressed: () {
+                // TODO: Play sound
+              },
+            ),
+            GestureDetector(
+                onLongPress: () {
+                  // TODO: EDIT file name
+                },
+                child: Text(element.filename))
+          ],
+        ));
       });
     }
 
