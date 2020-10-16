@@ -176,7 +176,12 @@ class _AddNotePageState extends State<AddNotePage>
 
     return WillPopScope(
       onWillPop: () async {
-        if (!isLeftMenuOpen && !isRightMenuOpen) return true;
+        if (!isLeftMenuOpen && !isRightMenuOpen) {
+          //discard empty note
+          if (isNoteEmpty()) noteBloc.deleteNote(note);
+          Navigator.of(context).pop(isNoteEmpty());
+          return false;
+        }
         if (isLeftMenuOpen) toggleShowLeftMenu();
         if (isRightMenuOpen) toggleShowRightMenu();
         return false;
