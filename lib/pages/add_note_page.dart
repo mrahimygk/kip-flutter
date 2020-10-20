@@ -211,7 +211,7 @@ class _AddNotePageState extends State<AddNotePage>
                   children: <Widget>[
                     IconButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pop(isNoteEmpty());
                         },
                         icon: Icon(Icons.arrow_back)),
                   ],
@@ -249,25 +249,31 @@ class _AddNotePageState extends State<AddNotePage>
                   children: makeMainChildren()),
 
               /// left menu
-              LeftMenuWidget(
-                addCheckBox: addCheckBox,
-                leftMenuOffsetAnim: leftMenuOffsetAnim,
-                note: note,
-                toggleShowLeftMenu: toggleShowLeftMenu,
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: LeftMenuWidget(
+                  addCheckBox: addCheckBox,
+                  leftMenuOffsetAnim: leftMenuOffsetAnim,
+                  note: note,
+                  toggleShowLeftMenu: toggleShowLeftMenu,
+                ),
               ),
 
               /// right menu
-              RightMenuWidget(
-                note: note,
-                noteColors: noteColors,
-                rightMenuOffsetAnim: rightMenuOffsetAnim,
-                toggleShowLeftMenu: toggleShowLeftMenu(),
-                onTap: (int index) {
-                  setState(() {
-                    selectNoteColor(index);
-                  });
-                  noteBloc.updateNote(note);
-                },
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: RightMenuWidget(
+                  note: note,
+                  noteColors: noteColors,
+                  rightMenuOffsetAnim: rightMenuOffsetAnim,
+                  toggleShowLeftMenu: toggleShowLeftMenu(),
+                  onTap: (int index) {
+                    setState(() {
+                      selectNoteColor(index);
+                    });
+                    noteBloc.updateNote(note);
+                  },
+                ),
               ),
 
               /// Bottom bar

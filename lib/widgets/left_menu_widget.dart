@@ -18,64 +18,61 @@ class LeftMenuWidget extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomLeft,
-      child: SlideTransition(
-        position: leftMenuOffsetAnim,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 48.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: note.color,
-              boxShadow: MenuShadows().get(
-                MakeShaodowColor.makeShadow(note.color),
+    return SlideTransition(
+      position: leftMenuOffsetAnim,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 48.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: note.color,
+            boxShadow: MenuShadows().get(
+              MakeShaodowColor.makeShadow(note.color),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(height: 8),
+              MenuItem(
+                color: note.color,
+                onPress: () {},
+                icon: Icons.photo_camera,
+                text: "Take photo",
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(height: 8),
-                MenuItem(
-                  color: note.color,
-                  onPress: () {},
-                  icon: Icons.photo_camera,
-                  text: "Take photo",
-                ),
-                MenuItem(
-                  color: note.color,
-                  onPress: () {},
-                  icon: Icons.image,
-                  text: "Choose image",
-                ),
-                MenuItem(
-                  color: note.color,
-                  onPress: () {
-                    toggleShowLeftMenu();
-                    Navigator.of(context).pushNamed("/addDrawing");
-                  },
-                  icon: Icons.brush,
-                  text: "Drawing",
-                ),
-                MenuItem(
-                  color: note.color,
-                  onPress: () {},
-                  icon: Icons.mic,
-                  text: "Recording",
-                ),
-                note.checkboxList.length > 0
-                    ? Container(height: 8)
-                    : MenuItem(
-                        color: note.color,
-                        onPress: () {
-                          toggleShowLeftMenu();
-                          addCheckBox();
-                        },
-                        icon: Icons.check_box,
-                        text: "Checboxes",
-                      ),
-              ],
-            ),
+              MenuItem(
+                color: note.color,
+                onPress: () {},
+                icon: Icons.image,
+                text: "Choose image",
+              ),
+              MenuItem(
+                color: note.color,
+                onPress: () {
+                  toggleShowLeftMenu();
+                  Navigator.of(context).pushNamed("/addDrawing");
+                },
+                icon: Icons.brush,
+                text: "Drawing",
+              ),
+              MenuItem(
+                color: note.color,
+                onPress: () {},
+                icon: Icons.mic,
+                text: "Recording",
+              ),
+              note.checkboxList.length > 0
+                  ? Container(height: 8)
+                  : MenuItem(
+                      color: note.color,
+                      onPress: () {
+                        toggleShowLeftMenu();
+                        addCheckBox();
+                      },
+                      icon: Icons.check_box,
+                      text: "Checboxes",
+                    ),
+            ],
           ),
         ),
       ),

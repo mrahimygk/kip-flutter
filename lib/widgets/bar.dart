@@ -14,7 +14,6 @@ class KipBar extends StatefulWidget {
 }
 
 class KipBarState extends State<KipBar> {
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Padding(
