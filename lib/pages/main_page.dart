@@ -9,6 +9,7 @@ import 'package:kip/models/add_note_page_arguments.dart';
 import 'package:kip/models/note/note_model.dart';
 import 'package:kip/models/note/voice_model.dart';
 import 'package:kip/util/ready_mades.dart';
+import 'package:kip/widgets/app_drawer.dart';
 import 'package:kip/widgets/bar.dart';
 import 'package:kip/widgets/bordered_container.dart';
 import 'package:kip/widgets/menu_item.dart';
@@ -24,17 +25,21 @@ class KipMainPage extends StatefulWidget {
 
 class _KipMainPageState extends State<KipMainPage> {
   final List<int> thresholds = ReadyMade.makeThresholds(66);
-
   @override
   void dispose() {
     noteBloc.dispose();
     super.dispose();
   }
 
+  //Global Key to handle scaffold's drawer
+  GlobalKey<ScaffoldState> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        key: _key,
+        drawer: AppDrawer(),
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           child: Builder(builder: (context) {
@@ -74,9 +79,12 @@ class _KipMainPageState extends State<KipMainPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            KipBar(onRequestLogin: () {
-              onNavigateToLogin(context);
-            }),
+            KipBar(
+              onRequestLogin: () {
+                onNavigateToLogin(context);
+              },
+              gKey: _key,
+            ),
             Expanded(
               child: StreamBuilder<List<NoteModel>>(
                 stream: noteBloc.notes,

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:kip/pages/archived_page.dart';
+import 'package:kip/pages/deleted_page.dart';
 import 'package:kip/pages/drawing_page.dart';
 import 'package:kip/pages/main_page.dart';
 import 'package:kip/pages/login_page.dart';
+import 'package:kip/pages/reminder_page.dart';
+import 'package:kip/pages/settings_page.dart';
+import 'package:kip/pages/support_page.dart';
 
 import 'pages/add_note_page.dart';
 
@@ -19,9 +24,14 @@ class MyApp extends StatelessWidget {
       home: KipMainPage(),
       routes: <String, WidgetBuilder>{
         '/home': (BuildContext inContext) => KipMainPage(),
-        '/login': (BuildContext inContext)=> LoginPage(),
-        '/addNote': (BuildContext inContext)=> AddNotePage(),
-        '/addDrawing': (BuildContext inContext)=> DrawingPage(),
+        '/login': (BuildContext inContext) => LoginPage(),
+        '/addNote': (BuildContext inContext) => AddNotePage(),
+        '/addDrawing': (BuildContext inContext) => DrawingPage(),
+        '/archive': (BuildContext inContext) => ArchivedPages(),
+        '/reminders': (BuildContext inContext) => RemindersPage(),
+        '/delete': (BuildContext inContext) => DeletedPage(),
+        '/settings': (BuildContext inContext) => SettingsPage(),
+        '/support': (BuildContext inContext) => SupportPage(),
       },
     );
   }

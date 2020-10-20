@@ -6,13 +6,15 @@ import 'profile_widget.dart';
 
 class KipBar extends StatefulWidget {
   final VoidCallback onRequestLogin;
+  final GlobalKey<ScaffoldState> gKey;
 
-  const KipBar({Key key, this.onRequestLogin}) : super(key: key);
+  const KipBar({Key key, this.onRequestLogin, this.gKey}) : super(key: key);
 
   KipBarState createState() => KipBarState();
 }
 
 class KipBarState extends State<KipBar> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,14 +27,15 @@ class KipBarState extends State<KipBar> {
               IconButton(
                 icon: Icon(Icons.menu),
                 onPressed: () {
-                  //TODO: menu
+                  widget.gKey.currentState.openDrawer();
                 },
               ),
               Flexible(
-                  child: TextField(
-                decoration: InputDecoration(
-                    border: InputBorder.none, hintText: "Search in notes"),
-              )),
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: InputBorder.none, hintText: "Search in notes"),
+                ),
+              ),
               IconButton(
                 icon: Icon(Icons.border_all),
                 onPressed: () {
