@@ -10,9 +10,7 @@ import 'package:kip/models/note/note_model.dart';
 import 'package:kip/models/note/voice_model.dart';
 import 'package:kip/util/make_shadow_colo.dart';
 import 'package:kip/widgets/left_menu_widget.dart';
-import 'package:kip/widgets/menu_item.dart';
 import 'package:kip/widgets/menu_shadows.dart';
-import 'package:kip/widgets/note_color_item.dart';
 import 'package:kip/widgets/right_menu_widget.dart';
 import 'package:uuid/uuid.dart';
 
@@ -210,10 +208,11 @@ class _AddNotePageState extends State<AddNotePage>
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(isNoteEmpty());
-                        },
-                        icon: Icon(Icons.arrow_back)),
+                      onPressed: () {
+                        Navigator.of(context).pop(isNoteEmpty());
+                      },
+                      icon: Icon(Icons.arrow_back),
+                    ),
                   ],
                 ),
               ),
@@ -266,7 +265,7 @@ class _AddNotePageState extends State<AddNotePage>
                   note: note,
                   noteColors: noteColors,
                   rightMenuOffsetAnim: rightMenuOffsetAnim,
-                  toggleShowLeftMenu: toggleShowLeftMenu(),
+                  toggleShowLeftMenu: toggleShowLeftMenu,
                   onTap: (int index) {
                     setState(() {
                       selectNoteColor(index);
