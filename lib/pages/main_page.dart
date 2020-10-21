@@ -6,14 +6,16 @@ import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kip/blocs/note_bloc.dart';
 import 'package:kip/models/add_note_page_arguments.dart';
-import 'package:kip/models/note/note_model.dart';
 import 'package:kip/models/note/voice_model.dart';
+import 'package:kip/pages/archived_page.dart';
+import 'package:kip/pages/deleted_page.dart';
+import 'package:kip/pages/notes_page.dart';
+import 'package:kip/pages/reminder_page.dart';
+import 'package:kip/util/add_note.dart';
 import 'package:kip/util/ready_mades.dart';
 import 'package:kip/widgets/app_drawer.dart';
 import 'package:kip/widgets/bar.dart';
-import 'package:kip/widgets/bordered_container.dart';
 import 'package:kip/widgets/menu_item.dart';
-import 'package:kip/widgets/note_item.dart';
 import 'package:kip/widgets/recording_indicator.dart';
 import 'package:kip/widgets/timer_item.dart';
 import 'package:path_provider/path_provider.dart';
@@ -31,6 +33,15 @@ class _KipMainPageState extends State<KipMainPage> {
     super.dispose();
   }
 
+  //List of pages to be shown in main body;
+  List<Widget> _pages = [
+    NotesPage(),
+    RemindersPage(),
+    ArchivedPages(),
+    DeletedPage(),
+  ];
+
+  int _currentPageIndex = 0;
   //Global Key to handle scaffold's drawer
   GlobalKey<ScaffoldState> _key = GlobalKey();
 
@@ -39,7 +50,10 @@ class _KipMainPageState extends State<KipMainPage> {
     return SafeArea(
       child: Scaffold(
         key: _key,
-        drawer: AppDrawer(),
+        drawer: AppDrawer(
+          //Passing Function to change main body
+          callback: changeCurrentIndexPage,
+        ),
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           child: Builder(builder: (context) {
@@ -49,14 +63,14 @@ class _KipMainPageState extends State<KipMainPage> {
                 IconButton(
                   icon: Icon(Icons.check_box),
                   onPressed: () {
-                    addNote(context,
+                    AddNote.addNote(context,
                         AddNotePageArguments(false, true, "", null, null));
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.brush),
                   onPressed: () {
-                    addNote(context,
+                    AddNote.addNote(context,
                         AddNotePageArguments(true, false, "", null, null));
                   },
                 ),
@@ -86,19 +100,7 @@ class _KipMainPageState extends State<KipMainPage> {
               gKey: _key,
             ),
             Expanded(
-              child: StreamBuilder<List<NoteModel>>(
-                stream: noteBloc.notes,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData)
-                    return buildNoteList(snapshot, context);
-                  else if (snapshot.hasError)
-                    return Center(child: Text(snapshot.error.toString()));
-                  else if (snapshot.data == null || snapshot.data.length == 0) {
-                    return Center(child: Text("ADD NOTES TO SEE THEM HERE"));
-                  }
-                  return Center(child: CircularProgressIndicator());
-                },
-              ),
+              child: _pages[_currentPageIndex],
             )
           ],
         ),
@@ -106,7 +108,7 @@ class _KipMainPageState extends State<KipMainPage> {
         floatingActionButton: Builder(builder: (context) {
           return FloatingActionButton(
             onPressed: () {
-              addNote(
+              AddNote.addNote(
                   context, AddNotePageArguments(false, false, "", null, null));
             },
             tooltip: 'Increment',
@@ -117,20 +119,16 @@ class _KipMainPageState extends State<KipMainPage> {
     );
   }
 
-  addNote(BuildContext context, AddNotePageArguments arguments) async {
-    final shouldDiscard =
-        await Navigator.of(context).pushNamed('/addNote', arguments: arguments);
-    if (shouldDiscard) {
-      Scaffold.of(context).removeCurrentSnackBar();
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("Empty Note Discarded"),
-      ));
-    }
-  }
-
   onNavigateToLogin(BuildContext context) {
     Scaffold.of(context).removeCurrentSnackBar();
     Navigator.of(context).pushNamed('/login');
+  }
+
+  //Function to change the index of curren Page;
+  void changeCurrentIndexPage(int index) {
+    setState(() {
+      _currentPageIndex = index;
+    });
   }
 
   void showPictureChoiceDialog(BuildContext context) {
@@ -167,13 +165,13 @@ class _KipMainPageState extends State<KipMainPage> {
 
   void openCamera() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.camera);
-    addNote(
+    AddNote.addNote(
         context, AddNotePageArguments(false, false, picture.path, null, null));
   }
 
   void openGallery() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.gallery);
-    addNote(
+    AddNote.addNote(
         context, AddNotePageArguments(false, false, picture.path, null, null));
   }
 
@@ -186,7 +184,7 @@ class _KipMainPageState extends State<KipMainPage> {
     if (isRecording) {
       var result = await endRecording();
       Navigator.of(context).pop();
-      addNote(
+      AddNote.addNote(
         context,
         AddNotePageArguments(false, false, "",
             VoiceModel(result.path.split("/").last, result.path), null),
@@ -270,41 +268,5 @@ class _KipMainPageState extends State<KipMainPage> {
         ],
       );
     });
-  }
-
-  Widget buildNoteList(
-      AsyncSnapshot<List<NoteModel>> snapshot, BuildContext context) {
-    return ListView.builder(
-      itemCount: snapshot.data.length,
-      itemBuilder: (BuildContext context, int index) {
-        final note = snapshot.data[index];
-        return NoteItem(
-          color: note.color,
-          child: Dismissible(
-            background: BorderedContainer(color: Colors.red),
-            onDismissed: (dir) {
-              noteBloc.deleteNote(note);
-              Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text("Note removed"),
-                  action: SnackBarAction(
-                      textColor: Colors.orange,
-                      label: "UNDO",
-                      onPressed: () {
-                        noteBloc.insertNote(note);
-                      })));
-            },
-            key: ObjectKey(note.id),
-            child: ListTile(
-              leading: Text(note.title),
-              title: Text(note.content),
-              onTap: () {
-                addNote(context,
-                    AddNotePageArguments(false, false, "", null, note));
-              },
-            ),
-          ),
-        );
-      },
-    );
   }
 }

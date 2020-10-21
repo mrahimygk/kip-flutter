@@ -5,6 +5,12 @@ import 'package:kip/widgets/custom_row_widget.dart';
 import 'custom_text_widget.dart';
 
 class AppDrawer extends StatelessWidget {
+  final Function(int) callback;
+
+  const AppDrawer({
+    Key key,
+    @required this.callback,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final _heigth = MediaQuery.of(context).size.height;
@@ -23,12 +29,20 @@ class AppDrawer extends StatelessWidget {
           _customInkwellContainer(
             icon: Icons.lightbulb_outline,
             label: 'Notes',
-            onTap: () => Navigator.pushReplacementNamed(context, '/home'),
+            onTap: () {
+              Navigator.pop(context);
+              //Notes page is on 0th index
+              callback(0);
+            },
           ),
           _customInkwellContainer(
             icon: Icons.notifications_none,
             label: 'Reminders',
-            onTap: () => Navigator.pushReplacementNamed(context, '/reminders'),
+            onTap: () {
+              Navigator.pop(context);
+              //Notes page is on 1st index
+              callback(1);
+            },
           ),
           Divider(
             thickness: 1,
@@ -36,12 +50,20 @@ class AppDrawer extends StatelessWidget {
           _customInkwellContainer(
             icon: Icons.archive_rounded,
             label: 'Archived',
-            onTap: () => Navigator.pushReplacementNamed(context, '/archive'),
+            onTap: () {
+              Navigator.pop(context);
+              //Notes page is on 2nd index
+              callback(2);
+            },
           ),
           _customInkwellContainer(
             icon: Icons.delete_outline,
             label: 'Deleted',
-            onTap: () => Navigator.pushReplacementNamed(context, '/delete'),
+            onTap: () {
+              Navigator.pop(context);
+              //Notes page is on 3rd index
+              callback(3);
+            },
           ),
           Divider(
             thickness: 1,

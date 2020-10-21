@@ -208,11 +208,18 @@ class _AddNotePageState extends State<AddNotePage>
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     IconButton(
+<<<<<<< HEAD
                       onPressed: () {
                         Navigator.of(context).pop(isNoteEmpty());
                       },
                       icon: Icon(Icons.arrow_back),
                     ),
+=======
+                        onPressed: () {
+                          Navigator.of(context).pop(isNoteEmpty());
+                        },
+                        icon: Icon(Icons.arrow_back)),
+>>>>>>> 45954ce5610dcf4fb1402a2ed1368b3cd297fa7f
                   ],
                 ),
               ),
