@@ -8,9 +8,11 @@ import 'package:kip/models/add_note_page_arguments.dart';
 import 'package:kip/models/note/checkbox_model.dart';
 import 'package:kip/models/note/note_model.dart';
 import 'package:kip/models/note/voice_model.dart';
-import 'package:kip/widgets/menu_item.dart';
+import 'package:kip/util/make_shadow_colo.dart';
+import 'package:kip/widgets/left_menu_widget.dart';
 import 'package:kip/widgets/menu_shadows.dart';
-import 'package:kip/widgets/note_color_item.dart';
+import 'package:kip/widgets/right_menu_widget.dart';
+import 'package:kip/widgets/top_menu_widget.dart';
 import 'package:uuid/uuid.dart';
 
 class AddNotePage extends StatefulWidget {
@@ -199,43 +201,9 @@ class _AddNotePageState extends State<AddNotePage>
           ///top menu
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(48),
-            child: Stack(children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(Icons.arrow_back)),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.favorite_border),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.add_alert),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.archive),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-              )
-            ]),
+            child: TopMenuWidget(
+              isNotEmpty: isNoteEmpty,
+            ),
           ),
           key: _scaffoldKey,
           body: Stack(
@@ -248,135 +216,28 @@ class _AddNotePageState extends State<AddNotePage>
               /// left menu
               Align(
                 alignment: Alignment.bottomLeft,
-                child: SlideTransition(
-                  position: leftMenuOffsetAnim,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 48.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: note.color,
-                        boxShadow:
-                            MenuShadows().get(makeShadowColor(note.color)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(height: 8),
-                          MenuItem(
-                            color: note.color,
-                            onPress: () {},
-                            icon: Icons.photo_camera,
-                            text: "Take photo",
-                          ),
-                          MenuItem(
-                            color: note.color,
-                            onPress: () {},
-                            icon: Icons.image,
-                            text: "Choose image",
-                          ),
-                          MenuItem(
-                            color: note.color,
-                            onPress: () {
-                              toggleShowLeftMenu();
-                              Navigator.of(context).pushNamed("/addDrawing");
-                            },
-                            icon: Icons.brush,
-                            text: "Drawing",
-                          ),
-                          MenuItem(
-                            color: note.color,
-                            onPress: () {},
-                            icon: Icons.mic,
-                            text: "Recording",
-                          ),
-                          note.checkboxList.length > 0
-                              ? Container(height: 8)
-                              : MenuItem(
-                                  color: note.color,
-                                  onPress: () {
-                                    toggleShowLeftMenu();
-                                    addCheckBox();
-                                  },
-                                  icon: Icons.check_box,
-                                  text: "Checboxes",
-                                ),
-                        ],
-                      ),
-                    ),
-                  ),
+                child: LeftMenuWidget(
+                  addCheckBox: addCheckBox,
+                  leftMenuOffsetAnim: leftMenuOffsetAnim,
+                  note: note,
+                  toggleShowLeftMenu: toggleShowLeftMenu,
                 ),
               ),
 
               /// right menu
               Align(
                 alignment: Alignment.bottomLeft,
-                child: SlideTransition(
-                  position: rightMenuOffsetAnim,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 48.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: note.color,
-                        boxShadow:
-                            MenuShadows().get(makeShadowColor(note.color)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Container(height: 8),
-                          MenuItem(
-                            color: note.color,
-                            onPress: () {},
-                            icon: Icons.delete,
-                            text: "Delete",
-                          ),
-                          MenuItem(
-                            color: note.color,
-                            onPress: () {},
-                            icon: Icons.content_copy,
-                            text: "Make a copy",
-                          ),
-                          MenuItem(
-                            color: note.color,
-                            onPress: () {
-                              toggleShowLeftMenu();
-                              Navigator.of(context).pushNamed("/addDrawing");
-                            },
-                            icon: Icons.share,
-                            text: "Send",
-                          ),
-                          MenuItem(
-                            color: note.color,
-                            onPress: () {},
-                            icon: Icons.label_outline,
-                            text: "Labels",
-                          ),
-                          Container(
-                            height: 48,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: noteColors.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return NoteColorItem(
-                                  onPress: () {
-                                    setState(() {
-                                      selectNoteColor(index);
-                                    });
-                                    noteBloc.updateNote(note);
-                                  },
-                                  item: noteColors[index],
-                                  index: index,
-                                );
-                              },
-                            ),
-                          ),
-                          Container(height: 8),
-                        ],
-                      ),
-                    ),
-                  ),
+                child: RightMenuWidget(
+                  note: note,
+                  noteColors: noteColors,
+                  rightMenuOffsetAnim: rightMenuOffsetAnim,
+                  toggleShowLeftMenu: toggleShowLeftMenu,
+                  onTap: (int index) {
+                    setState(() {
+                      selectNoteColor(index);
+                    });
+                    noteBloc.updateNote(note);
+                  },
                 ),
               ),
 
@@ -388,7 +249,7 @@ class _AddNotePageState extends State<AddNotePage>
                   child: Container(
                     decoration: BoxDecoration(
                       boxShadow: MenuShadows().get(
-                        makeShadowColor(note.color),
+                        MakeShaodowColor.makeShadow(note.color),
                       ),
                     ),
                     child: Material(
@@ -428,13 +289,6 @@ class _AddNotePageState extends State<AddNotePage>
         ),
       ),
     );
-  }
-
-  Color makeShadowColor(Color color) {
-    return color
-        .withRed(note.color.red - 50)
-        .withBlue(note.color.blue - 50)
-        .withGreen(note.color.green - 50);
   }
 
   void selectNoteColor(int index) {
