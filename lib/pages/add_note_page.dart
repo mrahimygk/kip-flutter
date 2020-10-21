@@ -208,7 +208,7 @@ class _AddNotePageState extends State<AddNotePage>
                   children: <Widget>[
                     IconButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pop(isNoteEmpty());
                         },
                         icon: Icon(Icons.arrow_back)),
                   ],
