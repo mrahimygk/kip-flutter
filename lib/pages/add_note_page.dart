@@ -12,6 +12,7 @@ import 'package:kip/util/make_shadow_colo.dart';
 import 'package:kip/widgets/left_menu_widget.dart';
 import 'package:kip/widgets/menu_shadows.dart';
 import 'package:kip/widgets/right_menu_widget.dart';
+import 'package:kip/widgets/top_menu_widget.dart';
 import 'package:uuid/uuid.dart';
 
 class AddNotePage extends StatefulWidget {
@@ -200,51 +201,9 @@ class _AddNotePageState extends State<AddNotePage>
           ///top menu
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(48),
-            child: Stack(children: <Widget>[
-              Align(
-                alignment: Alignment.topLeft,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    IconButton(
-<<<<<<< HEAD
-                      onPressed: () {
-                        Navigator.of(context).pop(isNoteEmpty());
-                      },
-                      icon: Icon(Icons.arrow_back),
-                    ),
-=======
-                        onPressed: () {
-                          Navigator.of(context).pop(isNoteEmpty());
-                        },
-                        icon: Icon(Icons.arrow_back)),
->>>>>>> 45954ce5610dcf4fb1402a2ed1368b3cd297fa7f
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.favorite_border),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.add_alert),
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.archive),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-              )
-            ]),
+            child: TopMenuWidget(
+              isNotEmpty: isNoteEmpty,
+            ),
           ),
           key: _scaffoldKey,
           body: Stack(
